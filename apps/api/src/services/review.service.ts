@@ -68,7 +68,9 @@ export class ReviewService {
     }
 
     // Get latest risk assessment
-    const riskAssessment = await this.riskAssessmentRepository.findLatestByLoanApplicationId(input.loanId);
+    const riskAssessment = await this.riskAssessmentRepository.findLatestByLoanApplicationId(
+      input.loanId,
+    );
     if (!riskAssessment) {
       throw new AppError({
         message: 'Risk assessment not found for this loan',

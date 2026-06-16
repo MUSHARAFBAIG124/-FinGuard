@@ -80,9 +80,13 @@ describe('ModelMetricsService edge cases', () => {
 
   it('listAll returns empty array when repository fails', async () => {
     const repo = {
-      incrementPrediction: async () => { throw new Error('repo down'); },
+      incrementPrediction: async () => {
+        throw new Error('repo down');
+      },
       getLatest: async () => null,
-      listAll: async () => { throw new Error('repo down'); }
+      listAll: async () => {
+        throw new Error('repo down');
+      },
     };
     const svc = new ModelMetricsService({ modelMetricsRepository: repo as any });
 
@@ -91,9 +95,11 @@ describe('ModelMetricsService edge cases', () => {
 
   it('recordPrediction propagates repository errors', async () => {
     const repo = {
-      incrementPrediction: async () => { throw new Error('database error'); },
+      incrementPrediction: async () => {
+        throw new Error('database error');
+      },
       getLatest: async () => null,
-      listAll: async () => []
+      listAll: async () => [],
     };
     const svc = new ModelMetricsService({ modelMetricsRepository: repo as any });
 
@@ -102,9 +108,13 @@ describe('ModelMetricsService edge cases', () => {
 
   it('getModelMetrics propagates repository errors', async () => {
     const repo = {
-      incrementPrediction: async () => { throw new Error('db error'); },
-      getLatest: async () => { throw new Error('read failure'); },
-      listAll: async () => []
+      incrementPrediction: async () => {
+        throw new Error('db error');
+      },
+      getLatest: async () => {
+        throw new Error('read failure');
+      },
+      listAll: async () => [],
     };
     const svc = new ModelMetricsService({ modelMetricsRepository: repo as any });
 

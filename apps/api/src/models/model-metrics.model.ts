@@ -1,4 +1,11 @@
-import { model, models, Schema, type InferSchemaType, type HydratedDocument, type Model } from 'mongoose';
+import {
+  model,
+  models,
+  Schema,
+  type InferSchemaType,
+  type HydratedDocument,
+  type Model,
+} from 'mongoose';
 
 export const MODEL_METRICS_MODEL_NAME = 'ModelMetrics';
 

@@ -119,7 +119,10 @@ export class MongooseLoanRepository implements LoanRepository {
     ).exec();
   }
 
-  public async updateStatus(id: string, status: LoanStatus): Promise<LoanApplicationDocument | null> {
+  public async updateStatus(
+    id: string,
+    status: LoanStatus,
+  ): Promise<LoanApplicationDocument | null> {
     return LoanApplicationModel.findByIdAndUpdate(id, { status }, { new: true }).exec();
   }
 }

@@ -130,7 +130,7 @@ describe('MongooseModelMetricsRepository', () => {
         failedPredictions: 0,
         averageLatencyMs: 150, // Previous average: (prev_avg * 1 + 100) / 2
         lastPredictionAt: new Date(),
-        save: vi.fn(async function(this: any) {
+        save: vi.fn(async function (this: any) {
           savedDoc = { ...this };
           return undefined;
         }),

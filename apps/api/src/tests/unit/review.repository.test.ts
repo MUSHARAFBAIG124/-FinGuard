@@ -110,9 +110,7 @@ describe('MongooseLoanReviewDecisionRepository', () => {
   describe('findByReviewerId', () => {
     it('should return decisions by reviewer', async () => {
       const reviewerId = '507f1f77bcf86cd799439012';
-      const mockDecisions = [
-        { _id: '1', reviewerId, reviewerDecision: ReviewerDecision.APPROVED },
-      ];
+      const mockDecisions = [{ _id: '1', reviewerId, reviewerDecision: ReviewerDecision.APPROVED }];
 
       const mockSort = vi.fn().mockReturnValue({ exec: vi.fn().mockResolvedValue(mockDecisions) });
       vi.mocked(LoanReviewDecisionModel.find).mockReturnValue({ sort: mockSort } as any);
@@ -150,9 +148,7 @@ describe('MongooseLoanReviewDecisionRepository', () => {
 
   describe('findByDecisionType', () => {
     it('should return decisions of a specific type', async () => {
-      const mockDecisions = [
-        { _id: '1', reviewerDecision: ReviewerDecision.APPROVED },
-      ];
+      const mockDecisions = [{ _id: '1', reviewerDecision: ReviewerDecision.APPROVED }];
 
       const mockSort = vi.fn().mockReturnValue({ exec: vi.fn().mockResolvedValue(mockDecisions) });
       vi.mocked(LoanReviewDecisionModel.find).mockReturnValue({ sort: mockSort } as any);
@@ -225,7 +221,9 @@ describe('MongooseReviewFeedbackRepository', () => {
 
   describe('findByLoanIdLatest', () => {
     it('should return latest feedback', async () => {
-      const mockSort = vi.fn().mockReturnValue({ exec: vi.fn().mockResolvedValue({ _id: 'latest' }) });
+      const mockSort = vi
+        .fn()
+        .mockReturnValue({ exec: vi.fn().mockResolvedValue({ _id: 'latest' }) });
       vi.mocked(ReviewFeedbackModel.findOne).mockReturnValue({ sort: mockSort } as any);
 
       const result = await repository.findByLoanIdLatest('loan1');

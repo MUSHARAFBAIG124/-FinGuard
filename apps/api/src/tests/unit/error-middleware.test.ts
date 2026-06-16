@@ -59,7 +59,6 @@ describe('Error Middleware - normalizeError', () => {
   });
 });
 
-
 describe('Error Middleware - notFoundHandler', () => {
   beforeEach(() => vi.restoreAllMocks());
 
@@ -83,9 +82,21 @@ describe('Error Middleware - notFoundHandler', () => {
 
   it('should handle different HTTP methods and paths', () => {
     const testCases = [
-      { method: 'POST', path: '/api/v1/users', expectedMessage: 'Route POST /api/v1/users not found' },
-      { method: 'PUT', path: '/api/v1/loans/123', expectedMessage: 'Route PUT /api/v1/loans/123 not found' },
-      { method: 'DELETE', path: '/api/v1/auth/session', expectedMessage: 'Route DELETE /api/v1/auth/session not found' },
+      {
+        method: 'POST',
+        path: '/api/v1/users',
+        expectedMessage: 'Route POST /api/v1/users not found',
+      },
+      {
+        method: 'PUT',
+        path: '/api/v1/loans/123',
+        expectedMessage: 'Route PUT /api/v1/loans/123 not found',
+      },
+      {
+        method: 'DELETE',
+        path: '/api/v1/auth/session',
+        expectedMessage: 'Route DELETE /api/v1/auth/session not found',
+      },
     ];
 
     testCases.forEach(({ method, path, expectedMessage }) => {
@@ -102,7 +113,6 @@ describe('Error Middleware - notFoundHandler', () => {
     });
   });
 });
-
 
 describe('Error Middleware - errorHandler', () => {
   beforeEach(() => vi.restoreAllMocks());

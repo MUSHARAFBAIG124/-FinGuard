@@ -1,7 +1,11 @@
 import { ModelMetricsModel, type ModelMetricsDocument } from '../models/model-metrics.model';
 
 export interface ModelMetricsRepository {
-  incrementPrediction(modelVersion: string, latencyMs: number, success: boolean): Promise<ModelMetricsDocument>;
+  incrementPrediction(
+    modelVersion: string,
+    latencyMs: number,
+    success: boolean,
+  ): Promise<ModelMetricsDocument>;
   getLatest(modelVersion: string): Promise<ModelMetricsDocument | null>;
   listAll(): Promise<readonly ModelMetricsDocument[]>;
 }

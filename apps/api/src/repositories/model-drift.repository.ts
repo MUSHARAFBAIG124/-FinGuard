@@ -25,7 +25,9 @@ export class MongooseModelDriftRepository implements ModelDriftRepository {
     return ModelDriftRecordModel.create(input);
   }
 
-  public async listByModelVersion(modelVersion: string): Promise<readonly ModelDriftRecordDocument[]> {
+  public async listByModelVersion(
+    modelVersion: string,
+  ): Promise<readonly ModelDriftRecordDocument[]> {
     return ModelDriftRecordModel.find({ modelVersion }).sort({ detectedAt: -1 }).exec();
   }
 
@@ -34,7 +36,9 @@ export class MongooseModelDriftRepository implements ModelDriftRepository {
   }
 
   public async listCritical(): Promise<readonly ModelDriftRecordDocument[]> {
-    return ModelDriftRecordModel.find({ driftLevel: DriftLevel.CRITICAL }).sort({ detectedAt: -1 }).exec();
+    return ModelDriftRecordModel.find({ driftLevel: DriftLevel.CRITICAL })
+      .sort({ detectedAt: -1 })
+      .exec();
   }
 
   public async countByDriftLevel(level: DriftLevel, since: Date): Promise<number> {

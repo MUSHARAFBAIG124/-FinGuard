@@ -35,29 +35,27 @@ export class MongooseLoanReviewDecisionRepository implements LoanReviewDecisionR
     });
   }
 
-  public async findByLoanId(loanApplicationId: string): Promise<readonly LoanReviewDecisionDocument[]> {
-    return LoanReviewDecisionModel.find({ loanApplicationId })
-      .sort({ reviewedAt: -1 })
-      .exec();
+  public async findByLoanId(
+    loanApplicationId: string,
+  ): Promise<readonly LoanReviewDecisionDocument[]> {
+    return LoanReviewDecisionModel.find({ loanApplicationId }).sort({ reviewedAt: -1 }).exec();
   }
 
-  public async findByReviewerId(reviewerId: string): Promise<readonly LoanReviewDecisionDocument[]> {
-    return LoanReviewDecisionModel.find({ reviewerId })
-      .sort({ reviewedAt: -1 })
-      .exec();
+  public async findByReviewerId(
+    reviewerId: string,
+  ): Promise<readonly LoanReviewDecisionDocument[]> {
+    return LoanReviewDecisionModel.find({ reviewerId }).sort({ reviewedAt: -1 }).exec();
   }
 
-  public async findLatestByLoanId(loanApplicationId: string): Promise<LoanReviewDecisionDocument | null> {
-    return LoanReviewDecisionModel.findOne({ loanApplicationId })
-      .sort({ reviewedAt: -1 })
-      .exec();
+  public async findLatestByLoanId(
+    loanApplicationId: string,
+  ): Promise<LoanReviewDecisionDocument | null> {
+    return LoanReviewDecisionModel.findOne({ loanApplicationId }).sort({ reviewedAt: -1 }).exec();
   }
 
   public async findByDecisionType(
     reviewerDecision: ReviewerDecision,
   ): Promise<readonly LoanReviewDecisionDocument[]> {
-    return LoanReviewDecisionModel.find({ reviewerDecision })
-      .sort({ reviewedAt: -1 })
-      .exec();
+    return LoanReviewDecisionModel.find({ reviewerDecision }).sort({ reviewedAt: -1 }).exec();
   }
 }

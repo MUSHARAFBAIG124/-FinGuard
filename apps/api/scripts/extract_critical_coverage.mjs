@@ -16,7 +16,7 @@ const CRITICAL_FILES = [
   'src/repositories/model-metrics.repository.ts',
 ];
 
-const CRITICAL_FILES_LCOV = CRITICAL_FILES.map(f => f.replace(/\//g, '\\'));
+const CRITICAL_FILES_LCOV = CRITICAL_FILES.map((f) => f.replace(/\//g, '\\'));
 
 // Parse coverage-summary.json
 const coverageSummary = JSON.parse(fs.readFileSync(COVERAGE_SUMMARY, 'utf8'));
@@ -27,10 +27,10 @@ const criticalMetrics = {};
 for (const file of CRITICAL_FILES) {
   const fileWithBackslashes = file.replace(/\//g, '\\');
   const fullPath = `C:\\Users\\musha\\OneDrive\\Documents\\fintech\\apps\\api\\${fileWithBackslashes}`;
-  
+
   // Find matching key in coverage
   const matchedKey = coverageSummary[fullPath];
-  
+
   if (matchedKey) {
     criticalMetrics[file] = {
       statements: matchedKey.statements.pct,
@@ -86,23 +86,23 @@ for (const line of lcovLines) {
 const uncoveredRanges = {};
 for (const file of CRITICAL_FILES) {
   const fileWithBackslashes = file.replace(/\//g, '\\');
-  
+
   // Try to find matching file in lcov map (try both formats)
   let fileData = fileDataMap[fileWithBackslashes];
-  
+
   if (!fileData) {
     // Try with src\ prefix
     fileData = fileDataMap[`src\\${fileWithBackslashes.split('\\').slice(1).join('\\')}`];
   }
-  
+
   if (fileData) {
     const uncovered = fileData.uncovered.sort((a, b) => a - b);
     const ranges = [];
-    
+
     if (uncovered.length > 0) {
       let rangeStart = uncovered[0];
       let rangeEnd = uncovered[0];
-      
+
       for (let i = 1; i < uncovered.length; i++) {
         if (uncovered[i] === rangeEnd + 1) {
           rangeEnd = uncovered[i];
@@ -114,7 +114,7 @@ for (const file of CRITICAL_FILES) {
       }
       ranges.push(rangeStart === rangeEnd ? `${rangeStart}` : `${rangeStart}–${rangeEnd}`);
     }
-    
+
     uncoveredRanges[file] = ranges;
   }
 }
@@ -125,15 +125,27 @@ console.log('\n========== CRITICAL FILES COVERAGE METRICS ==========\n');
 for (const file of CRITICAL_FILES) {
   const metrics = criticalMetrics[file];
   const fileName = file.split('/').pop();
-  const serviceName = fileName.replace('.ts', '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');
-  
+  const serviceName = fileName
+    .replace('.ts', '')
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join('');
+
   console.log(`\n${serviceName}`);
   console.log(`File: ${file}`);
-  console.log(`Statements: ${metrics.statements.toFixed(2)}% (${metrics.statementsCovered}/${metrics.statementsTotal})`);
-  console.log(`Branches: ${metrics.branches.toFixed(2)}% (${metrics.branchesCovered}/${metrics.branchesTotal})`);
-  console.log(`Functions: ${metrics.functions.toFixed(2)}% (${metrics.functionsCovered}/${metrics.functionsTotal})`);
-  console.log(`Lines: ${metrics.lines.toFixed(2)}% (${metrics.linesCovered}/${metrics.linesTotal})`);
-  
+  console.log(
+    `Statements: ${metrics.statements.toFixed(2)}% (${metrics.statementsCovered}/${metrics.statementsTotal})`,
+  );
+  console.log(
+    `Branches: ${metrics.branches.toFixed(2)}% (${metrics.branchesCovered}/${metrics.branchesTotal})`,
+  );
+  console.log(
+    `Functions: ${metrics.functions.toFixed(2)}% (${metrics.functionsCovered}/${metrics.functionsTotal})`,
+  );
+  console.log(
+    `Lines: ${metrics.lines.toFixed(2)}% (${metrics.linesCovered}/${metrics.linesTotal})`,
+  );
+
   const ranges = uncoveredRanges[file];
   if (ranges && ranges.length > 0) {
     console.log(`Uncovered lines: ${ranges.join(', ')}`);
@@ -143,7 +155,13 @@ for (const file of CRITICAL_FILES) {
 }
 
 console.log('\n\n========== JSON OUTPUT ==========\n');
-console.log(JSON.stringify({
-  criticalMetrics,
-  uncoveredRanges,
-}, null, 2));
+console.log(
+  JSON.stringify(
+    {
+      criticalMetrics,
+      uncoveredRanges,
+    },
+    null,
+    2,
+  ),
+);

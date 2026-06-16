@@ -60,16 +60,16 @@ export class GovernanceAnalyticsService {
 
   public async getModelStatistics(): Promise<ModelStats> {
     const allModels = await this.registryRepository.listAll();
-    
-    const approved = allModels.filter(m => m.status === ModelStatus.APPROVED).length;
-    const rejected = allModels.filter(m => m.status === ModelStatus.REJECTED).length;
-    const retired = allModels.filter(m => m.status === ModelStatus.RETIRED).length;
-    
+
+    const approved = allModels.filter((m) => m.status === ModelStatus.APPROVED).length;
+    const rejected = allModels.filter((m) => m.status === ModelStatus.REJECTED).length;
+    const retired = allModels.filter((m) => m.status === ModelStatus.RETIRED).length;
+
     // Active Model Rule: status === APPROVED and not retired
     // Since status is a single value, if it's APPROVED, it can't be RETIRED simultaneously.
     // However, we check if there is any specific 'retired' flag if it existed.
     // In our current schema, status is the source of truth.
-    const active = allModels.filter(m => m.status === ModelStatus.APPROVED).length;
+    const active = allModels.filter((m) => m.status === ModelStatus.APPROVED).length;
 
     return {
       totalModels: allModels.length,
@@ -82,7 +82,7 @@ export class GovernanceAnalyticsService {
 
   public async getPerformanceAnalytics(): Promise<PerformanceAnalytics> {
     const approvedModels = await this.registryRepository.findByStatus(ModelStatus.APPROVED);
-    
+
     if (approvedModels.length === 0) {
       return {
         averageAccuracy: 0,
@@ -93,13 +93,16 @@ export class GovernanceAnalyticsService {
       };
     }
 
-    const sum = approvedModels.reduce((acc, m) => ({
-      accuracy: acc.accuracy + m.accuracy,
-      precision: acc.precision + m.precision,
-      recall: acc.recall + m.recall,
-      f1: acc.f1 + m.f1Score,
-      rocAuc: acc.rocAuc + m.rocAuc,
-    }), { accuracy: 0, precision: 0, recall: 0, f1: 0, rocAuc: 0 });
+    const sum = approvedModels.reduce(
+      (acc, m) => ({
+        accuracy: acc.accuracy + m.accuracy,
+        precision: acc.precision + m.precision,
+        recall: acc.recall + m.recall,
+        f1: acc.f1 + m.f1Score,
+        rocAuc: acc.rocAuc + m.rocAuc,
+      }),
+      { accuracy: 0, precision: 0, recall: 0, f1: 0, rocAuc: 0 },
+    );
 
     const count = approvedModels.length;
 
@@ -114,16 +117,16 @@ export class GovernanceAnalyticsService {
 
   public async getDriftStatistics(): Promise<DriftStats> {
     const allDrift = await this.driftRepository.listRecent(1000);
-    
+
     const counts = {
-      LOW: allDrift.filter(r => r.driftLevel === DriftLevel.LOW).length,
-      MEDIUM: allDrift.filter(r => r.driftLevel === DriftLevel.MEDIUM).length,
-      HIGH: allDrift.filter(r => r.driftLevel === DriftLevel.HIGH).length,
-      CRITICAL: allDrift.filter(r => r.driftLevel === DriftLevel.CRITICAL).length,
+      LOW: allDrift.filter((r) => r.driftLevel === DriftLevel.LOW).length,
+      MEDIUM: allDrift.filter((r) => r.driftLevel === DriftLevel.MEDIUM).length,
+      HIGH: allDrift.filter((r) => r.driftLevel === DriftLevel.HIGH).length,
+      CRITICAL: allDrift.filter((r) => r.driftLevel === DriftLevel.CRITICAL).length,
     };
 
     const featureMap: Record<string, number> = {};
-    allDrift.forEach(r => {
+    allDrift.forEach((r) => {
       if (r.driftLevel === DriftLevel.CRITICAL) {
         featureMap[r.featureName] = (featureMap[r.featureName] || 0) + 1;
       }
@@ -146,7 +149,7 @@ export class GovernanceAnalyticsService {
 
   public async getTrendAnalytics(): Promise<DriftTrends> {
     const now = new Date();
-    
+
     const getCountForDays = async (days: number) => {
       const date = new Date();
       date.setDate(now.getDate() - days);
@@ -200,7 +203,11 @@ export class GovernanceAnalyticsService {
     };
   }
 
-  public async logAnalyticsView(userId: string, endpoint: string, requestId: string): Promise<void> {
+  public async logAnalyticsView(
+    userId: string,
+    endpoint: string,
+    requestId: string,
+  ): Promise<void> {
     await this.auditLogRepository.create({
       userId,
       action: 'GOVERNANCE_ANALYTICS_VIEWED',

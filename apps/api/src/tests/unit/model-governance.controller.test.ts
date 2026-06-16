@@ -135,10 +135,10 @@ describe('ModelGovernanceController', () => {
 
   describe('approveModel', () => {
     it('should approve a model', async () => {
-      const mockReq = { 
-        params: { version: '1.0.0' }, 
-        body: { reason: 'Meets all criteria' }, 
-        user: { id: 'admin123' } 
+      const mockReq = {
+        params: { version: '1.0.0' },
+        body: { reason: 'Meets all criteria' },
+        user: { id: 'admin123' },
       };
       const mockRes = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -155,10 +155,10 @@ describe('ModelGovernanceController', () => {
 
   describe('rejectModel', () => {
     it('should reject a model', async () => {
-      const mockReq = { 
-        params: { version: '1.0.0' }, 
-        body: { reason: 'Performance too low' }, 
-        user: { id: 'admin123' } 
+      const mockReq = {
+        params: { version: '1.0.0' },
+        body: { reason: 'Performance too low' },
+        user: { id: 'admin123' },
       };
       const mockRes = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -175,10 +175,10 @@ describe('ModelGovernanceController', () => {
 
   describe('retireModel', () => {
     it('should retire a model', async () => {
-      const mockReq = { 
-        params: { version: '1.0.0' }, 
-        body: { reason: 'Replaced by v2' }, 
-        user: { id: 'admin123' } 
+      const mockReq = {
+        params: { version: '1.0.0' },
+        body: { reason: 'Replaced by v2' },
+        user: { id: 'admin123' },
       };
       const mockRes = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
@@ -255,9 +255,28 @@ describe('ModelGovernanceController', () => {
       const mockRes = { status: vi.fn().mockReturnThis(), json: vi.fn() };
 
       vi.mocked(analyticsService.getGovernanceSummary).mockResolvedValue({
-        models: { totalModels: 4, approvedModels: 2, rejectedModels: 1, retiredModels: 1, activeModels: 2 },
-        performance: { averageAccuracy: 0.81, averagePrecision: 0.75, averageRecall: 0.8, averageF1: 0.87, averageRocAuc: 0.85 },
-        drift: { totalDriftRecords: 5, criticalDriftEvents: 2, highDriftEvents: 1, mediumDriftEvents: 1, lowDriftEvents: 1, topDriftedFeatures: [] },
+        models: {
+          totalModels: 4,
+          approvedModels: 2,
+          rejectedModels: 1,
+          retiredModels: 1,
+          activeModels: 2,
+        },
+        performance: {
+          averageAccuracy: 0.81,
+          averagePrecision: 0.75,
+          averageRecall: 0.8,
+          averageF1: 0.87,
+          averageRocAuc: 0.85,
+        },
+        drift: {
+          totalDriftRecords: 5,
+          criticalDriftEvents: 2,
+          highDriftEvents: 1,
+          mediumDriftEvents: 1,
+          lowDriftEvents: 1,
+          topDriftedFeatures: [],
+        },
         trends: { last7Days: 0, last30Days: 5, last90Days: 5 },
         health: { governanceHealthScore: 80 },
       } as any);
@@ -268,9 +287,28 @@ describe('ModelGovernanceController', () => {
       expect(mockRes.json).toHaveBeenCalledWith({
         success: true,
         data: {
-          models: { totalModels: 4, approvedModels: 2, rejectedModels: 1, retiredModels: 1, activeModels: 2 },
-          performance: { averageAccuracy: 0.81, averagePrecision: 0.75, averageRecall: 0.8, averageF1: 0.87, averageRocAuc: 0.85 },
-          drift: { totalDriftRecords: 5, criticalDriftEvents: 2, highDriftEvents: 1, mediumDriftEvents: 1, lowDriftEvents: 1, topDriftedFeatures: [] },
+          models: {
+            totalModels: 4,
+            approvedModels: 2,
+            rejectedModels: 1,
+            retiredModels: 1,
+            activeModels: 2,
+          },
+          performance: {
+            averageAccuracy: 0.81,
+            averagePrecision: 0.75,
+            averageRecall: 0.8,
+            averageF1: 0.87,
+            averageRocAuc: 0.85,
+          },
+          drift: {
+            totalDriftRecords: 5,
+            criticalDriftEvents: 2,
+            highDriftEvents: 1,
+            mediumDriftEvents: 1,
+            lowDriftEvents: 1,
+            topDriftedFeatures: [],
+          },
           trends: { last7Days: 0, last30Days: 5, last90Days: 5 },
           health: { governanceHealthScore: 80 },
         },

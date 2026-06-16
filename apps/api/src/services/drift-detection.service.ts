@@ -1,4 +1,7 @@
-import type { ModelDriftRepository, CreateDriftRecordInput } from '../repositories/model-drift.repository';
+import type {
+  ModelDriftRepository,
+  CreateDriftRecordInput,
+} from '../repositories/model-drift.repository';
 import type { AuditLogRepository } from '../repositories/audit-log.repository';
 import { DriftLevel } from '@finguard/shared';
 
@@ -28,7 +31,11 @@ export class DriftDetectionService {
     private readonly auditLogRepository: AuditLogRepository,
   ) {}
 
-  public calculatePSI(trainingHistogram: number[], productionHistogram: number[], bins: number = 10): number {
+  public calculatePSI(
+    trainingHistogram: number[],
+    productionHistogram: number[],
+    bins: number = 10,
+  ): number {
     let psi = 0;
     const epsilon = 1e-6;
 
@@ -76,10 +83,7 @@ export class DriftDetectionService {
     const results: DriftResult[] = [];
 
     for (const feature of features) {
-      const driftScore = this.calculatePSI(
-        feature.trainingHistogram,
-        feature.productionHistogram,
-      );
+      const driftScore = this.calculatePSI(feature.trainingHistogram, feature.productionHistogram);
 
       const driftLevel = this.classifyDrift(driftScore);
 
@@ -123,16 +127,18 @@ export class DriftDetectionService {
     return results;
   }
 
-  public async getDriftRecords(modelVersion?: string): Promise<readonly {
-    id: string;
-    modelVersion: string;
-    featureName: string;
-    trainingMean: number;
-    productionMean: number;
-    driftScore: number;
-    driftLevel: DriftLevel;
-    detectedAt: string;
-  }[]> {
+  public async getDriftRecords(modelVersion?: string): Promise<
+    readonly {
+      id: string;
+      modelVersion: string;
+      featureName: string;
+      trainingMean: number;
+      productionMean: number;
+      driftScore: number;
+      driftLevel: DriftLevel;
+      detectedAt: string;
+    }[]
+  > {
     const records = modelVersion
       ? await this.driftRepository.listByModelVersion(modelVersion)
       : await this.driftRepository.listRecent();
@@ -149,16 +155,18 @@ export class DriftDetectionService {
     }));
   }
 
-  public async getCriticalDriftRecords(): Promise<readonly {
-    id: string;
-    modelVersion: string;
-    featureName: string;
-    trainingMean: number;
-    productionMean: number;
-    driftScore: number;
-    driftLevel: DriftLevel;
-    detectedAt: string;
-  }[]> {
+  public async getCriticalDriftRecords(): Promise<
+    readonly {
+      id: string;
+      modelVersion: string;
+      featureName: string;
+      trainingMean: number;
+      productionMean: number;
+      driftScore: number;
+      driftLevel: DriftLevel;
+      detectedAt: string;
+    }[]
+  > {
     const records = await this.driftRepository.listCritical();
     return records.map((r) => ({
       id: r._id.toString(),

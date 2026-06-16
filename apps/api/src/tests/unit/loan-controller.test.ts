@@ -36,7 +36,6 @@ describe('LoanController listAll (role-based access control)', () => {
   });
 });
 
-
 describe('LoanController reject (authenticated user)', () => {
   beforeEach(() => vi.restoreAllMocks());
 
@@ -76,18 +75,17 @@ describe('LoanController reject (authenticated user)', () => {
     };
 
     const nextFn = vi.fn();
-    
+
     // Call the handler
     controller.reject(req, res, nextFn);
-    
+
     // Give it time to execute async operations
-    await new Promise(resolve => setTimeout(resolve, 10));
+    await new Promise((resolve) => setTimeout(resolve, 10));
 
     // Verify the service was called
     expect(mockLoanService.reject).toHaveBeenCalledWith('loan-1', 'user-1', expect.any(Object));
   });
 });
-
 
 describe('LoanController requestMoreInfo (unauthorized access)', () => {
   beforeEach(() => vi.restoreAllMocks());
@@ -121,7 +119,6 @@ describe('LoanController requestMoreInfo (unauthorized access)', () => {
   });
 });
 
-
 describe('LoanController approve (unauthorized access)', () => {
   beforeEach(() => vi.restoreAllMocks());
 
@@ -153,7 +150,6 @@ describe('LoanController approve (unauthorized access)', () => {
     expect(error.statusCode).toBe(StatusCodes.UNAUTHORIZED);
   });
 });
-
 
 describe('LoanController getById (unauthorized access)', () => {
   beforeEach(() => vi.restoreAllMocks());

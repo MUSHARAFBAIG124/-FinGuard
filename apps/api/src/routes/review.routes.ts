@@ -25,10 +25,8 @@ export function createReviewRoutes(
   );
 
   // Get review history for a loan
-  router.get(
-    '/api/v1/reviews/history/:loanId',
-    requireJwt,
-    (req, res) => controller.getReviewHistory(req, res),
+  router.get('/api/v1/reviews/history/:loanId', requireJwt, (req, res) =>
+    controller.getReviewHistory(req, res),
   );
 
   // Get all reviews by reviewer

@@ -4,9 +4,8 @@ import { describe, expect, it } from 'vitest';
 
 import {
   EmploymentType,
-  FraudRecommendedAction,
+  FraudAlertStatus,
   FraudSeverity,
-  FraudStatus,
   LoanStatus,
   RiskCategory,
   TransactionStatus,
@@ -220,10 +219,11 @@ describe('domain mongoose schemas', () => {
   it('validates fraud alerts and defines transaction/status indexes', async () => {
     const alert = new FraudAlertModel({
       transactionId: objectId(),
-      fraudProbability: 0.93,
+      userId: objectId(),
+      fraudScore: 93,
       severity: FraudSeverity.CRITICAL,
-      recommendedAction: FraudRecommendedAction.BLOCK,
-      status: FraudStatus.OPEN,
+      ruleTriggers: ['HIGH_RISK_COUNTRY'],
+      status: FraudAlertStatus.OPEN,
     });
 
     await expect(alert.validate()).resolves.toBeUndefined();
@@ -232,7 +232,7 @@ describe('domain mongoose schemas', () => {
       expect.arrayContaining([
         'ix_fraud_alerts_transaction_id',
         'ix_fraud_alerts_status',
-        'ix_fraud_alerts_status_created_at',
+        'ix_fraud_alerts_status_detected_at',
       ]),
     );
   });
@@ -240,15 +240,15 @@ describe('domain mongoose schemas', () => {
   it('rejects invalid fraud alert values', () => {
     const error = new FraudAlertModel({
       transactionId: objectId(),
-      fraudProbability: -1,
-      severity: 'SEVERE',
-      recommendedAction: 'IGNORE',
+      userId: objectId(),
+      fraudScore: -1,
+      severity: 'SUPER_CRITICAL',
+      ruleTriggers: [],
       status: 'CLOSED',
     }).validateSync();
 
-    expect(error?.errors.fraudProbability).toBeDefined();
+    expect(error?.errors.fraudScore).toBeDefined();
     expect(error?.errors.severity).toBeDefined();
-    expect(error?.errors.recommendedAction).toBeDefined();
     expect(error?.errors.status).toBeDefined();
   });
 

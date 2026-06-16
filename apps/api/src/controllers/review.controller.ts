@@ -37,7 +37,9 @@ export class ReviewController {
     }
 
     if (!Object.values(ReviewerDecision).includes(decision)) {
-      res.status(400).json({ error: 'Invalid decision. Must be APPROVED, REJECTED, or MORE_INFO_REQUIRED' });
+      res
+        .status(400)
+        .json({ error: 'Invalid decision. Must be APPROVED, REJECTED, or MORE_INFO_REQUIRED' });
       return;
     }
 

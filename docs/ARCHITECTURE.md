@@ -71,6 +71,7 @@ Phase 6.12 implements a human-in-the-loop review system that transforms the cred
 ### Data Models
 
 **LoanReviewDecision** - Stores reviewer decisions for loans in UNDER_REVIEW status:
+
 - Links loan application, risk assessment, and reviewer
 - Captures AI recommendation (category, score, probability)
 - Stores human decision (APPROVED, REJECTED, MORE_INFO_REQUIRED)
@@ -78,6 +79,7 @@ Phase 6.12 implements a human-in-the-loop review system that transforms the cred
 - Indexes: (loanApplicationId, reviewedAt), (reviewerId, reviewedAt), (reviewerDecision, reviewedAt)
 
 **ReviewFeedback** - Persists review data for future model retraining:
+
 - Same structure as LoanReviewDecision but designed for ML pipeline consumption
 - Includes features dictionary (loan characteristics at review time)
 - Optionally stores final outcome after loan disbursement
@@ -86,12 +88,14 @@ Phase 6.12 implements a human-in-the-loop review system that transforms the cred
 ### Service Layer
 
 **ReviewService**:
+
 - `submitReview()` - Validates loan status, creates decision record, updates loan status, logs audit events
 - `getReviewHistory()` - Retrieves all reviews for a loan in reverse chronological order
 - `getReviewerReviews()` - Returns all decisions by a specific reviewer
 - Status transitions: UNDER_REVIEW → (APPROVED | REJECTED | MORE_INFO_REQUIRED)
 
 **ReviewAnalyticsService**:
+
 - `calculateAnalytics()` - Overall metrics: approval rate, rejection rate, override rate, AI agreement rate
 - `getReviewerStats()` - Per-reviewer performance: total reviews, decision distribution, override percentage
 - Enables leadership dashboards and quality assurance workflows
@@ -99,6 +103,7 @@ Phase 6.12 implements a human-in-the-loop review system that transforms the cred
 ### Repository Pattern
 
 **LoanReviewDecisionRepository** & **ReviewFeedbackRepository**:
+
 - Implement interfaces for testability (in-memory or Mongoose)
 - Support complex queries (by loan, by reviewer, by decision type)
 - Enable override detection at persistence layer
@@ -106,13 +111,13 @@ Phase 6.12 implements a human-in-the-loop review system that transforms the cred
 
 ### API Endpoints
 
-| Method | Path | Role | Purpose |
-|--------|------|------|---------|
-| POST | `/api/v1/reviews/:loanId` | LOAN_OFFICER, ADMIN | Submit review decision |
-| GET | `/api/v1/reviews/history/:loanId` | Authenticated | Review history for loan |
-| GET | `/api/v1/reviews/my-reviews` | LOAN_OFFICER, ADMIN | Reviewer's own decisions |
-| GET | `/api/v1/reviews/analytics` | RISK_ANALYST, ADMIN | Overall platform metrics |
-| GET | `/api/v1/reviews/stats/:reviewerId` | ADMIN | Reviewer performance |
+| Method | Path                                | Role                | Purpose                  |
+| ------ | ----------------------------------- | ------------------- | ------------------------ |
+| POST   | `/api/v1/reviews/:loanId`           | LOAN_OFFICER, ADMIN | Submit review decision   |
+| GET    | `/api/v1/reviews/history/:loanId`   | Authenticated       | Review history for loan  |
+| GET    | `/api/v1/reviews/my-reviews`        | LOAN_OFFICER, ADMIN | Reviewer's own decisions |
+| GET    | `/api/v1/reviews/analytics`         | RISK_ANALYST, ADMIN | Overall platform metrics |
+| GET    | `/api/v1/reviews/stats/:reviewerId` | ADMIN               | Reviewer performance     |
 
 ### Audit Trail
 
@@ -128,6 +133,7 @@ All events capture requestId, reviewer ID, IP address, and timestamp for complia
 ### Future Retraining Support
 
 ReviewFeedback records stored in consistent format for supervised learning pipeline:
+
 ```
 {
   "features": {...},           // Loan characteristics at review time
@@ -143,6 +149,7 @@ Phase 7+ can consume ReviewFeedback as training data to continuously improve the
 ### Test Coverage
 
 Unit tests cover:
+
 - Review submission with valid/invalid decisions
 - Override detection (HIGH+APPROVED, LOW+REJECTED, MEDIUM+any)
 - Status transition validation
@@ -151,6 +158,7 @@ Unit tests cover:
 - Audit logging
 
 Integration tests cover:
+
 - Full review workflow end-to-end
 - Repository CRUD operations
 - Analytics aggregation across multiple reviewers
@@ -167,6 +175,7 @@ Phase 6.13 implements enterprise-grade AI governance, model lifecycle management
 ### Data Models
 
 **ModelRegistry** - Tracks every model version through its lifecycle:
+
 - Tracks version, type, training metadata, performance metrics (accuracy, precision, recall, F1, ROC-AUC)
 - Dataset provenance: dataset name and size
 - Lifecycle statuses: TRAINING → VALIDATION → APPROVED | REJECTED → RETIRED
@@ -174,6 +183,7 @@ Phase 6.13 implements enterprise-grade AI governance, model lifecycle management
 - Unique constraint on modelVersion
 
 **ModelDriftRecord** - Captures feature-level drift between training and production:
+
 - Stores training vs production means for each feature
 - PSI-based drift score with severity classification
 - Drift levels: LOW (< 0.1), MEDIUM (0.1-0.25), HIGH (0.25-0.5), CRITICAL (> 0.5)
@@ -182,6 +192,7 @@ Phase 6.13 implements enterprise-grade AI governance, model lifecycle management
 ### Service Layer
 
 **ModelGovernanceService**:
+
 - `registerModel()` - Creates model in VALIDATION status, emits MODEL_SUBMITTED audit event
 - `approveModel()` - Validates thresholds (accuracy, F1, ROC-AUC), transitions to APPROVED
 - `rejectModel()` - Transitions to REJECTED
@@ -190,6 +201,7 @@ Phase 6.13 implements enterprise-grade AI governance, model lifecycle management
 - Full audit trail for all lifecycle transitions
 
 **DriftDetectionService**:
+
 - Population Stability Index (PSI) calculation for distribution comparison
 - Automatic drift level classification (LOW/MEDIUM/HIGH/CRITICAL)
 - Histogram computation for arbitrary data distributions
@@ -197,6 +209,7 @@ Phase 6.13 implements enterprise-grade AI governance, model lifecycle management
 - Configurable bin count for histogram precision
 
 **GovernanceAnalyticsService**:
+
 - Active/retired/approved/rejected model counts
 - Average accuracy and F1 across production models
 - Drift alert volume (last 30 days)
@@ -205,28 +218,30 @@ Phase 6.13 implements enterprise-grade AI governance, model lifecycle management
 ### Repository Layer
 
 **ModelRegistryRepository**:
+
 - Full CRUD: create, findByVersion, findLatestApproved, listAll, findByStatus
 - State transitions: approve, reject, retire
 - Mongoose implementation with query chaining
 
 **ModelDriftRepository**:
+
 - Creation and query by model version
 - Time-windowed counts for analytics
 - CRITICAL drift filtering for alerting
 
 ### API Endpoints
 
-| Method | Path | Roles | Purpose |
-|--------|------|-------|---------|
-| POST | `/api/v1/models` | ADMIN, RISK_ANALYST | Register new model |
-| GET | `/api/v1/models` | ADMIN, RISK_ANALYST | List all models |
-| GET | `/api/v1/models/:version` | ADMIN, RISK_ANALYST | Model details |
-| POST | `/api/v1/models/:version/approve` | ADMIN | Approve model |
-| POST | `/api/v1/models/:version/reject` | ADMIN | Reject model |
-| POST | `/api/v1/models/:version/retire` | ADMIN | Retire model |
-| POST | `/api/v1/models/drift/check` | ADMIN, RISK_ANALYST | Run drift analysis |
-| GET | `/api/v1/models/drift` | ADMIN, RISK_ANALYST | List drift records |
-| GET | `/api/v1/models/analytics` | ADMIN, RISK_ANALYST | Governance metrics |
+| Method | Path                              | Roles               | Purpose            |
+| ------ | --------------------------------- | ------------------- | ------------------ |
+| POST   | `/api/v1/models`                  | ADMIN, RISK_ANALYST | Register new model |
+| GET    | `/api/v1/models`                  | ADMIN, RISK_ANALYST | List all models    |
+| GET    | `/api/v1/models/:version`         | ADMIN, RISK_ANALYST | Model details      |
+| POST   | `/api/v1/models/:version/approve` | ADMIN               | Approve model      |
+| POST   | `/api/v1/models/:version/reject`  | ADMIN               | Reject model       |
+| POST   | `/api/v1/models/:version/retire`  | ADMIN               | Retire model       |
+| POST   | `/api/v1/models/drift/check`      | ADMIN, RISK_ANALYST | Run drift analysis |
+| GET    | `/api/v1/models/drift`            | ADMIN, RISK_ANALYST | List drift records |
+| GET    | `/api/v1/models/analytics`        | ADMIN, RISK_ANALYST | Governance metrics |
 
 ### Drift Detection Algorithm (PSI)
 
@@ -237,11 +252,13 @@ PSI = Σ (P_i - Q_i) × ln(P_i / Q_i)
 ```
 
 Where:
+
 - P_i = training proportion in bin i
 - Q_i = production proportion in bin i
 - Epsilon (1e-6) prevents division by zero
 
 **Classification thresholds:**
+
 - PSI <= 0.1: LOW (no significant shift)
 - 0.1 < PSI <= 0.25: MEDIUM (minor shift, investigate)
 - 0.25 < PSI <= 0.5: HIGH (significant shift, action required)
@@ -251,13 +268,13 @@ Monitored features: age, annualIncome, loanAmount, debtToIncomeRatio, creditScor
 
 ### Audit Events
 
-| Event | When |
-|-------|------|
-| MODEL_SUBMITTED | New model registered for validation |
-| MODEL_APPROVED | Model passes threshold checks |
-| MODEL_REJECTED | Model fails validation |
-| MODEL_RETIRED | Model decommissioned |
-| MODEL_DRIFT_DETECTED | Drift analysis completed |
+| Event                | When                                |
+| -------------------- | ----------------------------------- |
+| MODEL_SUBMITTED      | New model registered for validation |
+| MODEL_APPROVED       | Model passes threshold checks       |
+| MODEL_REJECTED       | Model fails validation              |
+| MODEL_RETIRED        | Model decommissioned                |
+| MODEL_DRIFT_DETECTED | Drift analysis completed            |
 
 All events capture version, requestId, and timestamp for regulatory compliance.
 
@@ -279,6 +296,7 @@ All events capture version, requestId, and timestamp for regulatory compliance.
 ### Test Coverage
 
 Phase 6.13 code:
+
 - Service layer: 98-100% statement coverage
 - Repository layer: 100% statement coverage
 - Controller: 89.1% statement coverage

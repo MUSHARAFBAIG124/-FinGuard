@@ -66,7 +66,9 @@ describe('MongooseModelRegistryRepository', () => {
   });
 
   it('should find latest approved model', async () => {
-    const mockSort = vi.fn().mockReturnValue({ exec: vi.fn().mockResolvedValue({ modelVersion: '2.0.0' }) });
+    const mockSort = vi
+      .fn()
+      .mockReturnValue({ exec: vi.fn().mockResolvedValue({ modelVersion: '2.0.0' }) });
     vi.mocked(ModelRegistryModel.findOne).mockReturnValue({ sort: mockSort } as any);
 
     const result = await repo.findLatestApproved();
@@ -121,7 +123,9 @@ describe('MongooseModelRegistryRepository', () => {
   });
 
   it('should list all models', async () => {
-    const mockSort = vi.fn().mockReturnValue({ exec: vi.fn().mockResolvedValue([{ modelVersion: '1.0.0' }]) });
+    const mockSort = vi
+      .fn()
+      .mockReturnValue({ exec: vi.fn().mockResolvedValue([{ modelVersion: '1.0.0' }]) });
     vi.mocked(ModelRegistryModel.find).mockReturnValue({ sort: mockSort } as any);
 
     const result = await repo.listAll();
@@ -130,7 +134,9 @@ describe('MongooseModelRegistryRepository', () => {
   });
 
   it('should find models by status', async () => {
-    const mockSort = vi.fn().mockReturnValue({ exec: vi.fn().mockResolvedValue([{ modelVersion: '1.0.0' }]) });
+    const mockSort = vi
+      .fn()
+      .mockReturnValue({ exec: vi.fn().mockResolvedValue([{ modelVersion: '1.0.0' }]) });
     vi.mocked(ModelRegistryModel.find).mockReturnValue({ sort: mockSort } as any);
 
     const result = await repo.findByStatus(ModelStatus.APPROVED);
@@ -167,7 +173,9 @@ describe('MongooseModelDriftRepository', () => {
   });
 
   it('should find by model version', async () => {
-    const mockSort = vi.fn().mockReturnValue({ exec: vi.fn().mockResolvedValue([{ featureName: 'age' }]) });
+    const mockSort = vi
+      .fn()
+      .mockReturnValue({ exec: vi.fn().mockResolvedValue([{ featureName: 'age' }]) });
     vi.mocked(ModelDriftRecordModel.find).mockReturnValue({ sort: mockSort } as any);
 
     const result = await repo.listByModelVersion('2.0.0');
@@ -176,7 +184,9 @@ describe('MongooseModelDriftRepository', () => {
   });
 
   it('should list all drift records', async () => {
-    const mockLimit = vi.fn().mockReturnValue({ exec: vi.fn().mockResolvedValue([{ featureName: 'age' }]) });
+    const mockLimit = vi
+      .fn()
+      .mockReturnValue({ exec: vi.fn().mockResolvedValue([{ featureName: 'age' }]) });
     const mockSort = vi.fn().mockReturnValue({ limit: mockLimit } as any);
     vi.mocked(ModelDriftRecordModel.find).mockReturnValue({ sort: mockSort } as any);
 
@@ -186,7 +196,11 @@ describe('MongooseModelDriftRepository', () => {
   });
 
   it('should list critical drifts', async () => {
-    const mockSort = vi.fn().mockReturnValue({ exec: vi.fn().mockResolvedValue([{ featureName: 'age', driftLevel: DriftLevel.CRITICAL }]) });
+    const mockSort = vi
+      .fn()
+      .mockReturnValue({
+        exec: vi.fn().mockResolvedValue([{ featureName: 'age', driftLevel: DriftLevel.CRITICAL }]),
+      });
     vi.mocked(ModelDriftRecordModel.find).mockReturnValue({ sort: mockSort } as any);
 
     const result = await repo.listCritical();

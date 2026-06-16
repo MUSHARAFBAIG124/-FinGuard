@@ -1,10 +1,15 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { ModelGovernanceService, DEFAULT_THRESHOLDS } from '../../services/model-governance.service';
-import { ModelRegistryRepository, MongooseModelRegistryRepository } from '../../repositories/model-registry.repository';
+import {
+  ModelGovernanceService,
+  DEFAULT_THRESHOLDS,
+} from '../../services/model-governance.service';
+import {
+  ModelRegistryRepository,
+  MongooseModelRegistryRepository,
+} from '../../repositories/model-registry.repository';
 import { AuditLogRepository } from '../../repositories/audit-log.repository';
 import { ModelStatus } from '@finguard/shared';
 import { AppError } from '../../errors/app-error';
-
 
 describe('ModelGovernanceService Lifecycle', () => {
   let service: ModelGovernanceService;
@@ -70,7 +75,9 @@ describe('ModelGovernanceService Lifecycle', () => {
 
     const result = await service.approveModel('1.0.0', 'admin1', 'Good metrics');
     expect(result.status).toBe(ModelStatus.APPROVED);
-    expect(auditRepo.create).toHaveBeenCalledWith(expect.objectContaining({ action: 'MODEL_APPROVED' }));
+    expect(auditRepo.create).toHaveBeenCalledWith(
+      expect.objectContaining({ action: 'MODEL_APPROVED' }),
+    );
   });
 
   it('should fail approval if F1 is below 0.80', async () => {
@@ -87,7 +94,9 @@ describe('ModelGovernanceService Lifecycle', () => {
       datasetSize: 100,
     });
 
-    await expect(service.approveModel('1.0.0', 'admin1', 'Nice try')).rejects.toThrow(/below threshold/);
+    await expect(service.approveModel('1.0.0', 'admin1', 'Nice try')).rejects.toThrow(
+      /below threshold/,
+    );
   });
 
   it('should reject a model in VALIDATION status', async () => {
@@ -122,7 +131,7 @@ describe('ModelGovernanceService Lifecycle', () => {
       datasetSize: 100,
     });
     await service.approveModel('1.0.0', 'admin1', 'Perfect');
-    
+
     const result = await service.retireModel('1.0.0', 'admin1', 'Outdated');
     expect(result.status).toBe(ModelStatus.RETIRED);
   });
@@ -142,7 +151,9 @@ describe('ModelGovernanceService Lifecycle', () => {
     });
     await service.rejectModel('1.0.0', 'admin1', 'Bad');
 
-    await expect(service.approveModel('1.0.0', 'admin1', 'Changed mind')).rejects.toThrow(/Invalid status transition/);
+    await expect(service.approveModel('1.0.0', 'admin1', 'Changed mind')).rejects.toThrow(
+      /Invalid status transition/,
+    );
   });
 
   it('should disallow invalid transition: RETIRED -> VALIDATION', async () => {
@@ -162,6 +173,8 @@ describe('ModelGovernanceService Lifecycle', () => {
     await service.retireModel('1.0.0', 'admin1', 'Old');
 
     // No direct method for VALIDATION transition, but we can simulate calling reject if it were allowed
-    await expect(service.rejectModel('1.0.0', 'admin1', 'Retiree is bad')).rejects.toThrow(/Invalid status transition/);
+    await expect(service.rejectModel('1.0.0', 'admin1', 'Retiree is bad')).rejects.toThrow(
+      /Invalid status transition/,
+    );
   });
 });

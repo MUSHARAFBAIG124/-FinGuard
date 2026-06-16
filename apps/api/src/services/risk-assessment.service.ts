@@ -1,4 +1,7 @@
-import type { RiskAssessmentRepository, CreateRiskAssessmentInput } from '../repositories/risk-assessment.repository';
+import type {
+  RiskAssessmentRepository,
+  CreateRiskAssessmentInput,
+} from '../repositories/risk-assessment.repository';
 import type { AuditLogRepository } from '../repositories/audit-log.repository';
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../errors/app-error';
@@ -14,20 +17,30 @@ export interface RiskAssessmentServiceDependencies {
 export class RiskAssessmentService {
   public constructor(private readonly dependencies: RiskAssessmentServiceDependencies) {}
 
-  private async callAiService(applicationData: any, userId: string, ipAddress: string, requestId?: string) {
-    const base = this.dependencies.aiServiceUrl ?? process.env.AI_SERVICE_URL ?? 'http://localhost:8000/api/v1';
+  private async callAiService(
+    applicationData: any,
+    userId: string,
+    ipAddress: string,
+    requestId?: string,
+  ) {
+    const base =
+      this.dependencies.aiServiceUrl ??
+      process.env.AI_SERVICE_URL ??
+      'http://localhost:8000/api/v1';
     const url = `${base}/predict-risk`;
 
     // Log audit for model prediction request
-    await this.dependencies.auditLogRepository.create({
-      action: 'MODEL_PREDICTION_REQUESTED',
-      resourceType: 'RiskAssessment',
-      resourceId: '',
-      requestId: requestId ?? '',
-      userId,
-      ipAddress,
-      metadata: { url, applicationData },
-    }).catch(() => undefined);
+    await this.dependencies.auditLogRepository
+      .create({
+        action: 'MODEL_PREDICTION_REQUESTED',
+        resourceType: 'RiskAssessment',
+        resourceId: '',
+        requestId: requestId ?? '',
+        userId,
+        ipAddress,
+        metadata: { url, applicationData },
+      })
+      .catch(() => undefined);
 
     const start = Date.now();
     let res: Response;
@@ -39,59 +52,82 @@ export class RiskAssessmentService {
       });
     } catch (err: any) {
       const latencyWhenFailed = Date.now() - start;
-      await this.dependencies.auditLogRepository.create({
-        action: 'MODEL_PREDICTION_FAILED',
-        resourceType: 'RiskAssessment',
-        resourceId: '',
-        requestId: requestId ?? '',
-        userId,
-        ipAddress,
-        metadata: { url, errorMessage: String(err?.message ?? err), latencyMs: latencyWhenFailed },
-      }).catch(() => undefined);
+      await this.dependencies.auditLogRepository
+        .create({
+          action: 'MODEL_PREDICTION_FAILED',
+          resourceType: 'RiskAssessment',
+          resourceId: '',
+          requestId: requestId ?? '',
+          userId,
+          ipAddress,
+          metadata: {
+            url,
+            errorMessage: String(err?.message ?? err),
+            latencyMs: latencyWhenFailed,
+          },
+        })
+        .catch(() => undefined);
       try {
         const mm = this.dependencies.modelMetricsService;
-        if (mm) await mm.recordPrediction('unknown', latencyWhenFailed, false).catch(() => undefined);
+        if (mm)
+          await mm.recordPrediction('unknown', latencyWhenFailed, false).catch(() => undefined);
       } catch {}
-      throw new AppError({ code: 'AI_SERVICE_ERROR', message: `AI service failed: ${String(err)}`, statusCode: StatusCodes.SERVICE_UNAVAILABLE });
+      throw new AppError({
+        code: 'AI_SERVICE_ERROR',
+        message: `AI service failed: ${String(err)}`,
+        statusCode: StatusCodes.SERVICE_UNAVAILABLE,
+      });
     }
 
     if (!res.ok) {
       const latencyWhenFailed = Date.now() - start;
-      await this.dependencies.auditLogRepository.create({
-        action: 'MODEL_PREDICTION_FAILED',
-        resourceType: 'RiskAssessment',
-        resourceId: '',
-        requestId: requestId ?? '',
-        userId,
-        ipAddress,
-        metadata: { url, errorMessage: res.statusText, latencyMs: latencyWhenFailed },
-      }).catch(() => undefined);
+      await this.dependencies.auditLogRepository
+        .create({
+          action: 'MODEL_PREDICTION_FAILED',
+          resourceType: 'RiskAssessment',
+          resourceId: '',
+          requestId: requestId ?? '',
+          userId,
+          ipAddress,
+          metadata: { url, errorMessage: res.statusText, latencyMs: latencyWhenFailed },
+        })
+        .catch(() => undefined);
       try {
         const mm = this.dependencies.modelMetricsService;
-        if (mm) await mm.recordPrediction('unknown', latencyWhenFailed, false).catch(() => undefined);
+        if (mm)
+          await mm.recordPrediction('unknown', latencyWhenFailed, false).catch(() => undefined);
       } catch {}
-      throw new AppError({ code: 'AI_SERVICE_ERROR', message: `AI service responded ${res.status}`, statusCode: StatusCodes.SERVICE_UNAVAILABLE });
+      throw new AppError({
+        code: 'AI_SERVICE_ERROR',
+        message: `AI service responded ${res.status}`,
+        statusCode: StatusCodes.SERVICE_UNAVAILABLE,
+      });
     }
 
     const json = await res.json();
     const latencyMs = Date.now() - start;
     // attach latency and model version if present for callers
     (json as any).latencyMs = latencyMs;
-    
-    await this.dependencies.auditLogRepository.create({
-      action: 'MODEL_PREDICTION_SUCCEEDED',
-      resourceType: 'RiskAssessment',
-      resourceId: '',
-      requestId: requestId ?? '',
-      userId,
-      ipAddress,
-      metadata: { url, latencyMs, modelVersion: json.modelVersion ?? null },
-    }).catch(() => undefined);
+
+    await this.dependencies.auditLogRepository
+      .create({
+        action: 'MODEL_PREDICTION_SUCCEEDED',
+        resourceType: 'RiskAssessment',
+        resourceId: '',
+        requestId: requestId ?? '',
+        userId,
+        ipAddress,
+        metadata: { url, latencyMs, modelVersion: json.modelVersion ?? null },
+      })
+      .catch(() => undefined);
 
     // record metrics for success if available
     try {
       const mm = this.dependencies.modelMetricsService;
-      if (mm) await mm.recordPrediction(json.modelVersion ?? 'unknown', latencyMs, true).catch(() => undefined);
+      if (mm)
+        await mm
+          .recordPrediction(json.modelVersion ?? 'unknown', latencyMs, true)
+          .catch(() => undefined);
     } catch {}
 
     return json;
@@ -104,12 +140,18 @@ export class RiskAssessmentService {
   ) {
     const userId = context?.userId ?? 'unknown';
     const ipAddress = context?.ipAddress ?? '0.0.0.0';
-    
+
     // call AI
-    const prediction = await this.callAiService(applicationData, userId, ipAddress, context?.requestId);
+    const prediction = await this.callAiService(
+      applicationData,
+      userId,
+      ipAddress,
+      context?.requestId,
+    );
 
     // map risk category (string)
-    const riskCategory = (prediction.riskCategory as unknown) ?? (prediction.riskCategory || 'MEDIUM');
+    const riskCategory =
+      (prediction.riskCategory as unknown) ?? (prediction.riskCategory || 'MEDIUM');
 
     const input: CreateRiskAssessmentInput = {
       loanApplicationId,
@@ -134,22 +176,26 @@ export class RiskAssessmentService {
     try {
       const mm = this.dependencies.modelMetricsService;
       if (mm && typeof prediction.latencyMs === 'number') {
-        await mm.recordPrediction(input.modelVersion, prediction.latencyMs, true).catch(() => undefined);
+        await mm
+          .recordPrediction(input.modelVersion, prediction.latencyMs, true)
+          .catch(() => undefined);
       }
     } catch {
       // swallow
     }
 
     // Audit
-    await this.dependencies.auditLogRepository.create({
-      action: 'RISK_ASSESSMENT_CREATED',
-      resourceType: 'RiskAssessment',
-      resourceId: created._id.toString(),
-      requestId: context?.requestId ?? '',
-      userId,
-      ipAddress,
-      metadata: { loanApplicationId, input },
-    }).catch(() => undefined);
+    await this.dependencies.auditLogRepository
+      .create({
+        action: 'RISK_ASSESSMENT_CREATED',
+        resourceType: 'RiskAssessment',
+        resourceId: created._id.toString(),
+        requestId: context?.requestId ?? '',
+        userId,
+        ipAddress,
+        metadata: { loanApplicationId, input },
+      })
+      .catch(() => undefined);
 
     return created;
   }

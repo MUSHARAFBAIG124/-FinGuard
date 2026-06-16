@@ -17,7 +17,11 @@ export const createModelDependencies = () => {
 
   const governanceService = new ModelGovernanceService(modelRegistryRepository, auditLogRepository);
   const driftService = new DriftDetectionService(modelDriftRepository, auditLogRepository);
-  const analyticsService = new GovernanceAnalyticsService(modelRegistryRepository, modelDriftRepository, auditLogRepository);
+  const analyticsService = new GovernanceAnalyticsService(
+    modelRegistryRepository,
+    modelDriftRepository,
+    auditLogRepository,
+  );
 
   return {
     modelMetricsService,

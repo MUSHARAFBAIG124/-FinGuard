@@ -49,11 +49,19 @@ export enum TransactionStatus {
   FLAGGED = 'FLAGGED',
 }
 
-export enum FraudStatus {
+export enum FraudAlertStatus {
   OPEN = 'OPEN',
-  INVESTIGATING = 'INVESTIGATING',
-  RESOLVED = 'RESOLVED',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  CONFIRMED_FRAUD = 'CONFIRMED_FRAUD',
   FALSE_POSITIVE = 'FALSE_POSITIVE',
+  RESOLVED = 'RESOLVED',
+}
+
+export enum FraudInvestigationAction {
+  START_REVIEW = 'START_REVIEW',
+  CONFIRM_FRAUD = 'CONFIRM_FRAUD',
+  MARK_FALSE_POSITIVE = 'MARK_FALSE_POSITIVE',
+  RESOLVE = 'RESOLVE',
 }
 
 export enum FraudSeverity {
@@ -61,13 +69,6 @@ export enum FraudSeverity {
   MEDIUM = 'MEDIUM',
   HIGH = 'HIGH',
   CRITICAL = 'CRITICAL',
-}
-
-export enum FraudRecommendedAction {
-  ALLOW = 'ALLOW',
-  STEP_UP_AUTHENTICATION = 'STEP_UP_AUTHENTICATION',
-  HOLD_FOR_REVIEW = 'HOLD_FOR_REVIEW',
-  BLOCK = 'BLOCK',
 }
 
 export enum ReviewerDecision {
@@ -144,10 +145,23 @@ export interface TransactionContract {
 export interface FraudAlertContract {
   readonly id: string;
   readonly transactionId: string;
-  readonly fraudProbability: number;
+  readonly userId: string;
+  readonly fraudScore: number;
   readonly severity: FraudSeverity;
-  readonly recommendedAction: FraudRecommendedAction;
-  readonly status: FraudStatus;
+  readonly ruleTriggers: string[];
+  readonly status: FraudAlertStatus;
+  readonly detectedAt: string;
+  readonly reviewedAt?: string;
+  readonly reviewedBy?: string;
+  readonly resolutionReason?: string;
+}
+
+export interface FraudInvestigationContract {
+  readonly id: string;
+  readonly fraudAlertId: string;
+  readonly investigatorId: string;
+  readonly action: FraudInvestigationAction;
+  readonly notes: string;
   readonly createdAt: string;
 }
 
@@ -219,6 +233,63 @@ export interface ModelDriftRecordContract {
   readonly productionMean: number;
   readonly driftScore: number;
   readonly driftLevel: DriftLevel;
+}
+
+export enum FraudCaseStatus {
+  OPEN = 'OPEN',
+  ASSIGNED = 'ASSIGNED',
+  UNDER_INVESTIGATION = 'UNDER_INVESTIGATION',
+  ESCALATED = 'ESCALATED',
+  RESOLVED = 'RESOLVED',
+  CLOSED = 'CLOSED',
+}
+
+export enum FraudCasePriority {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  CRITICAL = 'CRITICAL',
+}
+
+export enum FraudCaseEventType {
+  CASE_CREATED = 'CASE_CREATED',
+  CASE_ASSIGNED = 'CASE_ASSIGNED',
+  CASE_REASSIGNED = 'CASE_REASSIGNED',
+  CASE_ESCALATED = 'CASE_ESCALATED',
+  CASE_RESOLVED = 'CASE_RESOLVED',
+  CASE_CLOSED = 'CASE_CLOSED',
+  COMMENT_ADDED = 'COMMENT_ADDED',
+}
+
+export enum FraudOwnerRole {
+  INVESTIGATOR = 'INVESTIGATOR',
+  SENIOR_INVESTIGATOR = 'SENIOR_INVESTIGATOR',
+  FRAUD_MANAGER = 'FRAUD_MANAGER',
+}
+
+export interface FraudCaseContract {
+  readonly id: string;
+  readonly caseId: string;
+  readonly fraudAlertId: string;
+  readonly userId: string;
+  readonly status: FraudCaseStatus;
+  readonly priority: FraudCasePriority;
+  readonly assignedTo?: string;
+  readonly currentOwnerRole?: FraudOwnerRole;
+  readonly createdAt: string;
+  readonly assignedAt?: string;
+  readonly resolvedAt?: string;
+  readonly resolutionReason?: string;
+  readonly slaDueAt?: string;
+}
+
+export interface FraudCaseEventContract {
+  readonly id: string;
+  readonly caseId: string;
+  readonly investigatorId: string;
+  readonly eventType: FraudCaseEventType;
+  readonly notes: string;
+  readonly createdAt: string;
 }
 
 export const API_VERSION = 'v1';

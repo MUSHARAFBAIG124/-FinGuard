@@ -40,7 +40,9 @@ export class ModelGovernanceController {
     }
 
     if (!modelVersion || !modelType || accuracy === undefined || f1Score === undefined) {
-      res.status(400).json({ error: 'Missing required fields: modelVersion, modelType, accuracy, f1Score' });
+      res
+        .status(400)
+        .json({ error: 'Missing required fields: modelVersion, modelType, accuracy, f1Score' });
       return;
     }
 
@@ -158,23 +160,21 @@ export class ModelGovernanceController {
       return;
     }
 
-    const typedFeatures: FeatureDistribution[] = features.map(
-      (f: Record<string, unknown>) => ({
-        featureName: String(f.featureName),
-        trainingMean: Number(f.trainingMean),
-        trainingStd: Number(f.trainingStd ?? 0),
-        trainingSize: Number(f.trainingSize ?? 0),
-        productionMean: Number(f.productionMean),
-        productionStd: Number(f.productionStd ?? 0),
-        productionSize: Number(f.productionSize ?? 0),
-        trainingHistogram: Array.isArray(f.trainingHistogram)
-          ? (f.trainingHistogram as number[])
-          : new Array(10).fill(0),
-        productionHistogram: Array.isArray(f.productionHistogram)
-          ? (f.productionHistogram as number[])
-          : new Array(10).fill(0),
-      }),
-    );
+    const typedFeatures: FeatureDistribution[] = features.map((f: Record<string, unknown>) => ({
+      featureName: String(f.featureName),
+      trainingMean: Number(f.trainingMean),
+      trainingStd: Number(f.trainingStd ?? 0),
+      trainingSize: Number(f.trainingSize ?? 0),
+      productionMean: Number(f.productionMean),
+      productionStd: Number(f.productionStd ?? 0),
+      productionSize: Number(f.productionSize ?? 0),
+      trainingHistogram: Array.isArray(f.trainingHistogram)
+        ? (f.trainingHistogram as number[])
+        : new Array(10).fill(0),
+      productionHistogram: Array.isArray(f.productionHistogram)
+        ? (f.productionHistogram as number[])
+        : new Array(10).fill(0),
+    }));
 
     const results = await this.driftService.analyzeDrift(modelVersion, typedFeatures);
     res.status(200).json({ success: true, data: results });

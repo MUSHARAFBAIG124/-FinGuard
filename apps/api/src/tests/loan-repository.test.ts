@@ -1,4 +1,3 @@
-
 import { describe, it, expect, beforeEach } from 'vitest';
 import { LoanStatus, EmploymentType } from '@finguard/shared';
 import { createInMemoryLoanDependencies, InMemoryLoanStore } from './in-memory-loan-dependencies';

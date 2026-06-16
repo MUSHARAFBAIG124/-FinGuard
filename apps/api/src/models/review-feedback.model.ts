@@ -85,14 +85,8 @@ ReviewFeedbackSchema.index(
   { loanApplicationId: 1, createdAt: -1 },
   { name: 'ix_feedback_loan_date' },
 );
-ReviewFeedbackSchema.index(
-  { reviewerId: 1, createdAt: -1 },
-  { name: 'ix_feedback_reviewer_date' },
-);
-ReviewFeedbackSchema.index(
-  { override: 1, createdAt: -1 },
-  { name: 'ix_feedback_override_date' },
-);
+ReviewFeedbackSchema.index({ reviewerId: 1, createdAt: -1 }, { name: 'ix_feedback_reviewer_date' });
+ReviewFeedbackSchema.index({ override: 1, createdAt: -1 }, { name: 'ix_feedback_override_date' });
 
 export type ReviewFeedback = InferSchemaType<typeof ReviewFeedbackSchema>;
 export type ReviewFeedbackDocument = HydratedDocument<ReviewFeedback>;

@@ -26,15 +26,15 @@ Phase 4 adds public authentication endpoints only. It does not add loan, fraud, 
 
 The following enums are defined in `packages/shared` and are consumed by backend schemas:
 
-| Contract            | Values                                                       |
-| ------------------- | ------------------------------------------------------------ |
-| `UserRole`          | `CUSTOMER`, `LOAN_OFFICER`, `RISK_ANALYST`, `ADMIN`          |
-| `UserStatus`        | `ACTIVE`, `INACTIVE`, `SUSPENDED`                            |
+| Contract            | Values                                                                             |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| `UserRole`          | `CUSTOMER`, `LOAN_OFFICER`, `RISK_ANALYST`, `ADMIN`                                |
+| `UserStatus`        | `ACTIVE`, `INACTIVE`, `SUSPENDED`                                                  |
 | `LoanStatus`        | `DRAFT`, `SUBMITTED`, `UNDER_REVIEW`, `APPROVED`, `REJECTED`, `MORE_INFO_REQUIRED` |
-| `RiskCategory`      | `LOW`, `MEDIUM`, `HIGH`                                      |
-| `ReviewerDecision`  | `APPROVED`, `REJECTED`, `MORE_INFO_REQUIRED`                 |
-| `TransactionStatus` | `PENDING`, `COMPLETED`, `FAILED`, `FLAGGED`                  |
-| `FraudStatus`       | `OPEN`, `INVESTIGATING`, `RESOLVED`, `FALSE_POSITIVE`        |
+| `RiskCategory`      | `LOW`, `MEDIUM`, `HIGH`                                                            |
+| `ReviewerDecision`  | `APPROVED`, `REJECTED`, `MORE_INFO_REQUIRED`                                       |
+| `TransactionStatus` | `PENDING`, `COMPLETED`, `FAILED`, `FLAGGED`                                        |
+| `FraudStatus`       | `OPEN`, `INVESTIGATING`, `RESOLVED`, `FALSE_POSITIVE`                              |
 
 ## Infrastructure Endpoints
 
@@ -298,6 +298,7 @@ Human-in-the-loop loan review workflow endpoints for LOAN_OFFICER and RISK_ANALY
 Submit a review decision for a loan under review. Requires `LOAN_OFFICER` or `ADMIN` role.
 
 Request Headers:
+
 - `Authorization: Bearer <accessToken>`
 - `X-Request-ID: <requestId>` (optional, correlation ID)
 
@@ -468,6 +469,7 @@ Enterprise-grade model lifecycle management and drift monitoring endpoints for A
 Register a new model for validation. Requires `ADMIN` or `RISK_ANALYST` role.
 
 Request Headers:
+
 - `Authorization: Bearer <accessToken>`
 - `X-Request-ID: <requestId>` (optional)
 
@@ -634,7 +636,7 @@ Request Body:
   "features": [
     {
       "name": "age",
-      "trainingDistribution": [0.15, 0.25, 0.30, 0.20, 0.10],
+      "trainingDistribution": [0.15, 0.25, 0.3, 0.2, 0.1],
       "productionDistribution": [0.12, 0.22, 0.32, 0.22, 0.12]
     }
   ]
@@ -707,25 +709,25 @@ Response: `200 OK`
 
 ## Audit Event Matrix
 
-| Event                       | Required Fields                              |
-| --------------------------- | -------------------------------------------- |
-| `REGISTER`                  | `action`, `userId`, `requestId`, `timestamp` |
-| `LOGIN_SUCCESS`             | `action`, `userId`, `requestId`, `timestamp` |
-| `LOGIN_FAILURE`             | `action`, `userId`, `requestId`, `timestamp` |
-| `LOGOUT`                    | `action`, `userId`, `requestId`, `timestamp` |
-| `TOKEN_REFRESH`             | `action`, `userId`, `requestId`, `timestamp` |
-| `EMAIL_VERIFIED`            | `action`, `userId`, `requestId`, `timestamp` |
-| `EMAIL_VERIFICATION_RESENT` | `action`, `userId`, `requestId`, `timestamp` |
-| `PASSWORD_RESET_REQUEST`    | `action`, `userId`, `requestId`, `timestamp` |
-| `PASSWORD_RESET_SUCCESS`    | `action`, `userId`, `requestId`, `timestamp` |
-| `LOAN_REVIEW_STARTED`       | `action`, `userId`, `resourceId`, `timestamp` |
-| `LOAN_REVIEW_COMPLETED`     | `action`, `userId`, `resourceId`, `timestamp` |
+| Event                       | Required Fields                                           |
+| --------------------------- | --------------------------------------------------------- |
+| `REGISTER`                  | `action`, `userId`, `requestId`, `timestamp`              |
+| `LOGIN_SUCCESS`             | `action`, `userId`, `requestId`, `timestamp`              |
+| `LOGIN_FAILURE`             | `action`, `userId`, `requestId`, `timestamp`              |
+| `LOGOUT`                    | `action`, `userId`, `requestId`, `timestamp`              |
+| `TOKEN_REFRESH`             | `action`, `userId`, `requestId`, `timestamp`              |
+| `EMAIL_VERIFIED`            | `action`, `userId`, `requestId`, `timestamp`              |
+| `EMAIL_VERIFICATION_RESENT` | `action`, `userId`, `requestId`, `timestamp`              |
+| `PASSWORD_RESET_REQUEST`    | `action`, `userId`, `requestId`, `timestamp`              |
+| `PASSWORD_RESET_SUCCESS`    | `action`, `userId`, `requestId`, `timestamp`              |
+| `LOAN_REVIEW_STARTED`       | `action`, `userId`, `resourceId`, `timestamp`             |
+| `LOAN_REVIEW_COMPLETED`     | `action`, `userId`, `resourceId`, `timestamp`             |
 | `AI_DECISION_OVERRIDDEN`    | `action`, `userId`, `resourceId`, `metadata`, `timestamp` |
-| `REVIEW_FEEDBACK_RECORDED`  | `action`, `userId`, `resourceId`, `timestamp` |
+| `REVIEW_FEEDBACK_RECORDED`  | `action`, `userId`, `resourceId`, `timestamp`             |
 | `MODEL_SUBMITTED`           | `action`, `userId`, `resourceId`, `metadata`, `timestamp` |
-| `MODEL_APPROVED`            | `action`, `userId`, `resourceId`, `timestamp` |
+| `MODEL_APPROVED`            | `action`, `userId`, `resourceId`, `timestamp`             |
 | `MODEL_REJECTED`            | `action`, `userId`, `resourceId`, `metadata`, `timestamp` |
-| `MODEL_RETIRED`             | `action`, `userId`, `resourceId`, `timestamp` |
+| `MODEL_RETIRED`             | `action`, `userId`, `resourceId`, `timestamp`             |
 | `MODEL_DRIFT_DETECTED`      | `action`, `userId`, `resourceId`, `metadata`, `timestamp` |
 
 ## Response Envelope

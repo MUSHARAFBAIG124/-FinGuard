@@ -55,18 +55,9 @@ export const ModelDriftRecordSchema = new Schema(
   },
 );
 
-ModelDriftRecordSchema.index(
-  { modelVersion: 1, detectedAt: -1 },
-  { name: 'ix_drift_model_date' },
-);
-ModelDriftRecordSchema.index(
-  { driftLevel: 1, detectedAt: -1 },
-  { name: 'ix_drift_level_date' },
-);
-ModelDriftRecordSchema.index(
-  { detectedAt: -1 },
-  { name: 'ix_drift_detected_at' },
-);
+ModelDriftRecordSchema.index({ modelVersion: 1, detectedAt: -1 }, { name: 'ix_drift_model_date' });
+ModelDriftRecordSchema.index({ driftLevel: 1, detectedAt: -1 }, { name: 'ix_drift_level_date' });
+ModelDriftRecordSchema.index({ detectedAt: -1 }, { name: 'ix_drift_detected_at' });
 
 export type ModelDriftRecord = InferSchemaType<typeof ModelDriftRecordSchema>;
 export type ModelDriftRecordDocument = HydratedDocument<ModelDriftRecord>;

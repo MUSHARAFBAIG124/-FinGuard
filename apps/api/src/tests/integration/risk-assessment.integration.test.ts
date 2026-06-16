@@ -47,10 +47,15 @@ describe('Risk Assessment Integration (in-memory)', () => {
       json: async () => fakePrediction,
     }));
 
-    await loanService.submit(loan._id.toString(), 'user-1', { requestId: 'req-123', ipAddress: '127.0.0.1' } as any);
+    await loanService.submit(loan._id.toString(), 'user-1', {
+      requestId: 'req-123',
+      ipAddress: '127.0.0.1',
+    } as any);
 
     // Verify RiskAssessment saved
-    const assessments = await repos?.riskAssessmentRepository?.findByLoanApplicationId(loan._id.toString());
+    const assessments = await repos?.riskAssessmentRepository?.findByLoanApplicationId(
+      loan._id.toString(),
+    );
     expect(assessments).toBeTruthy();
     expect(assessments && assessments.length).toBeGreaterThan(0);
     const a = assessments![0] as any;
@@ -95,10 +100,17 @@ describe('Risk Assessment Integration (in-memory)', () => {
     } as any);
 
     // mock fetch to throw
-    (global as any).fetch = vi.fn().mockImplementation(async () => { throw new Error('network error'); });
+    (global as any).fetch = vi.fn().mockImplementation(async () => {
+      throw new Error('network error');
+    });
 
     // submit should resolve and not throw
-    await expect(loanService.submit(loan._id.toString(), 'user-2', { requestId: 'req-err', ipAddress: '10.0.0.1' } as any)).resolves.not.toThrow();
+    await expect(
+      loanService.submit(loan._id.toString(), 'user-2', {
+        requestId: 'req-err',
+        ipAddress: '10.0.0.1',
+      } as any),
+    ).resolves.not.toThrow();
 
     // Verify audit logs include MODEL_PREDICTION_FAILED
     const logs = await repos?.auditLogRepository?.findByUserId('user-2');
@@ -121,7 +133,9 @@ describe('Risk Assessment Integration (in-memory)', () => {
 
   it('Metadata Failure Flow: GET /model/info handles missing or corrupted metadata.json', async () => {
     const { dependencies } = createInMemoryLoanDependencies();
-    const controller = createModelController({ modelMetricsService: dependencies.modelMetricsService! });
+    const controller = createModelController({
+      modelMetricsService: dependencies.modelMetricsService!,
+    });
 
     // simulate missing metadata by temporarily renaming the file path used by controller
     // call getInfo and ensure it returns a safe payload
@@ -129,8 +143,14 @@ describe('Risk Assessment Integration (in-memory)', () => {
     let statusCode = 200;
     let body: any = null;
     const res: any = {
-      status: (s: number) => { statusCode = s; return res; },
-      json: (b: any) => { body = b; return b; },
+      status: (s: number) => {
+        statusCode = s;
+        return res;
+      },
+      json: (b: any) => {
+        body = b;
+        return b;
+      },
     };
 
     // Ensure controller does not throw when metadata exists or is corrupted; we won't mutate filesystem in tests
@@ -153,14 +173,61 @@ describe('Risk Assessment Integration (in-memory)', () => {
 
     // create multiple risk assessments directly
     const repo = repos!.riskAssessmentRepository!;
-    await repo.create({ loanApplicationId: loan._id.toString(), riskScore: 10, riskCategory: 'LOW', approvalProbability: 0.9, modelVersion: '1.0.0', riskEngineVersion: '1.0.0', explanation: { summary: 'v1', positiveFactors: [], negativeFactors: [], shapValues: [{ feature: 'a', value: 0.1 }] }, generatedAt: new Date() } as any);
-    await repo.create({ loanApplicationId: loan._id.toString(), riskScore: 20, riskCategory: 'MEDIUM', approvalProbability: 0.7, modelVersion: '1.1.0', riskEngineVersion: '1.0.0', explanation: { summary: 'v2', positiveFactors: [], negativeFactors: [], shapValues: [{ feature: 'b', value: 0.2 }] }, generatedAt: new Date() } as any);
-    await repo.create({ loanApplicationId: loan._id.toString(), riskScore: 30, riskCategory: 'HIGH', approvalProbability: 0.3, modelVersion: '1.2.0', riskEngineVersion: '1.0.0', explanation: { summary: 'v3', positiveFactors: [], negativeFactors: [], shapValues: [{ feature: 'c', value: 0.3 }] }, generatedAt: new Date() } as any);
+    await repo.create({
+      loanApplicationId: loan._id.toString(),
+      riskScore: 10,
+      riskCategory: 'LOW',
+      approvalProbability: 0.9,
+      modelVersion: '1.0.0',
+      riskEngineVersion: '1.0.0',
+      explanation: {
+        summary: 'v1',
+        positiveFactors: [],
+        negativeFactors: [],
+        shapValues: [{ feature: 'a', value: 0.1 }],
+      },
+      generatedAt: new Date(),
+    } as any);
+    await repo.create({
+      loanApplicationId: loan._id.toString(),
+      riskScore: 20,
+      riskCategory: 'MEDIUM',
+      approvalProbability: 0.7,
+      modelVersion: '1.1.0',
+      riskEngineVersion: '1.0.0',
+      explanation: {
+        summary: 'v2',
+        positiveFactors: [],
+        negativeFactors: [],
+        shapValues: [{ feature: 'b', value: 0.2 }],
+      },
+      generatedAt: new Date(),
+    } as any);
+    await repo.create({
+      loanApplicationId: loan._id.toString(),
+      riskScore: 30,
+      riskCategory: 'HIGH',
+      approvalProbability: 0.3,
+      modelVersion: '1.2.0',
+      riskEngineVersion: '1.0.0',
+      explanation: {
+        summary: 'v3',
+        positiveFactors: [],
+        negativeFactors: [],
+        shapValues: [{ feature: 'c', value: 0.3 }],
+      },
+      generatedAt: new Date(),
+    } as any);
 
     const ctrl = createRiskAssessmentController({ riskAssessmentRepository: repo });
     const req: any = { params: { loanId: loan._id.toString() } };
     let body: any = null;
-    const res: any = { json: (b: any) => { body = b; return b; } };
+    const res: any = {
+      json: (b: any) => {
+        body = b;
+        return b;
+      },
+    };
 
     await ctrl.getByLoanId(req, res);
     expect(Array.isArray(body)).toBe(true);

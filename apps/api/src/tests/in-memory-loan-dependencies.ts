@@ -1,4 +1,3 @@
-
 import { LoanStatus } from '@finguard/shared';
 import { Types } from 'mongoose';
 
@@ -11,7 +10,10 @@ import type {
 import type { AuditLogRepository, CreateAuditLogInput } from '../repositories/audit-log.repository';
 import type { AuditLogDocument } from '../models/audit-log.model';
 import type { LoanServiceDependencies } from '../services/loan.service';
-import type { RiskAssessmentRepository, CreateRiskAssessmentInput } from '../repositories/risk-assessment.repository';
+import type {
+  RiskAssessmentRepository,
+  CreateRiskAssessmentInput,
+} from '../repositories/risk-assessment.repository';
 import type { RiskAssessmentDocument } from '../models/risk-assessment.model';
 import { RiskAssessmentService } from '../services/risk-assessment.service';
 import { InMemoryModelMetricsRepository } from './in-memory-model-metrics';
@@ -147,7 +149,10 @@ class InMemoryLoanRepository implements LoanRepository {
     return loan;
   }
 
-  public async updateStatus(id: string, status: LoanStatus): Promise<LoanApplicationDocument | null> {
+  public async updateStatus(
+    id: string,
+    status: LoanStatus,
+  ): Promise<LoanApplicationDocument | null> {
     const loan = this.loans.find((l) => l._id.toString() === id);
     if (!loan) return null;
     loan.status = status;
@@ -173,8 +178,13 @@ class InMemoryAuditLogRepository implements AuditLogRepository {
     return this.logs.filter((log) => log.userId.toString() === userId);
   }
 
-  public async findByResource(resourceType: string, resourceId: string): Promise<readonly AuditLogDocument[]> {
-    return this.logs.filter((log) => log.resourceType === resourceType && log.resourceId === resourceId);
+  public async findByResource(
+    resourceType: string,
+    resourceId: string,
+  ): Promise<readonly AuditLogDocument[]> {
+    return this.logs.filter(
+      (log) => log.resourceType === resourceType && log.resourceId === resourceId,
+    );
   }
 }
 
@@ -192,11 +202,15 @@ class InMemoryRiskAssessmentRepository implements RiskAssessmentRepository {
     return rec;
   }
 
-  public async findByLoanApplicationId(loanApplicationId: string): Promise<readonly RiskAssessmentDocument[]> {
+  public async findByLoanApplicationId(
+    loanApplicationId: string,
+  ): Promise<readonly RiskAssessmentDocument[]> {
     return this.store.filter((r) => r.loanApplicationId.toString() === loanApplicationId);
   }
 
-  public async findLatestByLoanApplicationId(loanApplicationId: string): Promise<RiskAssessmentDocument | null> {
+  public async findLatestByLoanApplicationId(
+    loanApplicationId: string,
+  ): Promise<RiskAssessmentDocument | null> {
     const items = this.store.filter((r) => r.loanApplicationId.toString() === loanApplicationId);
     return items[items.length - 1] ?? null;
   }

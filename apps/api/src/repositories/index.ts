@@ -1,4 +1,6 @@
 export * from './audit-log.repository';
+export * from './fraud-case.repository';
+export * from './fraud-case-event.repository';
 export * from './email-verification-token.repository';
 export * from './loan-review-decision.repository';
 export * from './model-drift.repository';

@@ -20,8 +20,16 @@ export interface ModelRegistryRepository {
   create(input: CreateModelRegistryInput): Promise<ModelRegistryDocument>;
   findByVersion(version: string): Promise<ModelRegistryDocument | null>;
   findLatestApproved(): Promise<ModelRegistryDocument | null>;
-  approve(version: string, approvedBy: string, reason: string): Promise<ModelRegistryDocument | null>;
-  reject(version: string, rejectedBy: string, reason: string): Promise<ModelRegistryDocument | null>;
+  approve(
+    version: string,
+    approvedBy: string,
+    reason: string,
+  ): Promise<ModelRegistryDocument | null>;
+  reject(
+    version: string,
+    rejectedBy: string,
+    reason: string,
+  ): Promise<ModelRegistryDocument | null>;
   retire(version: string, retiredBy: string, reason: string): Promise<ModelRegistryDocument | null>;
   listAll(): Promise<readonly ModelRegistryDocument[]>;
   findByStatus(status: ModelStatus): Promise<readonly ModelRegistryDocument[]>;
@@ -42,7 +50,11 @@ export class MongooseModelRegistryRepository implements ModelRegistryRepository 
       .exec();
   }
 
-  public async approve(version: string, approvedBy: string, reason: string): Promise<ModelRegistryDocument | null> {
+  public async approve(
+    version: string,
+    approvedBy: string,
+    reason: string,
+  ): Promise<ModelRegistryDocument | null> {
     return ModelRegistryModel.findOneAndUpdate(
       { modelVersion: version },
       {
@@ -58,7 +70,11 @@ export class MongooseModelRegistryRepository implements ModelRegistryRepository 
     ).exec();
   }
 
-  public async reject(version: string, rejectedBy: string, reason: string): Promise<ModelRegistryDocument | null> {
+  public async reject(
+    version: string,
+    rejectedBy: string,
+    reason: string,
+  ): Promise<ModelRegistryDocument | null> {
     return ModelRegistryModel.findOneAndUpdate(
       { modelVersion: version },
       {
@@ -74,7 +90,11 @@ export class MongooseModelRegistryRepository implements ModelRegistryRepository 
     ).exec();
   }
 
-  public async retire(version: string, retiredBy: string, reason: string): Promise<ModelRegistryDocument | null> {
+  public async retire(
+    version: string,
+    retiredBy: string,
+    reason: string,
+  ): Promise<ModelRegistryDocument | null> {
     return ModelRegistryModel.findOneAndUpdate(
       { modelVersion: version },
       {

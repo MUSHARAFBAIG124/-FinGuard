@@ -90,7 +90,7 @@ describe('GovernanceAnalyticsService', () => {
     driftRepo.listRecent.mockResolvedValue([
       { driftLevel: DriftLevel.CRITICAL }, // -10
       { driftLevel: DriftLevel.CRITICAL }, // -10
-      { driftLevel: DriftLevel.HIGH },     // -2
+      { driftLevel: DriftLevel.HIGH }, // -2
     ]);
 
     const health = await service.calculateGovernanceHealthScore();
@@ -123,7 +123,7 @@ describe('ModelAnalyticsController', () => {
   it('should return summary and log view', async () => {
     const mockReq = { user: { id: 'admin1' }, headers: { 'x-request-id': 'req1' } };
     const mockRes = { status: vi.fn().mockReturnThis(), json: vi.fn() };
-    
+
     vi.mocked(service.getGovernanceSummary).mockResolvedValue({} as any);
 
     await controller.getSummary(mockReq as any, mockRes as any);

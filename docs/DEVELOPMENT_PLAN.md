@@ -197,6 +197,7 @@ Deliverables:
 - API.md and ARCHITECTURE.md documentation
 
 Exit criteria:
+
 - All 236 tests passing across 34 test files
 - Overall statement coverage: 91.87%
 - New code statement coverage: 93.1%
@@ -223,6 +224,7 @@ Deliverables:
 - API.md and ARCHITECTURE.md documentation
 
 Exit criteria:
+
 - All 274 tests passing across 37 test files
 - Overall statement coverage: 90.15%
 - No MongoDB dependency in tests

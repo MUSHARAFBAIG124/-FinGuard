@@ -22,8 +22,12 @@ export class ReviewAnalyticsService {
 
   public async calculateAnalytics(): Promise<ReviewAnalytics> {
     // Get all review decisions for analysis
-    const decisions = await this.reviewDecisionRepository.findByDecisionType(ReviewerDecision.APPROVED);
-    const rejections = await this.reviewDecisionRepository.findByDecisionType(ReviewerDecision.REJECTED);
+    const decisions = await this.reviewDecisionRepository.findByDecisionType(
+      ReviewerDecision.APPROVED,
+    );
+    const rejections = await this.reviewDecisionRepository.findByDecisionType(
+      ReviewerDecision.REJECTED,
+    );
     const moreInfoRequests = await this.reviewDecisionRepository.findByDecisionType(
       ReviewerDecision.MORE_INFO_REQUIRED,
     );
@@ -58,7 +62,10 @@ export class ReviewAnalyticsService {
     let agreementCount = 0;
 
     for (const decision of allDecisions) {
-      const isAgreed = this.isDecisionAgreedWithAI(decision.aiRiskCategory as RiskCategory, decision.reviewerDecision as ReviewerDecision);
+      const isAgreed = this.isDecisionAgreedWithAI(
+        decision.aiRiskCategory as RiskCategory,
+        decision.reviewerDecision as ReviewerDecision,
+      );
       if (isAgreed) {
         agreementCount++;
       }
@@ -98,9 +105,15 @@ export class ReviewAnalyticsService {
       };
     }
 
-    const approvals = decisions.filter((d) => d.reviewerDecision === ReviewerDecision.APPROVED).length;
-    const rejections = decisions.filter((d) => d.reviewerDecision === ReviewerDecision.REJECTED).length;
-    const moreInfo = decisions.filter((d) => d.reviewerDecision === ReviewerDecision.MORE_INFO_REQUIRED).length;
+    const approvals = decisions.filter(
+      (d) => d.reviewerDecision === ReviewerDecision.APPROVED,
+    ).length;
+    const rejections = decisions.filter(
+      (d) => d.reviewerDecision === ReviewerDecision.REJECTED,
+    ).length;
+    const moreInfo = decisions.filter(
+      (d) => d.reviewerDecision === ReviewerDecision.MORE_INFO_REQUIRED,
+    ).length;
     const overrides = decisions.filter((d) => d.override).length;
 
     return {

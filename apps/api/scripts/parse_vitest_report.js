@@ -15,7 +15,12 @@ function stripBOM(s) {
 
 function findDelimiterIndex(s) {
   // Coverage textual output typically starts with an ANSI colored line containing 'Coverage report'
-  const candidates = ['\nCoverage report', '\n % Coverage report', '\n\u001b[', '\n-------------------|'];
+  const candidates = [
+    '\nCoverage report',
+    '\n % Coverage report',
+    '\n\u001b[',
+    '\n-------------------|',
+  ];
   let idx = -1;
   for (const c of candidates) {
     const i = s.indexOf(c);

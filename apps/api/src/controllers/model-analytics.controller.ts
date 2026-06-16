@@ -14,7 +14,7 @@ export class ModelAnalyticsController {
 
   private async logView(req: RequestWithUser, endpoint: string): Promise<void> {
     const userId = req.user?.id || 'system';
-    const requestId = req.headers['x-request-id'] as string || `analytics-${Date.now()}`;
+    const requestId = (req.headers['x-request-id'] as string) || `analytics-${Date.now()}`;
     await this.analyticsService.logAnalyticsView(userId, endpoint, requestId);
   }
 

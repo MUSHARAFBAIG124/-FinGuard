@@ -24,7 +24,7 @@ export interface ApprovalThresholds {
 
 export const DEFAULT_THRESHOLDS: ApprovalThresholds = {
   accuracy: 0.75,
-  f1: 0.80,
+  f1: 0.8,
   rocAuc: 0.75,
 };
 
@@ -95,7 +95,11 @@ export class ModelGovernanceService {
     };
   }
 
-  public async approveModel(version: string, approvedBy: string, reason: string): Promise<{ id: string; status: ModelStatus }> {
+  public async approveModel(
+    version: string,
+    approvedBy: string,
+    reason: string,
+  ): Promise<{ id: string; status: ModelStatus }> {
     const model = await this.registryRepository.findByVersion(version);
     if (!model) {
       throw new AppError({
@@ -159,7 +163,11 @@ export class ModelGovernanceService {
     return { id: updated._id.toString(), status: ModelStatus.APPROVED };
   }
 
-  public async rejectModel(version: string, rejectedBy: string, reason: string): Promise<{ id: string; status: ModelStatus }> {
+  public async rejectModel(
+    version: string,
+    rejectedBy: string,
+    reason: string,
+  ): Promise<{ id: string; status: ModelStatus }> {
     const model = await this.registryRepository.findByVersion(version);
     if (!model) {
       throw new AppError({
@@ -193,7 +201,11 @@ export class ModelGovernanceService {
     return { id: updated._id.toString(), status: ModelStatus.REJECTED };
   }
 
-  public async retireModel(version: string, retiredBy: string, reason: string): Promise<{ id: string; status: ModelStatus }> {
+  public async retireModel(
+    version: string,
+    retiredBy: string,
+    reason: string,
+  ): Promise<{ id: string; status: ModelStatus }> {
     const model = await this.registryRepository.findByVersion(version);
     if (!model) {
       throw new AppError({
@@ -227,19 +239,21 @@ export class ModelGovernanceService {
     return { id: updated._id.toString(), status: ModelStatus.RETIRED };
   }
 
-  public async listModels(): Promise<readonly {
-    id: string;
-    modelVersion: string;
-    modelType: string;
-    accuracy: number;
-    f1Score: number;
-    rocAuc: number;
-    status: ModelStatus;
-    approved: boolean;
-    approvedBy?: string;
-    approvedAt?: string;
-    createdAt: string;
-  }[]> {
+  public async listModels(): Promise<
+    readonly {
+      id: string;
+      modelVersion: string;
+      modelType: string;
+      accuracy: number;
+      f1Score: number;
+      rocAuc: number;
+      status: ModelStatus;
+      approved: boolean;
+      approvedBy?: string;
+      approvedAt?: string;
+      createdAt: string;
+    }[]
+  > {
     const models = await this.registryRepository.listAll();
     return models.map((m) => ({
       id: m._id.toString(),

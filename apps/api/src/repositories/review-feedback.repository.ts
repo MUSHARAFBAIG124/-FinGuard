@@ -18,7 +18,11 @@ export interface ReviewFeedbackRepository {
   findByLoanId(loanApplicationId: string): Promise<readonly ReviewFeedbackDocument[]>;
   findByReviewerId(reviewerId: string): Promise<readonly ReviewFeedbackDocument[]>;
   findByLoanIdLatest(loanApplicationId: string): Promise<ReviewFeedbackDocument | null>;
-  getOverrideStatistics(): Promise<{ totalFeedback: number; overrideCount: number; overrideRate: number }>;
+  getOverrideStatistics(): Promise<{
+    totalFeedback: number;
+    overrideCount: number;
+    overrideRate: number;
+  }>;
 }
 
 export class MongooseReviewFeedbackRepository implements ReviewFeedbackRepository {
@@ -27,24 +31,24 @@ export class MongooseReviewFeedbackRepository implements ReviewFeedbackRepositor
   }
 
   public async findByLoanId(loanApplicationId: string): Promise<readonly ReviewFeedbackDocument[]> {
-    return ReviewFeedbackModel.find({ loanApplicationId })
-      .sort({ createdAt: -1 })
-      .exec();
+    return ReviewFeedbackModel.find({ loanApplicationId }).sort({ createdAt: -1 }).exec();
   }
 
   public async findByReviewerId(reviewerId: string): Promise<readonly ReviewFeedbackDocument[]> {
-    return ReviewFeedbackModel.find({ reviewerId })
-      .sort({ createdAt: -1 })
-      .exec();
+    return ReviewFeedbackModel.find({ reviewerId }).sort({ createdAt: -1 }).exec();
   }
 
-  public async findByLoanIdLatest(loanApplicationId: string): Promise<ReviewFeedbackDocument | null> {
-    return ReviewFeedbackModel.findOne({ loanApplicationId })
-      .sort({ createdAt: -1 })
-      .exec();
+  public async findByLoanIdLatest(
+    loanApplicationId: string,
+  ): Promise<ReviewFeedbackDocument | null> {
+    return ReviewFeedbackModel.findOne({ loanApplicationId }).sort({ createdAt: -1 }).exec();
   }
 
-  public async getOverrideStatistics(): Promise<{ totalFeedback: number; overrideCount: number; overrideRate: number }> {
+  public async getOverrideStatistics(): Promise<{
+    totalFeedback: number;
+    overrideCount: number;
+    overrideRate: number;
+  }> {
     const totalFeedback = await ReviewFeedbackModel.countDocuments();
     const overrideCount = await ReviewFeedbackModel.countDocuments({ override: true });
     const overrideRate = totalFeedback > 0 ? (overrideCount / totalFeedback) * 100 : 0;

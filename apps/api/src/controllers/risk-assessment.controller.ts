@@ -1,7 +1,9 @@
 import type { Request, Response } from 'express';
 import type { RiskAssessmentRepository } from '../repositories/risk-assessment.repository';
 
-export const createRiskAssessmentController = (deps: { riskAssessmentRepository: RiskAssessmentRepository }) => {
+export const createRiskAssessmentController = (deps: {
+  riskAssessmentRepository: RiskAssessmentRepository;
+}) => {
   const { riskAssessmentRepository } = deps;
 
   const getByLoanId = async (req: Request, res: Response) => {

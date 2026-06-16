@@ -30,9 +30,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "api app infrastructure"
-          ],
+          "ancestorTitles": ["api app infrastructure"],
           "fullName": "api app infrastructure returns liveness with the standard envelope and request id header",
           "status": "passed",
           "title": "returns liveness with the standard envelope and request id header",
@@ -42,9 +40,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "api app infrastructure"
-          ],
+          "ancestorTitles": ["api app infrastructure"],
           "fullName": "api app infrastructure returns readiness with Mongo as required and AI as optional",
           "status": "passed",
           "title": "returns readiness with Mongo as required and AI as optional",
@@ -54,9 +50,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "api app infrastructure"
-          ],
+          "ancestorTitles": ["api app infrastructure"],
           "fullName": "api app infrastructure returns database dependency health separately",
           "status": "passed",
           "title": "returns database dependency health separately",
@@ -66,9 +60,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "api app infrastructure"
-          ],
+          "ancestorTitles": ["api app infrastructure"],
           "fullName": "api app infrastructure returns AI dependency health without crashing when unavailable",
           "status": "passed",
           "title": "returns AI dependency health without crashing when unavailable",
@@ -78,9 +70,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "api app infrastructure"
-          ],
+          "ancestorTitles": ["api app infrastructure"],
           "fullName": "api app infrastructure sets security headers",
           "status": "passed",
           "title": "sets security headers",
@@ -90,9 +80,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "api app infrastructure"
-          ],
+          "ancestorTitles": ["api app infrastructure"],
           "fullName": "api app infrastructure returns standard 404 envelope for unknown routes",
           "status": "passed",
           "title": "returns standard 404 envelope for unknown routes",
@@ -111,9 +99,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "api architecture boundaries"
-          ],
+          "ancestorTitles": ["api architecture boundaries"],
           "fullName": "api architecture boundaries declares the expected clean architecture layers",
           "status": "passed",
           "title": "declares the expected clean architecture layers",
@@ -123,9 +109,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "api architecture boundaries"
-          ],
+          "ancestorTitles": ["api architecture boundaries"],
           "fullName": "api architecture boundaries prevents controllers from depending directly on mongoose models",
           "status": "passed",
           "title": "prevents controllers from depending directly on mongoose models",
@@ -144,9 +128,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "auth API integration"
-          ],
+          "ancestorTitles": ["auth API integration"],
           "fullName": "auth API integration registers, logs in, returns current user, refreshes, and logs out",
           "status": "passed",
           "title": "registers, logs in, returns current user, refreshes, and logs out",
@@ -156,9 +138,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "auth API integration"
-          ],
+          "ancestorTitles": ["auth API integration"],
           "fullName": "auth API integration verifies email and resends verification tokens without external email provider",
           "status": "passed",
           "title": "verifies email and resends verification tokens without external email provider",
@@ -168,9 +148,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "auth API integration"
-          ],
+          "ancestorTitles": ["auth API integration"],
           "fullName": "auth API integration supports forgot-password and reset-password token lifecycle",
           "status": "passed",
           "title": "supports forgot-password and reset-password token lifecycle",
@@ -180,9 +158,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "auth API integration"
-          ],
+          "ancestorTitles": ["auth API integration"],
           "fullName": "auth API integration validates registration payloads and rejects duplicate email addresses",
           "status": "passed",
           "title": "validates registration payloads and rejects duplicate email addresses",
@@ -201,9 +177,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "loan API integration"
-          ],
+          "ancestorTitles": ["loan API integration"],
           "fullName": "loan API integration creates, views, submits, and reviews a loan application",
           "status": "passed",
           "title": "creates, views, submits, and reviews a loan application",
@@ -213,9 +187,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan API integration"
-          ],
+          "ancestorTitles": ["loan API integration"],
           "fullName": "loan API integration prevents unauthorized access",
           "status": "passed",
           "title": "prevents unauthorized access",
@@ -225,9 +197,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan API integration"
-          ],
+          "ancestorTitles": ["loan API integration"],
           "fullName": "loan API integration validates loan creation input",
           "status": "passed",
           "title": "validates loan creation input",
@@ -237,9 +207,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan API integration"
-          ],
+          "ancestorTitles": ["loan API integration"],
           "fullName": "loan API integration enforces state transitions",
           "status": "passed",
           "title": "enforces state transitions",
@@ -258,9 +226,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "environment validation"
-          ],
+          "ancestorTitles": ["environment validation"],
           "fullName": "environment validation accepts a valid API environment",
           "status": "passed",
           "title": "accepts a valid API environment",
@@ -270,9 +236,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "environment validation"
-          ],
+          "ancestorTitles": ["environment validation"],
           "fullName": "environment validation rejects invalid ports and URLs",
           "status": "passed",
           "title": "rejects invalid ports and URLs",
@@ -282,9 +246,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "environment validation"
-          ],
+          "ancestorTitles": ["environment validation"],
           "fullName": "environment validation rejects placeholder production JWT secrets",
           "status": "passed",
           "title": "rejects placeholder production JWT secrets",
@@ -303,9 +265,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "error middleware"
-          ],
+          "ancestorTitles": ["error middleware"],
           "fullName": "error middleware maps validation errors to the standard error envelope",
           "status": "passed",
           "title": "maps validation errors to the standard error envelope",
@@ -315,9 +275,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "error middleware"
-          ],
+          "ancestorTitles": ["error middleware"],
           "fullName": "error middleware maps operational errors to their configured status and code",
           "status": "passed",
           "title": "maps operational errors to their configured status and code",
@@ -327,9 +285,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "error middleware"
-          ],
+          "ancestorTitles": ["error middleware"],
           "fullName": "error middleware maps unexpected errors to internal server errors",
           "status": "passed",
           "title": "maps unexpected errors to internal server errors",
@@ -339,9 +295,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "error middleware"
-          ],
+          "ancestorTitles": ["error middleware"],
           "fullName": "error middleware maps unknown routes to route not found errors",
           "status": "passed",
           "title": "maps unknown routes to route not found errors",
@@ -360,9 +314,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "JWT middleware scaffold"
-          ],
+          "ancestorTitles": ["JWT middleware scaffold"],
           "fullName": "JWT middleware scaffold attaches auth payload for a valid access token",
           "status": "passed",
           "title": "attaches auth payload for a valid access token",
@@ -372,9 +324,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "JWT middleware scaffold"
-          ],
+          "ancestorTitles": ["JWT middleware scaffold"],
           "fullName": "JWT middleware scaffold rejects missing bearer tokens",
           "status": "passed",
           "title": "rejects missing bearer tokens",
@@ -384,9 +334,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "JWT middleware scaffold"
-          ],
+          "ancestorTitles": ["JWT middleware scaffold"],
           "fullName": "JWT middleware scaffold rejects malformed bearer tokens",
           "status": "passed",
           "title": "rejects malformed bearer tokens",
@@ -396,9 +344,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "JWT middleware scaffold"
-          ],
+          "ancestorTitles": ["JWT middleware scaffold"],
           "fullName": "JWT middleware scaffold rejects expired bearer tokens",
           "status": "passed",
           "title": "rejects expired bearer tokens",
@@ -408,9 +354,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "JWT middleware scaffold"
-          ],
+          "ancestorTitles": ["JWT middleware scaffold"],
           "fullName": "JWT middleware scaffold rejects tokens with invalid signatures",
           "status": "passed",
           "title": "rejects tokens with invalid signatures",
@@ -429,9 +373,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "RBAC middleware"
-          ],
+          "ancestorTitles": ["RBAC middleware"],
           "fullName": "RBAC middleware allows users with an accepted role",
           "status": "passed",
           "title": "allows users with an accepted role",
@@ -441,9 +383,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RBAC middleware"
-          ],
+          "ancestorTitles": ["RBAC middleware"],
           "fullName": "RBAC middleware allows each shared role when that exact role is required",
           "status": "passed",
           "title": "allows each shared role when that exact role is required",
@@ -453,9 +393,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RBAC middleware"
-          ],
+          "ancestorTitles": ["RBAC middleware"],
           "fullName": "RBAC middleware rejects authenticated users without an accepted role",
           "status": "passed",
           "title": "rejects authenticated users without an accepted role",
@@ -465,9 +403,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RBAC middleware"
-          ],
+          "ancestorTitles": ["RBAC middleware"],
           "fullName": "RBAC middleware rejects unauthenticated requests",
           "status": "passed",
           "title": "rejects unauthenticated requests",
@@ -477,9 +413,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RBAC middleware"
-          ],
+          "ancestorTitles": ["RBAC middleware"],
           "fullName": "RBAC middleware allows multiple role requirements with JWT authentication",
           "status": "passed",
           "title": "allows multiple role requirements with JWT authentication",
@@ -489,9 +423,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RBAC middleware"
-          ],
+          "ancestorTitles": ["RBAC middleware"],
           "fullName": "RBAC middleware denies every non-allowed shared role and invalid tokens",
           "status": "passed",
           "title": "denies every non-allowed shared role and invalid tokens",
@@ -510,9 +442,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "authentication token schemas"
-          ],
+          "ancestorTitles": ["authentication token schemas"],
           "fullName": "authentication token schemas validates refresh tokens and defines rotation/revocation indexes",
           "status": "passed",
           "title": "validates refresh tokens and defines rotation/revocation indexes",
@@ -522,9 +452,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "authentication token schemas"
-          ],
+          "ancestorTitles": ["authentication token schemas"],
           "fullName": "authentication token schemas rejects invalid refresh tokens",
           "status": "passed",
           "title": "rejects invalid refresh tokens",
@@ -534,9 +462,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "authentication token schemas"
-          ],
+          "ancestorTitles": ["authentication token schemas"],
           "fullName": "authentication token schemas validates email verification token indexes",
           "status": "passed",
           "title": "validates email verification token indexes",
@@ -546,9 +472,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "authentication token schemas"
-          ],
+          "ancestorTitles": ["authentication token schemas"],
           "fullName": "authentication token schemas validates password reset token indexes",
           "status": "passed",
           "title": "validates password reset token indexes",
@@ -567,9 +491,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas validates users, normalizes email, and defines required indexes",
           "status": "passed",
           "title": "validates users, normalizes email, and defines required indexes",
@@ -579,9 +501,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas rejects users with missing required fields, invalid enum values, and unknown paths",
           "status": "passed",
           "title": "rejects users with missing required fields, invalid enum values, and unknown paths",
@@ -591,9 +511,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas validates loan applications and defines user/status indexes",
           "status": "passed",
           "title": "validates loan applications and defines user/status indexes",
@@ -603,9 +521,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas rejects invalid loan application values",
           "status": "passed",
           "title": "rejects invalid loan application values",
@@ -615,9 +531,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas validates append-only risk assessments and keeps historical indexing",
           "status": "passed",
           "title": "validates append-only risk assessments and keeps historical indexing",
@@ -627,9 +541,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas rejects invalid risk assessment values",
           "status": "passed",
           "title": "rejects invalid risk assessment values",
@@ -639,9 +551,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas validates transactions and defines user/time indexes",
           "status": "passed",
           "title": "validates transactions and defines user/time indexes",
@@ -651,9 +561,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas rejects invalid transaction values",
           "status": "passed",
           "title": "rejects invalid transaction values",
@@ -663,9 +571,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas validates fraud alerts and defines transaction/status indexes",
           "status": "passed",
           "title": "validates fraud alerts and defines transaction/status indexes",
@@ -675,9 +581,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas rejects invalid fraud alert values",
           "status": "passed",
           "title": "rejects invalid fraud alert values",
@@ -687,9 +591,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas validates immutable audit logs and defines audit trail indexes",
           "status": "passed",
           "title": "validates immutable audit logs and defines audit trail indexes",
@@ -699,9 +601,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "domain mongoose schemas"
-          ],
+          "ancestorTitles": ["domain mongoose schemas"],
           "fullName": "domain mongoose schemas rejects invalid audit log values",
           "status": "passed",
           "title": "rejects invalid audit log values",
@@ -720,9 +620,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "Mongoose auth repositories"
-          ],
+          "ancestorTitles": ["Mongoose auth repositories"],
           "fullName": "Mongoose auth repositories creates users with normalized email and finds users by id/email",
           "status": "passed",
           "title": "creates users with normalized email and finds users by id/email",
@@ -732,9 +630,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Mongoose auth repositories"
-          ],
+          "ancestorTitles": ["Mongoose auth repositories"],
           "fullName": "Mongoose auth repositories updates user verification, password, and login state",
           "status": "passed",
           "title": "updates user verification, password, and login state",
@@ -744,9 +640,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Mongoose auth repositories"
-          ],
+          "ancestorTitles": ["Mongoose auth repositories"],
           "fullName": "Mongoose auth repositories creates and revokes refresh tokens",
           "status": "passed",
           "title": "creates and revokes refresh tokens",
@@ -756,9 +650,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Mongoose auth repositories"
-          ],
+          "ancestorTitles": ["Mongoose auth repositories"],
           "fullName": "Mongoose auth repositories returns null for expired or revoked refresh tokens when the active query misses",
           "status": "passed",
           "title": "returns null for expired or revoked refresh tokens when the active query misses",
@@ -768,9 +660,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Mongoose auth repositories"
-          ],
+          "ancestorTitles": ["Mongoose auth repositories"],
           "fullName": "Mongoose auth repositories creates and consumes email verification tokens",
           "status": "passed",
           "title": "creates and consumes email verification tokens",
@@ -780,9 +670,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Mongoose auth repositories"
-          ],
+          "ancestorTitles": ["Mongoose auth repositories"],
           "fullName": "Mongoose auth repositories returns null for expired email verification tokens",
           "status": "passed",
           "title": "returns null for expired email verification tokens",
@@ -792,9 +680,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Mongoose auth repositories"
-          ],
+          "ancestorTitles": ["Mongoose auth repositories"],
           "fullName": "Mongoose auth repositories creates and consumes password reset tokens",
           "status": "passed",
           "title": "creates and consumes password reset tokens",
@@ -804,9 +690,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Mongoose auth repositories"
-          ],
+          "ancestorTitles": ["Mongoose auth repositories"],
           "fullName": "Mongoose auth repositories returns null for expired password reset tokens",
           "status": "passed",
           "title": "returns null for expired password reset tokens",
@@ -816,9 +700,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Mongoose auth repositories"
-          ],
+          "ancestorTitles": ["Mongoose auth repositories"],
           "fullName": "Mongoose auth repositories creates and queries audit logs",
           "status": "passed",
           "title": "creates and queries audit logs",
@@ -837,9 +719,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "InMemoryLoanRepository"
-          ],
+          "ancestorTitles": ["InMemoryLoanRepository"],
           "fullName": "InMemoryLoanRepository should create a loan",
           "status": "passed",
           "title": "should create a loan",
@@ -849,9 +729,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "InMemoryLoanRepository"
-          ],
+          "ancestorTitles": ["InMemoryLoanRepository"],
           "fullName": "InMemoryLoanRepository should submit a loan",
           "status": "passed",
           "title": "should submit a loan",
@@ -870,9 +748,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "Loan Risk Assessment Integration"
-          ],
+          "ancestorTitles": ["Loan Risk Assessment Integration"],
           "fullName": "Loan Risk Assessment Integration should successfully submit a loan and persist risk assessment",
           "status": "passed",
           "title": "should successfully submit a loan and persist risk assessment",
@@ -882,9 +758,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Loan Risk Assessment Integration"
-          ],
+          "ancestorTitles": ["Loan Risk Assessment Integration"],
           "fullName": "Loan Risk Assessment Integration should handle FastAPI service unavailability",
           "status": "passed",
           "title": "should handle FastAPI service unavailability",
@@ -903,9 +777,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "ModelMetricsService averaging"
-          ],
+          "ancestorTitles": ["ModelMetricsService averaging"],
           "fullName": "ModelMetricsService averaging calculates average latency correctly across multiple recordings",
           "status": "passed",
           "title": "calculates average latency correctly across multiple recordings",
@@ -924,9 +796,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService registers users as customers and prevents duplicate email registration",
           "status": "passed",
           "title": "registers users as customers and prevents duplicate email registration",
@@ -936,9 +806,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService locks an account after repeated failed login attempts",
           "status": "passed",
           "title": "locks an account after repeated failed login attempts",
@@ -948,9 +816,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService records audit events for register, login failure, login success, refresh, logout, and reset flows",
           "status": "passed",
           "title": "records audit events for register, login failure, login success, refresh, logout, and reset flows",
@@ -960,9 +826,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService rejects login for unknown or inactive users",
           "status": "passed",
           "title": "rejects login for unknown or inactive users",
@@ -972,9 +836,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService rejects refresh tokens when the token user no longer exists",
           "status": "passed",
           "title": "rejects refresh tokens when the token user no longer exists",
@@ -984,9 +846,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService returns safe accepted responses for unknown password reset and verification resend emails",
           "status": "passed",
           "title": "returns safe accepted responses for unknown password reset and verification resend emails",
@@ -996,9 +856,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService rejects invalid verification and password reset tokens",
           "status": "passed",
           "title": "rejects invalid verification and password reset tokens",
@@ -1008,9 +866,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService rejects current-user lookup when the authenticated user no longer exists",
           "status": "passed",
           "title": "rejects current-user lookup when the authenticated user no longer exists",
@@ -1020,9 +876,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService treats logout with an invalid refresh token as idempotent",
           "status": "passed",
           "title": "treats logout with an invalid refresh token as idempotent",
@@ -1032,9 +886,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService revokes logout refresh tokens without audit records when the token user is gone",
           "status": "passed",
           "title": "revokes logout refresh tokens without audit records when the token user is gone",
@@ -1044,9 +896,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService rejects verification tokens whose user no longer exists",
           "status": "passed",
           "title": "rejects verification tokens whose user no longer exists",
@@ -1056,9 +906,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService resends verification tokens for existing unverified users",
           "status": "passed",
           "title": "resends verification tokens for existing unverified users",
@@ -1068,9 +916,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "AuthService"
-          ],
+          "ancestorTitles": ["AuthService"],
           "fullName": "AuthService consumes password reset tokens and revokes sessions without success audit when the user is gone",
           "status": "passed",
           "title": "consumes password reset tokens and revokes sessions without success audit when the user is gone",
@@ -1089,10 +935,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "LoanService",
-            "create"
-          ],
+          "ancestorTitles": ["LoanService", "create"],
           "fullName": "LoanService create creates a new loan in DRAFT status",
           "status": "passed",
           "title": "creates a new loan in DRAFT status",
@@ -1102,10 +945,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "state transitions"
-          ],
+          "ancestorTitles": ["LoanService", "state transitions"],
           "fullName": "LoanService state transitions allows DRAFT -> SUBMITTED transition",
           "status": "passed",
           "title": "allows DRAFT -> SUBMITTED transition",
@@ -1115,10 +955,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "state transitions"
-          ],
+          "ancestorTitles": ["LoanService", "state transitions"],
           "fullName": "LoanService state transitions allows SUBMITTED -> UNDER_REVIEW transition",
           "status": "passed",
           "title": "allows SUBMITTED -> UNDER_REVIEW transition",
@@ -1128,10 +965,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "state transitions"
-          ],
+          "ancestorTitles": ["LoanService", "state transitions"],
           "fullName": "LoanService state transitions allows UNDER_REVIEW -> APPROVED transition",
           "status": "passed",
           "title": "allows UNDER_REVIEW -> APPROVED transition",
@@ -1141,10 +975,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "state transitions"
-          ],
+          "ancestorTitles": ["LoanService", "state transitions"],
           "fullName": "LoanService state transitions allows UNDER_REVIEW -> REJECTED transition",
           "status": "passed",
           "title": "allows UNDER_REVIEW -> REJECTED transition",
@@ -1154,10 +985,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "state transitions"
-          ],
+          "ancestorTitles": ["LoanService", "state transitions"],
           "fullName": "LoanService state transitions allows UNDER_REVIEW -> MORE_INFO_REQUIRED transition",
           "status": "passed",
           "title": "allows UNDER_REVIEW -> MORE_INFO_REQUIRED transition",
@@ -1167,10 +995,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "state transitions"
-          ],
+          "ancestorTitles": ["LoanService", "state transitions"],
           "fullName": "LoanService state transitions allows MORE_INFO_REQUIRED -> SUBMITTED transition",
           "status": "passed",
           "title": "allows MORE_INFO_REQUIRED -> SUBMITTED transition",
@@ -1180,10 +1005,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "state transitions"
-          ],
+          "ancestorTitles": ["LoanService", "state transitions"],
           "fullName": "LoanService state transitions rejects invalid state transitions",
           "status": "passed",
           "title": "rejects invalid state transitions",
@@ -1193,10 +1015,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "authorization"
-          ],
+          "ancestorTitles": ["LoanService", "authorization"],
           "fullName": "LoanService authorization prevents non-owner from updating loan",
           "status": "passed",
           "title": "prevents non-owner from updating loan",
@@ -1206,10 +1025,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "authorization"
-          ],
+          "ancestorTitles": ["LoanService", "authorization"],
           "fullName": "LoanService authorization prevents non-owner from submitting loan",
           "status": "passed",
           "title": "prevents non-owner from submitting loan",
@@ -1219,10 +1035,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "authorization"
-          ],
+          "ancestorTitles": ["LoanService", "authorization"],
           "fullName": "LoanService authorization prevents customer from viewing other customers loans",
           "status": "passed",
           "title": "prevents customer from viewing other customers loans",
@@ -1232,10 +1045,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "authorization"
-          ],
+          "ancestorTitles": ["LoanService", "authorization"],
           "fullName": "LoanService authorization allows loan officer to view any loan",
           "status": "passed",
           "title": "allows loan officer to view any loan",
@@ -1245,10 +1055,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "update"
-          ],
+          "ancestorTitles": ["LoanService", "update"],
           "fullName": "LoanService update allows updating DRAFT loan",
           "status": "passed",
           "title": "allows updating DRAFT loan",
@@ -1258,10 +1065,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "update"
-          ],
+          "ancestorTitles": ["LoanService", "update"],
           "fullName": "LoanService update allows updating MORE_INFO_REQUIRED loan",
           "status": "passed",
           "title": "allows updating MORE_INFO_REQUIRED loan",
@@ -1271,10 +1075,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "update"
-          ],
+          "ancestorTitles": ["LoanService", "update"],
           "fullName": "LoanService update prevents updating SUBMITTED loan",
           "status": "passed",
           "title": "prevents updating SUBMITTED loan",
@@ -1284,10 +1085,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "findByUser"
-          ],
+          "ancestorTitles": ["LoanService", "findByUser"],
           "fullName": "LoanService findByUser returns only loans for the specified user",
           "status": "passed",
           "title": "returns only loans for the specified user",
@@ -1297,10 +1095,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "LoanService",
-            "getReviewQueue"
-          ],
+          "ancestorTitles": ["LoanService", "getReviewQueue"],
           "fullName": "LoanService getReviewQueue returns only SUBMITTED loans",
           "status": "passed",
           "title": "returns only SUBMITTED loans",
@@ -1319,9 +1114,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "ModelMetricsService"
-          ],
+          "ancestorTitles": ["ModelMetricsService"],
           "fullName": "ModelMetricsService increments metrics and computes average latency",
           "status": "passed",
           "title": "increments metrics and computes average latency",
@@ -1340,9 +1133,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "PasswordService"
-          ],
+          "ancestorTitles": ["PasswordService"],
           "fullName": "PasswordService enforces the configured password policy",
           "status": "passed",
           "title": "enforces the configured password policy",
@@ -1352,9 +1143,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "PasswordService"
-          ],
+          "ancestorTitles": ["PasswordService"],
           "fullName": "PasswordService hashes and verifies passwords with bcrypt",
           "status": "passed",
           "title": "hashes and verifies passwords with bcrypt",
@@ -1373,9 +1162,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "TokenService"
-          ],
+          "ancestorTitles": ["TokenService"],
           "fullName": "TokenService creates and verifies access tokens",
           "status": "passed",
           "title": "creates and verifies access tokens",
@@ -1385,9 +1172,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "TokenService"
-          ],
+          "ancestorTitles": ["TokenService"],
           "fullName": "TokenService rejects expired access tokens",
           "status": "passed",
           "title": "rejects expired access tokens",
@@ -1397,9 +1182,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "TokenService"
-          ],
+          "ancestorTitles": ["TokenService"],
           "fullName": "TokenService rejects access tokens with invalid signatures",
           "status": "passed",
           "title": "rejects access tokens with invalid signatures",
@@ -1409,9 +1192,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "TokenService"
-          ],
+          "ancestorTitles": ["TokenService"],
           "fullName": "TokenService hashes opaque tokens without storing raw values",
           "status": "passed",
           "title": "hashes opaque tokens without storing raw values",
@@ -1421,9 +1202,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "TokenService"
-          ],
+          "ancestorTitles": ["TokenService"],
           "fullName": "TokenService creates email verification and password reset tokens with expirations",
           "status": "passed",
           "title": "creates email verification and password reset tokens with expirations",
@@ -1442,9 +1221,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "api response helpers"
-          ],
+          "ancestorTitles": ["api response helpers"],
           "fullName": "api response helpers emits the standard success envelope",
           "status": "passed",
           "title": "emits the standard success envelope",
@@ -1454,9 +1231,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "api response helpers"
-          ],
+          "ancestorTitles": ["api response helpers"],
           "fullName": "api response helpers emits the standard error envelope",
           "status": "passed",
           "title": "emits the standard error envelope",
@@ -1475,10 +1250,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "loan validators",
-            "createLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "createLoanSchema"],
           "fullName": "loan validators createLoanSchema validates valid loan creation input",
           "status": "passed",
           "title": "validates valid loan creation input",
@@ -1488,10 +1260,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "createLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "createLoanSchema"],
           "fullName": "loan validators createLoanSchema rejects loan amount below minimum",
           "status": "passed",
           "title": "rejects loan amount below minimum",
@@ -1501,10 +1270,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "createLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "createLoanSchema"],
           "fullName": "loan validators createLoanSchema rejects loan amount above maximum",
           "status": "passed",
           "title": "rejects loan amount above maximum",
@@ -1514,10 +1280,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "createLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "createLoanSchema"],
           "fullName": "loan validators createLoanSchema rejects credit score below minimum",
           "status": "passed",
           "title": "rejects credit score below minimum",
@@ -1527,10 +1290,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "createLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "createLoanSchema"],
           "fullName": "loan validators createLoanSchema rejects credit score above maximum",
           "status": "passed",
           "title": "rejects credit score above maximum",
@@ -1540,10 +1300,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "createLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "createLoanSchema"],
           "fullName": "loan validators createLoanSchema rejects short loan purpose",
           "status": "passed",
           "title": "rejects short loan purpose",
@@ -1553,10 +1310,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "createLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "createLoanSchema"],
           "fullName": "loan validators createLoanSchema rejects invalid employment type",
           "status": "passed",
           "title": "rejects invalid employment type",
@@ -1566,10 +1320,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "createLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "createLoanSchema"],
           "fullName": "loan validators createLoanSchema accepts all valid employment types",
           "status": "passed",
           "title": "accepts all valid employment types",
@@ -1579,10 +1330,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "updateLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "updateLoanSchema"],
           "fullName": "loan validators updateLoanSchema allows partial updates",
           "status": "passed",
           "title": "allows partial updates",
@@ -1592,10 +1340,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "updateLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "updateLoanSchema"],
           "fullName": "loan validators updateLoanSchema allows empty object",
           "status": "passed",
           "title": "allows empty object",
@@ -1605,10 +1350,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "updateLoanSchema"
-          ],
+          "ancestorTitles": ["loan validators", "updateLoanSchema"],
           "fullName": "loan validators updateLoanSchema validates individual fields",
           "status": "passed",
           "title": "validates individual fields",
@@ -1618,10 +1360,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "loanIdParamSchema"
-          ],
+          "ancestorTitles": ["loan validators", "loanIdParamSchema"],
           "fullName": "loan validators loanIdParamSchema validates valid loan ID",
           "status": "passed",
           "title": "validates valid loan ID",
@@ -1631,10 +1370,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "loanIdParamSchema"
-          ],
+          "ancestorTitles": ["loan validators", "loanIdParamSchema"],
           "fullName": "loan validators loanIdParamSchema rejects empty ID",
           "status": "passed",
           "title": "rejects empty ID",
@@ -1644,10 +1380,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "loan validators",
-            "loanIdParamSchema"
-          ],
+          "ancestorTitles": ["loan validators", "loanIdParamSchema"],
           "fullName": "loan validators loanIdParamSchema rejects missing ID",
           "status": "passed",
           "title": "rejects missing ID",
@@ -1666,9 +1399,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "Risk Assessment Integration (in-memory)"
-          ],
+          "ancestorTitles": ["Risk Assessment Integration (in-memory)"],
           "fullName": "Risk Assessment Integration (in-memory) Prediction Success Flow: loan submission -> prediction -> assessment, audit, metrics",
           "status": "passed",
           "title": "Prediction Success Flow: loan submission -> prediction -> assessment, audit, metrics",
@@ -1678,9 +1409,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Risk Assessment Integration (in-memory)"
-          ],
+          "ancestorTitles": ["Risk Assessment Integration (in-memory)"],
           "fullName": "Risk Assessment Integration (in-memory) Prediction Failure Flow: network failure -> MODEL_PREDICTION_FAILED and metrics failure increment",
           "status": "passed",
           "title": "Prediction Failure Flow: network failure -> MODEL_PREDICTION_FAILED and metrics failure increment",
@@ -1690,9 +1419,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Risk Assessment Integration (in-memory)"
-          ],
+          "ancestorTitles": ["Risk Assessment Integration (in-memory)"],
           "fullName": "Risk Assessment Integration (in-memory) Metadata Failure Flow: GET /model/info handles missing or corrupted metadata.json",
           "status": "passed",
           "title": "Metadata Failure Flow: GET /model/info handles missing or corrupted metadata.json",
@@ -1702,9 +1429,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "Risk Assessment Integration (in-memory)"
-          ],
+          "ancestorTitles": ["Risk Assessment Integration (in-memory)"],
           "fullName": "Risk Assessment Integration (in-memory) History Preservation Flow: multiple assessments preserved and retrievable",
           "status": "passed",
           "title": "History Preservation Flow: multiple assessments preserved and retrievable",
@@ -1723,9 +1448,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "ModelMetricsService edge cases"
-          ],
+          "ancestorTitles": ["ModelMetricsService edge cases"],
           "fullName": "ModelMetricsService edge cases handles first prediction and zero-latency",
           "status": "passed",
           "title": "handles first prediction and zero-latency",
@@ -1735,9 +1458,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "ModelMetricsService edge cases"
-          ],
+          "ancestorTitles": ["ModelMetricsService edge cases"],
           "fullName": "ModelMetricsService edge cases handles mixed success/failure and precise averaging",
           "status": "passed",
           "title": "handles mixed success/failure and precise averaging",
@@ -1747,9 +1468,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "ModelMetricsService edge cases"
-          ],
+          "ancestorTitles": ["ModelMetricsService edge cases"],
           "fullName": "ModelMetricsService edge cases concurrent updates are tolerated in in-memory repo",
           "status": "passed",
           "title": "concurrent updates are tolerated in in-memory repo",
@@ -1768,9 +1487,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "ModelController getInfo/getMetrics"
-          ],
+          "ancestorTitles": ["ModelController getInfo/getMetrics"],
           "fullName": "ModelController getInfo/getMetrics returns info with metadata when file present and metrics null",
           "status": "passed",
           "title": "returns info with metadata when file present and metrics null",
@@ -1780,9 +1497,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "ModelController getInfo/getMetrics"
-          ],
+          "ancestorTitles": ["ModelController getInfo/getMetrics"],
           "fullName": "ModelController getInfo/getMetrics handles missing/corrupted metadata safely via fs mock",
           "status": "passed",
           "title": "handles missing/corrupted metadata safely via fs mock",
@@ -1792,9 +1507,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "ModelController getInfo/getMetrics"
-          ],
+          "ancestorTitles": ["ModelController getInfo/getMetrics"],
           "fullName": "ModelController getInfo/getMetrics getMetrics returns 404 when not found and 200 when found",
           "status": "passed",
           "title": "getMetrics returns 404 when not found and 200 when found",
@@ -1813,9 +1526,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "RiskAssessmentController getByLoanId"
-          ],
+          "ancestorTitles": ["RiskAssessmentController getByLoanId"],
           "fullName": "RiskAssessmentController getByLoanId returns empty array when no assessments",
           "status": "passed",
           "title": "returns empty array when no assessments",
@@ -1825,9 +1536,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RiskAssessmentController getByLoanId"
-          ],
+          "ancestorTitles": ["RiskAssessmentController getByLoanId"],
           "fullName": "RiskAssessmentController getByLoanId returns multiple assessments and preserves explanation including shapValues",
           "status": "passed",
           "title": "returns multiple assessments and preserves explanation including shapValues",
@@ -1846,9 +1555,7 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [
-            "RiskAssessmentService edge cases"
-          ],
+          "ancestorTitles": ["RiskAssessmentService edge cases"],
           "fullName": "RiskAssessmentService edge cases handles missing explanation field gracefully",
           "status": "passed",
           "title": "handles missing explanation field gracefully",
@@ -1858,9 +1565,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RiskAssessmentService edge cases"
-          ],
+          "ancestorTitles": ["RiskAssessmentService edge cases"],
           "fullName": "RiskAssessmentService edge cases stores malformed shapValues as-is",
           "status": "passed",
           "title": "stores malformed shapValues as-is",
@@ -1870,9 +1575,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RiskAssessmentService edge cases"
-          ],
+          "ancestorTitles": ["RiskAssessmentService edge cases"],
           "fullName": "RiskAssessmentService edge cases emits MODEL_PREDICTION_FAILED when AI returns 500",
           "status": "passed",
           "title": "emits MODEL_PREDICTION_FAILED when AI returns 500",
@@ -1882,9 +1585,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RiskAssessmentService edge cases"
-          ],
+          "ancestorTitles": ["RiskAssessmentService edge cases"],
           "fullName": "RiskAssessmentService edge cases handles fetch/network errors and records metrics failure",
           "status": "passed",
           "title": "handles fetch/network errors and records metrics failure",
@@ -1894,9 +1595,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RiskAssessmentService edge cases"
-          ],
+          "ancestorTitles": ["RiskAssessmentService edge cases"],
           "fullName": "RiskAssessmentService edge cases handles non-JSON response (json() throws) by bubbling error and not creating assessment",
           "status": "passed",
           "title": "handles non-JSON response (json() throws) by bubbling error and not creating assessment",
@@ -1906,9 +1605,7 @@
           "tags": []
         },
         {
-          "ancestorTitles": [
-            "RiskAssessmentService edge cases"
-          ],
+          "ancestorTitles": ["RiskAssessmentService edge cases"],
           "fullName": "RiskAssessmentService edge cases defaults missing context values (userId/ipAddress/requestId)",
           "status": "passed",
           "title": "defaults missing context values (userId/ipAddress/requestId)",
@@ -3171,26 +2868,11 @@
         "13": 0
       },
       "b": {
-        "0": [
-          14,
-          0
-        ],
-        "1": [
-          14,
-          14
-        ],
-        "2": [
-          0,
-          17
-        ],
-        "3": [
-          0,
-          0
-        ],
-        "4": [
-          0,
-          0
-        ]
+        "0": [14, 0],
+        "1": [14, 14],
+        "2": [0, 17],
+        "3": [0, 0],
+        "4": [0, 0]
       },
       "meta": {
         "lastBranch": 5,
@@ -3455,9 +3137,7 @@
         "0": 14
       },
       "b": {
-        "0": [
-          14
-        ]
+        "0": [14]
       },
       "meta": {
         "lastBranch": 1,
@@ -4005,22 +3685,10 @@
         "3": 0
       },
       "b": {
-        "0": [
-          2,
-          31
-        ],
-        "1": [
-          1,
-          30
-        ],
-        "2": [
-          31,
-          30
-        ],
-        "3": [
-          0,
-          0
-        ]
+        "0": [2, 31],
+        "1": [1, 30],
+        "2": [31, 30],
+        "3": [0, 0]
       },
       "meta": {
         "lastBranch": 4,
@@ -4356,18 +4024,9 @@
         "1": 13
       },
       "b": {
-        "0": [
-          12,
-          1
-        ],
-        "1": [
-          1,
-          1
-        ],
-        "2": [
-          2,
-          2
-        ]
+        "0": [12, 1],
+        "1": [1, 1],
+        "2": [2, 2]
       },
       "meta": {
         "lastBranch": 3,
@@ -4790,22 +4449,10 @@
         "2": 25
       },
       "b": {
-        "0": [
-          16,
-          9
-        ],
-        "1": [
-          5,
-          4
-        ],
-        "2": [
-          1,
-          3
-        ],
-        "3": [
-          2,
-          1
-        ]
+        "0": [16, 9],
+        "1": [5, 4],
+        "2": [1, 3],
+        "3": [2, 1]
       },
       "meta": {
         "lastBranch": 4,
@@ -5049,10 +4696,7 @@
         "1": 81
       },
       "b": {
-        "0": [
-          81,
-          80
-        ]
+        "0": [81, 80]
       },
       "meta": {
         "lastBranch": 1,
@@ -5450,18 +5094,9 @@
         "3": 0
       },
       "b": {
-        "0": [
-          4,
-          0
-        ],
-        "1": [
-          0,
-          0
-        ],
-        "2": [
-          0,
-          0
-        ]
+        "0": [4, 0],
+        "1": [0, 0],
+        "2": [0, 0]
       },
       "meta": {
         "lastBranch": 3,
@@ -6688,30 +6323,12 @@
         "15": 1
       },
       "b": {
-        "0": [
-          30,
-          0
-        ],
-        "1": [
-          30,
-          30
-        ],
-        "2": [
-          0,
-          0
-        ],
-        "3": [
-          4,
-          0
-        ],
-        "4": [
-          0,
-          4
-        ],
-        "5": [
-          0,
-          1
-        ]
+        "0": [30, 0],
+        "1": [30, 30],
+        "2": [0, 0],
+        "3": [4, 0],
+        "4": [0, 4],
+        "5": [0, 1]
       },
       "meta": {
         "lastBranch": 6,
@@ -7072,14 +6689,8 @@
         "2": 0
       },
       "b": {
-        "0": [
-          59,
-          0
-        ],
-        "1": [
-          59,
-          0
-        ]
+        "0": [59, 0],
+        "1": [59, 0]
       },
       "meta": {
         "lastBranch": 2,
@@ -7818,54 +7429,18 @@
         "2": 3
       },
       "b": {
-        "0": [
-          2,
-          0
-        ],
-        "1": [
-          1,
-          1
-        ],
-        "2": [
-          3,
-          3
-        ],
-        "3": [
-          3,
-          3
-        ],
-        "4": [
-          3,
-          3
-        ],
-        "5": [
-          3,
-          3
-        ],
-        "6": [
-          3,
-          3
-        ],
-        "7": [
-          3,
-          3
-        ],
-        "8": [
-          3,
-          3
-        ],
-        "9": [
-          3,
-          3
-        ],
-        "10": [
-          3,
-          3
-        ],
-        "11": [
-          0,
-          3
-        ]
+        "0": [2, 0],
+        "1": [1, 1],
+        "2": [3, 3],
+        "3": [3, 3],
+        "4": [3, 3],
+        "5": [3, 3],
+        "6": [3, 3],
+        "7": [3, 3],
+        "8": [3, 3],
+        "9": [3, 3],
+        "10": [3, 3],
+        "11": [0, 3]
       },
       "meta": {
         "lastBranch": 12,
@@ -8215,18 +7790,9 @@
         "2": 81
       },
       "b": {
-        "0": [
-          0,
-          0
-        ],
-        "1": [
-          0,
-          6
-        ],
-        "2": [
-          0,
-          6
-        ]
+        "0": [0, 0],
+        "1": [0, 6],
+        "2": [0, 6]
       },
       "meta": {
         "lastBranch": 3,
@@ -9020,22 +8586,10 @@
         "5": 1
       },
       "b": {
-        "0": [
-          0,
-          1
-        ],
-        "1": [
-          0,
-          1
-        ],
-        "2": [
-          0,
-          1
-        ],
-        "3": [
-          0,
-          1
-        ]
+        "0": [0, 1],
+        "1": [0, 1],
+        "2": [0, 1],
+        "3": [0, 1]
       },
       "meta": {
         "lastBranch": 4,
@@ -9301,14 +8855,8 @@
         "1": 17
       },
       "b": {
-        "0": [
-          1,
-          16
-        ],
-        "1": [
-          3,
-          13
-        ]
+        "0": [1, 16],
+        "1": [3, 13]
       },
       "meta": {
         "lastBranch": 2,
@@ -9509,9 +9057,7 @@
         "1": 25
       },
       "b": {
-        "0": [
-          62
-        ]
+        "0": [62]
       },
       "meta": {
         "lastBranch": 1,
@@ -9684,10 +9230,7 @@
         "0": 1
       },
       "b": {
-        "0": [
-          6,
-          6
-        ]
+        "0": [6, 6]
       },
       "meta": {
         "lastBranch": 1,
@@ -9858,10 +9401,7 @@
         "0": 2
       },
       "b": {
-        "0": [
-          2,
-          2
-        ]
+        "0": [2, 2]
       },
       "meta": {
         "lastBranch": 1,
@@ -10171,18 +9711,9 @@
         "1": 51
       },
       "b": {
-        "0": [
-          41,
-          10
-        ],
-        "1": [
-          13,
-          33
-        ],
-        "2": [
-          0,
-          46
-        ]
+        "0": [41, 10],
+        "1": [13, 33],
+        "2": [0, 46]
       },
       "meta": {
         "lastBranch": 3,
@@ -10360,10 +9891,7 @@
         "0": 2
       },
       "b": {
-        "0": [
-          2,
-          2
-        ]
+        "0": [2, 2]
       },
       "meta": {
         "lastBranch": 1,
@@ -10534,10 +10062,7 @@
         "0": 2
       },
       "b": {
-        "0": [
-          6,
-          6
-        ]
+        "0": [6, 6]
       },
       "meta": {
         "lastBranch": 1,
@@ -10708,10 +10233,7 @@
         "0": 2
       },
       "b": {
-        "0": [
-          6,
-          6
-        ]
+        "0": [6, 6]
       },
       "meta": {
         "lastBranch": 1,
@@ -10822,10 +10344,7 @@
       },
       "f": {},
       "b": {
-        "0": [
-          3,
-          3
-        ]
+        "0": [3, 3]
       },
       "meta": {
         "lastBranch": 1,
@@ -10954,10 +10473,7 @@
       },
       "f": {},
       "b": {
-        "0": [
-          6,
-          6
-        ]
+        "0": [6, 6]
       },
       "meta": {
         "lastBranch": 1,
@@ -11261,10 +10777,7 @@
         "0": 2
       },
       "b": {
-        "0": [
-          6,
-          6
-        ]
+        "0": [6, 6]
       },
       "meta": {
         "lastBranch": 1,
@@ -11586,10 +11099,7 @@
         "0": 1
       },
       "b": {
-        "0": [
-          6,
-          6
-        ]
+        "0": [6, 6]
       },
       "meta": {
         "lastBranch": 1,
@@ -11771,10 +11281,7 @@
         "0": 1
       },
       "b": {
-        "0": [
-          6,
-          6
-        ]
+        "0": [6, 6]
       },
       "meta": {
         "lastBranch": 1,
@@ -14209,93 +13716,28 @@
         "16": 76
       },
       "b": {
-        "0": [
-          2,
-          33
-        ],
-        "1": [
-          0,
-          4
-        ],
-        "2": [
-          0,
-          7
-        ],
-        "3": [
-          1,
-          6
-        ],
-        "4": [
-          7,
-          3
-        ],
-        "5": [
-          0,
-          4
-        ],
-        "6": [
-          0,
-          19
-        ],
-        "7": [
-          0,
-          18
-        ],
-        "8": [
-          18,
-          0
-        ],
-        "9": [
-          18,
-          18
-        ],
-        "10": [
-          0,
-          8
-        ],
-        "11": [
-          0,
-          8
-        ],
-        "12": [
-          0,
-          4
-        ],
-        "13": [
-          0,
-          4
-        ],
-        "14": [
-          0,
-          4
-        ],
-        "15": [
-          0,
-          2
-        ],
-        "16": [
-          0,
-          1
-        ],
-        "17": [
-          0,
-          1
-        ],
-        "18": [
-          3,
-          23
-        ],
-        "19": [
-          2,
-          2
-        ],
-        "20": [
-          4,
-          3
-        ],
-        "21": [
-          76
-        ]
+        "0": [2, 33],
+        "1": [0, 4],
+        "2": [0, 7],
+        "3": [1, 6],
+        "4": [7, 3],
+        "5": [0, 4],
+        "6": [0, 19],
+        "7": [0, 18],
+        "8": [18, 0],
+        "9": [18, 18],
+        "10": [0, 8],
+        "11": [0, 8],
+        "12": [0, 4],
+        "13": [0, 4],
+        "14": [0, 4],
+        "15": [0, 2],
+        "16": [0, 1],
+        "17": [0, 1],
+        "18": [3, 23],
+        "19": [2, 2],
+        "20": [4, 3],
+        "21": [76]
       },
       "meta": {
         "lastBranch": 22,
@@ -15664,22 +15106,10 @@
         "2": 0
       },
       "b": {
-        "0": [
-          0,
-          0
-        ],
-        "1": [
-          0,
-          0
-        ],
-        "2": [
-          0,
-          0
-        ],
-        "3": [
-          0,
-          0
-        ]
+        "0": [0, 0],
+        "1": [0, 0],
+        "2": [0, 0],
+        "3": [0, 0]
       },
       "meta": {
         "lastBranch": 4,
@@ -16608,17 +16038,9 @@
         "0": 17
       },
       "b": {
-        "0": [
-          17
-        ],
-        "1": [
-          17,
-          13
-        ],
-        "2": [
-          17,
-          9
-        ]
+        "0": [17],
+        "1": [17, 13],
+        "2": [17, 9]
       },
       "meta": {
         "lastBranch": 3,
@@ -19735,85 +19157,26 @@
         "17": 46
       },
       "b": {
-        "0": [
-          2,
-          16
-        ],
-        "1": [
-          1,
-          20
-        ],
-        "2": [
-          7,
-          11
-        ],
-        "3": [
-          1,
-          4
-        ],
-        "4": [
-          1,
-          3
-        ],
-        "5": [
-          1,
-          3
-        ],
-        "6": [
-          2,
-          1
-        ],
-        "7": [
-          1,
-          1
-        ],
-        "8": [
-          1,
-          3
-        ],
-        "9": [
-          1,
-          2
-        ],
-        "10": [
-          2,
-          1
-        ],
-        "11": [
-          3,
-          2
-        ],
-        "12": [
-          1,
-          2
-        ],
-        "13": [
-          1,
-          3
-        ],
-        "14": [
-          2,
-          1
-        ],
-        "15": [
-          1,
-          6
-        ],
-        "16": [
-          1,
-          22
-        ],
-        "17": [
-          1,
-          18
-        ],
-        "18": [
-          19,
-          2
-        ],
-        "19": [
-          46
-        ]
+        "0": [2, 16],
+        "1": [1, 20],
+        "2": [7, 11],
+        "3": [1, 4],
+        "4": [1, 3],
+        "5": [1, 3],
+        "6": [2, 1],
+        "7": [1, 1],
+        "8": [1, 3],
+        "9": [1, 2],
+        "10": [2, 1],
+        "11": [3, 2],
+        "12": [1, 2],
+        "13": [1, 3],
+        "14": [2, 1],
+        "15": [1, 6],
+        "16": [1, 22],
+        "17": [1, 18],
+        "18": [19, 2],
+        "19": [46]
       },
       "meta": {
         "lastBranch": 20,
@@ -20187,17 +19550,9 @@
         "1": 26
       },
       "b": {
-        "0": [
-          49
-        ],
-        "1": [
-          6,
-          20
-        ],
-        "2": [
-          26,
-          1
-        ]
+        "0": [49],
+        "1": [6, 20],
+        "2": [26, 1]
       },
       "meta": {
         "lastBranch": 3,
@@ -21146,19 +20501,10 @@
         "6": 58
       },
       "b": {
-        "0": [
-          17,
-          0
-        ],
-        "1": [
-          17
-        ],
-        "2": [
-          19
-        ],
-        "3": [
-          4
-        ]
+        "0": [17, 0],
+        "1": [17],
+        "2": [19],
+        "3": [4]
       },
       "meta": {
         "lastBranch": 4,
@@ -23344,50 +22690,17 @@
         "31": 35
       },
       "b": {
-        "0": [
-          36,
-          13
-        ],
-        "1": [
-          47,
-          0
-        ],
-        "2": [
-          7,
-          3
-        ],
-        "3": [
-          0,
-          4
-        ],
-        "4": [
-          0,
-          19
-        ],
-        "5": [
-          0,
-          8
-        ],
-        "6": [
-          0,
-          2
-        ],
-        "7": [
-          0,
-          1
-        ],
-        "8": [
-          0,
-          4
-        ],
-        "9": [
-          0,
-          0
-        ],
-        "10": [
-          0,
-          0
-        ]
+        "0": [36, 13],
+        "1": [47, 0],
+        "2": [7, 3],
+        "3": [0, 4],
+        "4": [0, 19],
+        "5": [0, 8],
+        "6": [0, 2],
+        "7": [0, 1],
+        "8": [0, 4],
+        "9": [0, 0],
+        "10": [0, 0]
       },
       "meta": {
         "lastBranch": 11,
@@ -25226,100 +24539,29 @@
         "11": 0
       },
       "b": {
-        "0": [
-          22,
-          22,
-          22
-        ],
-        "1": [
-          22,
-          1
-        ],
-        "2": [
-          16,
-          0
-        ],
-        "3": [
-          16,
-          0
-        ],
-        "4": [
-          16,
-          0
-        ],
-        "5": [
-          1,
-          5
-        ],
-        "6": [
-          1,
-          0
-        ],
-        "7": [
-          1,
-          0
-        ],
-        "8": [
-          4,
-          1
-        ],
-        "9": [
-          22,
-          1
-        ],
-        "10": [
-          4,
-          0
-        ],
-        "11": [
-          4,
-          1
-        ],
-        "12": [
-          22,
-          1
-        ],
-        "13": [
-          22,
-          1
-        ],
-        "14": [
-          4,
-          0,
-          0
-        ],
-        "15": [
-          22,
-          1
-        ],
-        "16": [
-          22,
-          3
-        ],
-        "17": [
-          22,
-          1
-        ],
-        "18": [
-          22,
-          1
-        ],
-        "19": [
-          22,
-          2
-        ],
-        "20": [
-          4,
-          0
-        ],
-        "21": [
-          4,
-          4
-        ],
-        "22": [
-          4,
-          1
-        ]
+        "0": [22, 22, 22],
+        "1": [22, 1],
+        "2": [16, 0],
+        "3": [16, 0],
+        "4": [16, 0],
+        "5": [1, 5],
+        "6": [1, 0],
+        "7": [1, 0],
+        "8": [4, 1],
+        "9": [22, 1],
+        "10": [4, 0],
+        "11": [4, 1],
+        "12": [22, 1],
+        "13": [22, 1],
+        "14": [4, 0, 0],
+        "15": [22, 1],
+        "16": [22, 3],
+        "17": [22, 1],
+        "18": [22, 1],
+        "19": [22, 2],
+        "20": [4, 0],
+        "21": [4, 4],
+        "22": [4, 1]
       },
       "meta": {
         "lastBranch": 23,
@@ -25963,34 +25205,13 @@
         "3": 0
       },
       "b": {
-        "0": [
-          24,
-          13
-        ],
-        "1": [
-          10,
-          14
-        ],
-        "2": [
-          10,
-          14
-        ],
-        "3": [
-          13,
-          0
-        ],
-        "4": [
-          6,
-          7
-        ],
-        "5": [
-          6,
-          7
-        ],
-        "6": [
-          9,
-          1
-        ]
+        "0": [24, 13],
+        "1": [10, 14],
+        "2": [10, 14],
+        "3": [13, 0],
+        "4": [6, 7],
+        "5": [6, 7],
+        "6": [9, 1]
       },
       "meta": {
         "lastBranch": 7,
@@ -29109,93 +28330,27 @@
         "37": 21
       },
       "b": {
-        "0": [
-          16,
-          0
-        ],
-        "1": [
-          16,
-          0
-        ],
-        "2": [
-          33,
-          5
-        ],
-        "3": [
-          45,
-          19
-        ],
-        "4": [
-          1,
-          2
-        ],
-        "5": [
-          1,
-          2
-        ],
-        "6": [
-          0,
-          7
-        ],
-        "7": [
-          0,
-          11
-        ],
-        "8": [
-          9,
-          2
-        ],
-        "9": [
-          13,
-          8,
-          7
-        ],
-        "10": [
-          3,
-          3
-        ],
-        "11": [
-          3,
-          1
-        ],
-        "12": [
-          0,
-          2
-        ],
-        "13": [
-          2,
-          2
-        ],
-        "14": [
-          4,
-          1
-        ],
-        "15": [
-          3,
-          3,
-          3
-        ],
-        "16": [
-          3,
-          0
-        ],
-        "17": [
-          4,
-          1
-        ],
-        "18": [
-          3,
-          3,
-          3
-        ],
-        "19": [
-          3,
-          0
-        ],
-        "20": [
-          0,
-          0
-        ]
+        "0": [16, 0],
+        "1": [16, 0],
+        "2": [33, 5],
+        "3": [45, 19],
+        "4": [1, 2],
+        "5": [1, 2],
+        "6": [0, 7],
+        "7": [0, 11],
+        "8": [9, 2],
+        "9": [13, 8, 7],
+        "10": [3, 3],
+        "11": [3, 1],
+        "12": [0, 2],
+        "13": [2, 2],
+        "14": [4, 1],
+        "15": [3, 3, 3],
+        "16": [3, 0],
+        "17": [4, 1],
+        "18": [3, 3, 3],
+        "19": [3, 0],
+        "20": [0, 0]
       },
       "meta": {
         "lastBranch": 21,

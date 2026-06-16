@@ -4,6 +4,8 @@ export * from './fraud-alert.model';
 export * from './loan-application.model';
 export * from './loan-review-decision.model';
 export * from './model-drift-record.model';
+export * from './fraud-case.model';
+export * from './fraud-case-event.model';
 export * from './model-registry.model';
 export * from './password-reset-token.model';
 export * from './refresh-token.model';
