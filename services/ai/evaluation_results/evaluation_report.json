@@ -1,0 +1,191 @@
+{
+  "timestamp": "2026-06-15T12:55:04.780548",
+  "evaluation_summary": {
+    "dataset": {
+      "total_records": 1000,
+      "features": 24,
+      "training_records": 800,
+      "test_records": 200,
+      "class_distribution": {
+        "good_credit": 700,
+        "bad_credit": 300,
+        "imbalance_ratio": 2.3333333333333335
+      }
+    },
+    "logistic_regression": {
+      "accuracy": 0.725,
+      "precision": 0.7972027972027972,
+      "recall": 0.8142857142857143,
+      "f1": 0.8056537102473498,
+      "roc_auc": 0.7491666666666668,
+      "train_accuracy": 0.79625,
+      "overfitting_gap": 7.1250000000000036,
+      "confusion_matrix": {
+        "true_negatives": 31,
+        "false_positives": 29,
+        "false_negatives": 26,
+        "true_positives": 114
+      }
+    },
+    "random_forest": {
+      "accuracy": 0.77,
+      "precision": 0.7865853658536586,
+      "recall": 0.9214285714285714,
+      "f1": 0.8486842105263158,
+      "roc_auc": 0.8179761904761904,
+      "train_accuracy": 0.8775,
+      "overfitting_gap": 10.749999999999993,
+      "confusion_matrix": {
+        "true_negatives": 25,
+        "false_positives": 35,
+        "false_negatives": 11,
+        "true_positives": 129
+      },
+      "feature_importance": [
+        {
+          "name": "Feature_1",
+          "importance": 0.1866850515426599
+        },
+        {
+          "name": "Feature_2",
+          "importance": 0.11980118230400333
+        },
+        {
+          "name": "Feature_4",
+          "importance": 0.11960596942783842
+        },
+        {
+          "name": "Feature_10",
+          "importance": 0.09428911088136585
+        },
+        {
+          "name": "Feature_3",
+          "importance": 0.07309061188664277
+        },
+        {
+          "name": "Feature_5",
+          "importance": 0.05612352472423805
+        },
+        {
+          "name": "Feature_9",
+          "importance": 0.04735291203570733
+        },
+        {
+          "name": "Feature_6",
+          "importance": 0.041185306673730576
+        },
+        {
+          "name": "Feature_8",
+          "importance": 0.04097384774516799
+        },
+        {
+          "name": "Feature_11",
+          "importance": 0.03297910848884995
+        },
+        {
+          "name": "Feature_16",
+          "importance": 0.03132517259295608
+        },
+        {
+          "name": "Feature_7",
+          "importance": 0.0251518135495185
+        },
+        {
+          "name": "Feature_14",
+          "importance": 0.021144769028130516
+        },
+        {
+          "name": "Feature_17",
+          "importance": 0.019016052508789006
+        },
+        {
+          "name": "Feature_21",
+          "importance": 0.018743144232430942
+        },
+        {
+          "name": "Feature_24",
+          "importance": 0.016364452257597084
+        },
+        {
+          "name": "Feature_12",
+          "importance": 0.012984972519165569
+        },
+        {
+          "name": "Feature_18",
+          "importance": 0.009410562310402833
+        },
+        {
+          "name": "Feature_20",
+          "importance": 0.009338488437382116
+        },
+        {
+          "name": "Feature_13",
+          "importance": 0.008818205920053801
+        },
+        {
+          "name": "Feature_23",
+          "importance": 0.008790693880389978
+        },
+        {
+          "name": "Feature_19",
+          "importance": 0.003272775334426635
+        },
+        {
+          "name": "Feature_15",
+          "importance": 0.0030053534002176334
+        },
+        {
+          "name": "Feature_22",
+          "importance": 0.0005469183183352243
+        }
+      ]
+    },
+    "xgboost": {
+      "accuracy": 0.76,
+      "precision": 0.815068493150685,
+      "recall": 0.85,
+      "f1": 0.8321678321678322,
+      "roc_auc": 0.7927380952380952,
+      "train_accuracy": 0.99,
+      "overfitting_gap": 23.0,
+      "confusion_matrix": {
+        "true_negatives": 33,
+        "false_positives": 27,
+        "false_negatives": 21,
+        "true_positives": 119
+      }
+    },
+    "cross_validation": {
+      "Logistic Regression": {
+        "accuracy_mean": 0.78125,
+        "accuracy_std": 0.025310570914145725,
+        "f1_mean": 0.8527817212276521,
+        "f1_std": 0.017353321914212533,
+        "precision_mean": 0.8061843848654705,
+        "recall_mean": 0.9053571428571429,
+        "roc_auc_mean": 0.7992931547619049,
+        "train_accuracy_mean": 0.7971874999999999
+      },
+      "Random Forest": {
+        "accuracy_mean": 0.7612500000000001,
+        "accuracy_std": 0.026339134382131865,
+        "f1_mean": 0.843122462201053,
+        "f1_std": 0.016774264930169203,
+        "precision_mean": 0.7810490048290549,
+        "recall_mean": 0.9160714285714286,
+        "roc_auc_mean": 0.7752976190476191,
+        "train_accuracy_mean": 1.0
+      },
+      "XGBoost": {
+        "accuracy_mean": 0.73375,
+        "accuracy_std": 0.04736823830374102,
+        "f1_mean": 0.8162418741784148,
+        "f1_std": 0.03250417313296477,
+        "precision_mean": 0.790228032225379,
+        "recall_mean": 0.8446428571428571,
+        "roc_auc_mean": 0.7602678571428572,
+        "train_accuracy_mean": 1.0
+      }
+    }
+  }
+}

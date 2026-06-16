@@ -1,0 +1,127 @@
+================================================================================
+AI MODEL EVALUATION & ACCURACY AUDIT
+Generated: 2026-06-15 12:55:04
+================================================================================
+
+STEP 1: DATASET ANALYSIS
+--------------------------------------------------------------------------------
+Total Records: 1000
+Features: 24
+Training Set: 800 (80%)
+Test Set: 200 (20%)
+
+Class Distribution:
+  Good Credit: 700
+  Bad Credit: 300
+  Imbalance Ratio: 2.33:1
+
+================================================================================
+STEP 2: MODEL PERFORMANCE COMPARISON
+--------------------------------------------------------------------------------
+
+Model                Accuracy     Precision    Recall       F1 Score     ROC AUC     
+--------------------------------------------------------------------------------
+Logistic Regression  0.7250       0.7972       0.8143       0.8057       0.7492      
+Random Forest        0.7700       0.7866       0.9214       0.8487       0.8180      
+Xgboost              0.7600       0.8151       0.8500       0.8322       0.7927      
+
+================================================================================
+STEP 3: CONFUSION MATRICES
+--------------------------------------------------------------------------------
+
+Logistic Regression:
+  True Negatives (TN):  31
+  False Positives (FP): 29
+  False Negatives (FN): 26
+  True Positives (TP):  114
+
+Interpretation for Loan Approval:
+  - TN: Correctly rejected bad credit applications
+  - FP: Incorrectly approved risky applications (RISK)
+  - FN: Incorrectly rejected good credit applications (LOST REVENUE)
+  - TP: Correctly approved good credit applications
+
+Random Forest:
+  True Negatives (TN):  25
+  False Positives (FP): 35
+  False Negatives (FN): 11
+  True Positives (TP):  129
+
+Interpretation for Loan Approval:
+  - TN: Correctly rejected bad credit applications
+  - FP: Incorrectly approved risky applications (RISK)
+  - FN: Incorrectly rejected good credit applications (LOST REVENUE)
+  - TP: Correctly approved good credit applications
+
+Xgboost:
+  True Negatives (TN):  33
+  False Positives (FP): 27
+  False Negatives (FN): 21
+  True Positives (TP):  119
+
+Interpretation for Loan Approval:
+  - TN: Correctly rejected bad credit applications
+  - FP: Incorrectly approved risky applications (RISK)
+  - FN: Incorrectly rejected good credit applications (LOST REVENUE)
+  - TP: Correctly approved good credit applications
+
+================================================================================
+STEP 4: CROSS VALIDATION RESULTS (5-FOLD)
+--------------------------------------------------------------------------------
+
+Logistic Regression:
+  Accuracy:  0.7812 (+/- 0.0253)
+  F1 Score:  0.8528 (+/- 0.0174)
+  Precision: 0.8062
+  Recall:    0.9054
+  ROC AUC:   0.7993
+
+Random Forest:
+  Accuracy:  0.7613 (+/- 0.0263)
+  F1 Score:  0.8431 (+/- 0.0168)
+  Precision: 0.7810
+  Recall:    0.9161
+  ROC AUC:   0.7753
+
+XGBoost:
+  Accuracy:  0.7338 (+/- 0.0474)
+  F1 Score:  0.8162 (+/- 0.0325)
+  Precision: 0.7902
+  Recall:    0.8446
+  ROC AUC:   0.7603
+
+================================================================================
+STEP 5: FEATURE IMPORTANCE (Random Forest)
+--------------------------------------------------------------------------------
+ 1. Feature_1       0.1867
+ 2. Feature_2       0.1198
+ 3. Feature_4       0.1196
+ 4. Feature_10      0.0943
+ 5. Feature_3       0.0731
+ 6. Feature_5       0.0561
+ 7. Feature_9       0.0474
+ 8. Feature_6       0.0412
+ 9. Feature_8       0.0410
+10. Feature_11      0.0330
+
+================================================================================
+STEP 6: OVERFITTING ANALYSIS
+--------------------------------------------------------------------------------
+
+Logistic Regression:
+  Train Accuracy: 0.7963
+  Test Accuracy:  0.7250
+  Gap: 7.13%
+  Status:   MODERATE - Some overfitting
+
+Random Forest:
+  Train Accuracy: 0.8775
+  Test Accuracy:  0.7700
+  Gap: 10.75%
+  Status:  HIGH - Significant overfitting
+
+Xgboost:
+  Train Accuracy: 0.9900
+  Test Accuracy:  0.7600
+  Gap: 23.00%
+  Status:  HIGH - Significant overfitting

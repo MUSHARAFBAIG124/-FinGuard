@@ -1,0 +1,27 @@
+{
+  "modelVersion": "2.0.0-6.7",
+  "algorithm": "RandomForest",
+  "improvement": "gridsearch",
+  "timestamp": "2026-06-15T15:06:10.116100",
+  "accuracy": 0.73,
+  "precision": 0.8412698412698413,
+  "recall": 0.7571428571428571,
+  "f1": 0.7969924812030075,
+  "rocAuc": 0.7948809523809524,
+  "specificity": 0.6666666666666666,
+  "fpr": 0.3333333333333333,
+  "confusionMatrix": {
+    "tp": 106,
+    "tn": 40,
+    "fp": 20,
+    "fn": 34
+  },
+  "improvements": {
+    "vs_baseline": {
+      "accuracy": -0.040000000000000036,
+      "specificity": 0.24996666666666661,
+      "f1": -0.051707518796992535,
+      "roc_auc": -0.023119047619047595
+    }
+  }
+}
