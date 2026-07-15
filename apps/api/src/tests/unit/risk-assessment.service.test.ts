@@ -22,19 +22,17 @@ describe('RiskAssessmentService edge cases', () => {
     } as any);
 
     // AI returns minimal payload without explanation
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 42,
-          riskCategory: 'HIGH',
-          approvalProbability: 0.1,
-          modelVersion: '3.0.0',
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 42,
+        riskCategory: 'HIGH',
+        approvalProbability: 0.1,
+        modelVersion: '3.0.0',
+      }),
+    });
 
     await svc.createRiskAssessment(
       loan._id.toString(),
@@ -66,25 +64,23 @@ describe('RiskAssessmentService edge cases', () => {
       creditScore: 600,
     } as any);
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 5,
-          riskCategory: 'LOW',
-          approvalProbability: 0.99,
-          modelVersion: 'x.y.z',
-          explanation: {
-            summary: 's',
-            positiveFactors: [],
-            negativeFactors: [],
-            shapValues: 'not-an-array',
-          },
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 5,
+        riskCategory: 'LOW',
+        approvalProbability: 0.99,
+        modelVersion: 'x.y.z',
+        explanation: {
+          summary: 's',
+          positiveFactors: [],
+          negativeFactors: [],
+          shapValues: 'not-an-array',
+        },
+      }),
+    });
 
     await svc.createRiskAssessment(
       loan._id.toString(),
@@ -112,14 +108,12 @@ describe('RiskAssessmentService edge cases', () => {
       creditScore: 600,
     } as any);
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: false,
-        status: 500,
-        statusText: 'Internal Server Error',
-        json: async () => ({}),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 500,
+      statusText: 'Internal Server Error',
+      json: async () => ({}),
+    });
 
     await expect(
       svc.createRiskAssessment(
@@ -224,22 +218,20 @@ describe('RiskAssessmentService edge cases', () => {
       creditScore: 600,
     } as any);
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 1,
-          riskCategory: 'MEDIUM',
-          approvalProbability: 0.5,
-          explanation: { summary: '', positiveFactors: [], negativeFactors: [] },
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 1,
+        riskCategory: 'MEDIUM',
+        approvalProbability: 0.5,
+        explanation: { summary: '', positiveFactors: [], negativeFactors: [] },
+      }),
+    });
 
     // call with empty context
-    await svc.createRiskAssessment(loan._id.toString(), {}, {} as any);
+    await svc.createRiskAssessment(loan._id.toString(), {}, {});
 
     const logs = await repos?.auditLogRepository?.findByUserId('unknown');
     // since userId defaulted to 'unknown', audit entries may exist under that user
@@ -273,19 +265,17 @@ describe('RiskAssessmentService edge cases', () => {
       return originalCreate?.call(repos?.auditLogRepository, input);
     });
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 42,
-          riskCategory: 'HIGH',
-          approvalProbability: 0.1,
-          modelVersion: '2.0.0',
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 42,
+        riskCategory: 'HIGH',
+        approvalProbability: 0.1,
+        modelVersion: '2.0.0',
+      }),
+    });
 
     // Should not throw despite audit failure
     const result = await svc.createRiskAssessment(
@@ -321,19 +311,17 @@ describe('RiskAssessmentService edge cases', () => {
       return originalCreate?.call(repos?.auditLogRepository, input);
     });
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 35,
-          riskCategory: 'MEDIUM',
-          approvalProbability: 0.5,
-          modelVersion: '3.0.0',
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 35,
+        riskCategory: 'MEDIUM',
+        approvalProbability: 0.5,
+        modelVersion: '3.0.0',
+      }),
+    });
 
     // Should not throw despite audit failure
     const result = await svc.createRiskAssessment(
@@ -369,19 +357,17 @@ describe('RiskAssessmentService edge cases', () => {
       return originalCreate?.call(repos?.auditLogRepository, input);
     });
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 25,
-          riskCategory: 'LOW',
-          approvalProbability: 0.9,
-          modelVersion: '4.0.0',
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 25,
+        riskCategory: 'LOW',
+        approvalProbability: 0.9,
+        modelVersion: '4.0.0',
+      }),
+    });
 
     // Should not throw despite audit failure
     const result = await svc.createRiskAssessment(
@@ -413,19 +399,17 @@ describe('RiskAssessmentService edge cases', () => {
       throw new Error('metrics service down');
     });
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 55,
-          riskCategory: 'MEDIUM',
-          approvalProbability: 0.6,
-          modelVersion: '5.0.0',
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 55,
+        riskCategory: 'MEDIUM',
+        approvalProbability: 0.6,
+        modelVersion: '5.0.0',
+      }),
+    });
 
     // Should not throw despite metrics failure
     const result = await svc.createRiskAssessment(
@@ -450,19 +434,17 @@ describe('RiskAssessmentService edge cases', () => {
       creditScore: 600,
     } as any);
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 65,
-          riskCategory: 'HIGH',
-          approvalProbability: 0.3,
-          modelVersion: '6.0.0',
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 65,
+        riskCategory: 'HIGH',
+        approvalProbability: 0.3,
+        modelVersion: '6.0.0',
+      }),
+    });
 
     await svc.createRiskAssessment(
       loan._id.toString(),
@@ -532,25 +514,23 @@ describe('RiskAssessmentService edge cases', () => {
       { feature: 'annualIncome', value: 0.2 },
     ];
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 45,
-          riskCategory: 'MEDIUM',
-          approvalProbability: 0.55,
-          modelVersion: '7.0.0',
-          explanation: {
-            summary: 'credit score important',
-            positiveFactors: ['stable income'],
-            negativeFactors: ['high debt'],
-            shapValues,
-          },
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 45,
+        riskCategory: 'MEDIUM',
+        approvalProbability: 0.55,
+        modelVersion: '7.0.0',
+        explanation: {
+          summary: 'credit score important',
+          positiveFactors: ['stable income'],
+          negativeFactors: ['high debt'],
+          shapValues,
+        },
+      }),
+    });
 
     const result = await svc.createRiskAssessment(
       loan._id.toString(),
@@ -575,14 +555,12 @@ describe('RiskAssessmentService edge cases', () => {
       creditScore: 600,
     } as any);
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({ riskScore: 50, riskCategory: 'MEDIUM', approvalProbability: 0.5 }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({ riskScore: 50, riskCategory: 'MEDIUM', approvalProbability: 0.5 }),
+    });
 
     const result = await svc.createRiskAssessment(
       loan._id.toString(),
@@ -605,14 +583,12 @@ describe('RiskAssessmentService edge cases', () => {
       creditScore: 600,
     } as any);
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({ riskCategory: 'LOW' }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({ riskCategory: 'LOW' }),
+    });
 
     const result = await svc.createRiskAssessment(
       loan._id.toString(),
@@ -637,19 +613,17 @@ describe('RiskAssessmentService edge cases', () => {
       creditScore: 600,
     } as any);
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 60,
-          riskCategory: 'HIGH',
-          approvalProbability: 0.2,
-          explanation: { summary: '', positiveFactors: [], negativeFactors: [], shapValues: [] },
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 60,
+        riskCategory: 'HIGH',
+        approvalProbability: 0.2,
+        explanation: { summary: '', positiveFactors: [], negativeFactors: [], shapValues: [] },
+      }),
+    });
 
     const result = await svc.createRiskAssessment(
       loan._id.toString(),
@@ -714,14 +688,12 @@ describe('RiskAssessmentService edge cases', () => {
       throw new Error('metrics down');
     });
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: false,
-        status: 503,
-        statusText: 'Service Unavailable',
-        json: async () => ({}),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 503,
+      statusText: 'Service Unavailable',
+      json: async () => ({}),
+    });
 
     await expect(
       svc.createRiskAssessment(
@@ -759,19 +731,17 @@ describe('RiskAssessmentService edge cases', () => {
       return originalCreate?.call(repos?.auditLogRepository, input);
     });
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 30,
-          riskCategory: 'LOW',
-          approvalProbability: 0.8,
-          modelVersion: '9.0.0',
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 30,
+        riskCategory: 'LOW',
+        approvalProbability: 0.8,
+        modelVersion: '9.0.0',
+      }),
+    });
 
     const result = await svc.createRiskAssessment(
       loan._id.toString(),
@@ -803,19 +773,17 @@ describe('RiskAssessmentService edge cases', () => {
       return originalCreate?.call(repos?.auditLogRepository, input);
     });
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 70,
-          riskCategory: 'HIGH',
-          approvalProbability: 0.15,
-          modelVersion: '10.0.0',
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 70,
+        riskCategory: 'HIGH',
+        approvalProbability: 0.15,
+        modelVersion: '10.0.0',
+      }),
+    });
 
     const result = await svc.createRiskAssessment(
       loan._id.toString(),
@@ -839,19 +807,17 @@ describe('RiskAssessmentService edge cases', () => {
       creditScore: 600,
     } as any);
 
-    (global as any).fetch = vi
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        json: async () => ({
-          riskScore: 40,
-          riskCategory: 'MEDIUM',
-          approvalProbability: 0.6,
-          modelVersion: '11.0.0',
-        }),
-      });
+    (global as any).fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      json: async () => ({
+        riskScore: 40,
+        riskCategory: 'MEDIUM',
+        approvalProbability: 0.6,
+        modelVersion: '11.0.0',
+      }),
+    });
 
     const result = await svc.createRiskAssessment(
       loan._id.toString(),

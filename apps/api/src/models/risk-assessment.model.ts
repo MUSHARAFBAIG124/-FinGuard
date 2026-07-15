@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -15,7 +14,7 @@ import { applyImmutableQueryGuard, enumValues } from './schema-helpers';
 
 export const RISK_ASSESSMENT_MODEL_NAME = 'RiskAssessment';
 
-export const RiskAssessmentSchema = new Schema(
+export const RiskAssessmentSchema = new mongoose.Schema(
   {
     loanApplicationId: {
       type: Schema.Types.ObjectId,
@@ -106,5 +105,5 @@ applyImmutableQueryGuard(RiskAssessmentSchema, 'RiskAssessment');
 export type RiskAssessment = InferSchemaType<typeof RiskAssessmentSchema>;
 export type RiskAssessmentDocument = HydratedDocument<RiskAssessment>;
 export const RiskAssessmentModel: Model<RiskAssessment> =
-  (models[RISK_ASSESSMENT_MODEL_NAME] as Model<RiskAssessment> | undefined) ??
-  model<RiskAssessment>(RISK_ASSESSMENT_MODEL_NAME, RiskAssessmentSchema);
+  (mongoose.models[RISK_ASSESSMENT_MODEL_NAME] as Model<RiskAssessment> | undefined) ??
+  mongoose.model<RiskAssessment>(RISK_ASSESSMENT_MODEL_NAME, RiskAssessmentSchema);

@@ -58,6 +58,20 @@ describe('error middleware', () => {
     expect(body.meta.requestId).toBeTruthy();
   });
 
+  it('maps malformed JSON to bad request without changing validation errors', async () => {
+    const response = await request(createErrorTestApp())
+      .post('/validation')
+      .set('Content-Type', 'application/json')
+      .send('{bad-json')
+      .expect(400);
+    const body = response.body as ErrorResponseBody;
+
+    expect(body.error).toMatchObject({
+      code: 'BAD_REQUEST',
+      message: 'Malformed JSON request body',
+    });
+  });
+
   it('maps operational errors to their configured status and code', async () => {
     const response = await request(createErrorTestApp()).get('/operational-error').expect(409);
     const body = response.body as ErrorResponseBody;

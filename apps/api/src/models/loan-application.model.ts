@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -15,7 +14,7 @@ import { USER_MODEL_NAME } from './user.model';
 
 export const LOAN_APPLICATION_MODEL_NAME = 'LoanApplication';
 
-export const LoanApplicationSchema = new Schema(
+export const LoanApplicationSchema = new mongoose.Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -92,5 +91,5 @@ LoanApplicationSchema.index({ userId: 1, status: 1 }, { name: 'ix_loan_applicati
 export type LoanApplication = InferSchemaType<typeof LoanApplicationSchema>;
 export type LoanApplicationDocument = HydratedDocument<LoanApplication>;
 export const LoanApplicationModel: Model<LoanApplication> =
-  (models[LOAN_APPLICATION_MODEL_NAME] as Model<LoanApplication> | undefined) ??
-  model<LoanApplication>(LOAN_APPLICATION_MODEL_NAME, LoanApplicationSchema);
+  (mongoose.models[LOAN_APPLICATION_MODEL_NAME] as Model<LoanApplication> | undefined) ??
+  mongoose.model<LoanApplication>(LOAN_APPLICATION_MODEL_NAME, LoanApplicationSchema);

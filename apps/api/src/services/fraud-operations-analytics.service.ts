@@ -1,6 +1,6 @@
 import { FraudCaseStatus, FraudCasePriority } from '@finguard/shared';
-import { FraudCaseRepository } from '../repositories/fraud-case.repository';
-import { FraudSLAService } from './fraud-sla.service';
+import type { FraudCaseRepository } from '../repositories/fraud-case.repository';
+import type { FraudSLAService } from './fraud-sla.service';
 
 export class FraudOperationsAnalyticsService {
   constructor(

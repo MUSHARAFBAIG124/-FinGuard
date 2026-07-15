@@ -25,7 +25,7 @@ export const createAuthRouter = (dependencies: AuthRouterDependencies): Router =
   const router = Router();
   const authService = new AuthService(dependencies);
   const controller = new AuthController(authService);
-  const requireJwt = createJwtMiddleware(dependencies.tokenService);
+  const requireJwt = createJwtMiddleware(dependencies.tokenService, dependencies.userRepository);
 
   router.post('/register', validateRequest({ body: registerSchema }), controller.register);
   router.post('/login', validateRequest({ body: loginSchema }), controller.login);

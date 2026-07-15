@@ -1,9 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { FraudRuleEngineService, FraudCheckContext } from '../services/fraud-rule-engine.service';
-import { FraudInvestigationService } from '../services/fraud-investigation.service';
-import { FraudAnalyticsService } from '../services/fraud-analytics.service';
-import { FraudAlertRepository } from '../repositories/fraud-alert.repository';
+import type {
+  FraudRuleEngineService,
+  FraudCheckContext,
+} from '../services/fraud-rule-engine.service';
+import type { FraudInvestigationService } from '../services/fraud-investigation.service';
+import type { FraudAnalyticsService } from '../services/fraud-analytics.service';
+import type { FraudAlertRepository } from '../repositories/fraud-alert.repository';
 import { sendSuccess, sendError } from '../utils/api-response';
 
 export class FraudController {
@@ -100,7 +103,7 @@ export class FraudController {
       await this.investigationService.startReview(
         req.params.id as string,
         req.auth?.sub || 'system',
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: { message: 'Review started' } });
     } catch (error) {
@@ -115,7 +118,7 @@ export class FraudController {
         req.params.id as string,
         req.auth?.sub || 'system',
         notes,
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: { message: 'Fraud confirmed' } });
     } catch (error) {
@@ -130,7 +133,7 @@ export class FraudController {
         req.params.id as string,
         req.auth?.sub || 'system',
         notes,
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: { message: 'Marked as false positive' } });
     } catch (error) {
@@ -145,7 +148,7 @@ export class FraudController {
         req.params.id as string,
         req.auth?.sub || 'system',
         notes,
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: { message: 'Alert resolved' } });
     } catch (error) {

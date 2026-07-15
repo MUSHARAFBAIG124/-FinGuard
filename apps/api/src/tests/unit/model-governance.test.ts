@@ -17,7 +17,7 @@ describe('DriftDetectionService', () => {
       listCritical: vi.fn(),
       countByDriftLevel: vi.fn(),
       countSince: vi.fn(),
-    } as unknown as ModelDriftRepository;
+    };
 
     auditRepo = {
       create: vi.fn(),

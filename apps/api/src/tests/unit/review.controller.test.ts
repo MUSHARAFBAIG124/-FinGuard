@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ReviewController } from '../../controllers/review.controller';
-import { ReviewService } from '../../services/review.service';
-import { ReviewAnalyticsService } from '../../services/review-analytics.service';
+import type { ReviewService } from '../../services/review.service';
+import type { ReviewAnalyticsService } from '../../services/review-analytics.service';
 import { ReviewerDecision, RiskCategory } from '@finguard/shared';
 
 describe('ReviewController', () => {
@@ -167,7 +167,7 @@ describe('ReviewController', () => {
         },
       ];
 
-      vi.mocked(reviewService.getReviewHistory).mockResolvedValue(mockHistory as any);
+      vi.mocked(reviewService.getReviewHistory).mockResolvedValue(mockHistory);
 
       await controller.getReviewHistory(mockReq as any, mockRes as any);
 
@@ -206,7 +206,7 @@ describe('ReviewController', () => {
         },
       ];
 
-      vi.mocked(reviewService.getReviewerReviews).mockResolvedValue(mockReviews as any);
+      vi.mocked(reviewService.getReviewerReviews).mockResolvedValue(mockReviews);
 
       await controller.getReviewerReviews(mockReq as any, mockRes as any);
 
@@ -254,7 +254,7 @@ describe('ReviewController', () => {
         totalMoreInfoRequests: 20,
       };
 
-      vi.mocked(analyticsService.calculateAnalytics).mockResolvedValue(mockAnalytics as any);
+      vi.mocked(analyticsService.calculateAnalytics).mockResolvedValue(mockAnalytics);
 
       await controller.getAnalytics(mockReq as any, mockRes as any);
 
@@ -285,7 +285,7 @@ describe('ReviewController', () => {
         overrideRate: 10,
       };
 
-      vi.mocked(analyticsService.getReviewerStats).mockResolvedValue(mockStats as any);
+      vi.mocked(analyticsService.getReviewerStats).mockResolvedValue(mockStats);
 
       await controller.getReviewerStats(mockReq as any, mockRes as any);
 

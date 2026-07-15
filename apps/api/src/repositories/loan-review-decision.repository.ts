@@ -1,6 +1,7 @@
 import type { LoanReviewDecisionDocument } from '../models/loan-review-decision.model';
 import { LoanReviewDecisionModel } from '../models/loan-review-decision.model';
-import { RiskCategory, ReviewerDecision } from '@finguard/shared';
+import type { RiskCategory } from '@finguard/shared';
+import { ReviewerDecision } from '@finguard/shared';
 
 export interface CreateLoanReviewDecisionInput {
   readonly loanApplicationId: string;

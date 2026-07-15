@@ -1,14 +1,45 @@
-"""Test schemas."""
+"""Tests for prediction request/response schemas.
+
+PredictionResponse.explanation is now an ExplanationModel (structured object),
+not a plain string. All fixtures have been updated accordingly.
+"""
 import pytest
 
-from app.schemas.prediction import PredictionRequest, PredictionResponse, EmploymentType, RiskCategory
+from app.schemas.prediction import (
+    PredictionRequest,
+    PredictionResponse,
+    ExplanationModel,
+    ShapValue,
+    EmploymentType,
+    RiskCategory,
+)
 
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def make_explanation(**kwargs) -> ExplanationModel:
+    """Return a minimal valid ExplanationModel for use in response fixtures."""
+    defaults = dict(
+        summary="Low risk applicant with strong credit profile.",
+        shapValues=[
+            ShapValue(feature="creditScore", value=0.35),
+            ShapValue(feature="existingDebt", value=-0.12),
+        ],
+    )
+    defaults.update(kwargs)
+    return ExplanationModel(**defaults)
+
+
+# ---------------------------------------------------------------------------
+# PredictionRequest
+# ---------------------------------------------------------------------------
 
 class TestPredictionRequest:
     """Tests for prediction request schema."""
 
     def test_valid_request(self):
-        """Test valid prediction request."""
         request = PredictionRequest(
             age=35,
             annualIncome=75000,
@@ -21,7 +52,6 @@ class TestPredictionRequest:
         assert request.creditScore == 720
 
     def test_age_validation_min(self):
-        """Test age validation minimum."""
         with pytest.raises(ValueError):
             PredictionRequest(
                 age=17,
@@ -33,7 +63,6 @@ class TestPredictionRequest:
             )
 
     def test_age_validation_max(self):
-        """Test age validation maximum."""
         with pytest.raises(ValueError):
             PredictionRequest(
                 age=101,
@@ -45,7 +74,6 @@ class TestPredictionRequest:
             )
 
     def test_credit_score_validation_min(self):
-        """Test credit score validation minimum."""
         with pytest.raises(ValueError):
             PredictionRequest(
                 age=35,
@@ -57,7 +85,6 @@ class TestPredictionRequest:
             )
 
     def test_credit_score_validation_max(self):
-        """Test credit score validation maximum."""
         with pytest.raises(ValueError):
             PredictionRequest(
                 age=35,
@@ -69,7 +96,6 @@ class TestPredictionRequest:
             )
 
     def test_negative_income_validation(self):
-        """Test negative income validation."""
         with pytest.raises(ValueError):
             PredictionRequest(
                 age=35,
@@ -81,50 +107,100 @@ class TestPredictionRequest:
             )
 
 
+# ---------------------------------------------------------------------------
+# ExplanationModel
+# ---------------------------------------------------------------------------
+
+class TestExplanationModel:
+    """Tests for the structured ExplanationModel schema."""
+
+    def test_valid_explanation_model(self):
+        exp = make_explanation()
+        assert isinstance(exp.summary, str)
+        assert len(exp.shapValues) > 0
+
+    def test_shap_value_fields(self):
+        sv = ShapValue(feature="creditScore", value=0.42)
+        assert sv.feature == "creditScore"
+        assert sv.value == pytest.approx(0.42)
+
+    def test_shap_value_negative(self):
+        sv = ShapValue(feature="existingDebt", value=-0.25)
+        assert sv.value < 0
+
+    def test_explanation_empty_shap_list_allowed(self):
+        """Empty shapValues list is structurally valid."""
+        exp = ExplanationModel(summary="No SHAP data available.", shapValues=[])
+        assert exp.shapValues == []
+
+
+# ---------------------------------------------------------------------------
+# PredictionResponse
+# ---------------------------------------------------------------------------
+
 class TestPredictionResponse:
     """Tests for prediction response schema."""
 
     def test_valid_response(self):
-        """Test valid prediction response."""
         response = PredictionResponse(
             riskScore=25,
             approvalProbability=0.85,
             riskCategory=RiskCategory.LOW,
-            modelVersion="1.0.0",
-            explanation="Low risk applicant",
+            modelVersion="1.1.0",
+            explanation=make_explanation(),
         )
         assert response.riskScore == 25
         assert response.approvalProbability == 0.85
         assert response.riskCategory == RiskCategory.LOW
+        assert isinstance(response.explanation, ExplanationModel)
 
-    def test_response_probability_boundaries(self):
-        """Test probability field boundaries."""
-        # Valid: 0.0
+    def test_response_probability_boundary_zero(self):
         response = PredictionResponse(
             riskScore=100,
             approvalProbability=0.0,
             riskCategory=RiskCategory.HIGH,
-            modelVersion="1.0.0",
-            explanation="High risk",
+            modelVersion="1.1.0",
+            explanation=make_explanation(summary="High risk."),
         )
         assert response.approvalProbability == 0.0
 
-        # Valid: 1.0
+    def test_response_probability_boundary_one(self):
         response = PredictionResponse(
             riskScore=0,
             approvalProbability=1.0,
             riskCategory=RiskCategory.LOW,
-            modelVersion="1.0.0",
-            explanation="Low risk",
+            modelVersion="1.1.0",
+            explanation=make_explanation(summary="Low risk."),
         )
         assert response.approvalProbability == 1.0
 
-        # Invalid: > 1.0
+    def test_response_probability_above_one_invalid(self):
         with pytest.raises(ValueError):
             PredictionResponse(
                 riskScore=0,
                 approvalProbability=1.1,
                 riskCategory=RiskCategory.LOW,
-                modelVersion="1.0.0",
-                explanation="Low risk",
+                modelVersion="1.1.0",
+                explanation=make_explanation(),
+            )
+
+    def test_response_probability_below_zero_invalid(self):
+        with pytest.raises(ValueError):
+            PredictionResponse(
+                riskScore=100,
+                approvalProbability=-0.1,
+                riskCategory=RiskCategory.HIGH,
+                modelVersion="1.1.0",
+                explanation=make_explanation(summary="High risk."),
+            )
+
+    def test_response_explanation_rejects_plain_string(self):
+        """explanation field must not accept a plain string."""
+        with pytest.raises((ValueError, TypeError)):
+            PredictionResponse(
+                riskScore=25,
+                approvalProbability=0.85,
+                riskCategory=RiskCategory.LOW,
+                modelVersion="1.1.0",
+                explanation="plain string",  # type: ignore[arg-type]
             )

@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -16,7 +15,7 @@ import { USER_MODEL_NAME } from './user.model';
 
 export const FRAUD_INVESTIGATION_MODEL_NAME = 'FraudInvestigation';
 
-export const FraudInvestigationSchema = new Schema(
+export const FraudInvestigationSchema = new mongoose.Schema(
   {
     fraudAlertId: {
       type: Schema.Types.ObjectId,
@@ -66,5 +65,5 @@ FraudInvestigationSchema.index({ createdAt: -1 }, { name: 'ix_fraud_inv_created_
 export type FraudInvestigation = InferSchemaType<typeof FraudInvestigationSchema>;
 export type FraudInvestigationDocument = HydratedDocument<FraudInvestigation>;
 export const FraudInvestigationModel: Model<FraudInvestigation> =
-  (models[FRAUD_INVESTIGATION_MODEL_NAME] as Model<FraudInvestigation> | undefined) ??
-  model<FraudInvestigation>(FRAUD_INVESTIGATION_MODEL_NAME, FraudInvestigationSchema);
+  (mongoose.models[FRAUD_INVESTIGATION_MODEL_NAME] as Model<FraudInvestigation> | undefined) ??
+  mongoose.model<FraudInvestigation>(FRAUD_INVESTIGATION_MODEL_NAME, FraudInvestigationSchema);

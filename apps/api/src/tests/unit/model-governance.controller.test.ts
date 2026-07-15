@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ModelGovernanceController } from '../../controllers/model-governance.controller';
-import { ModelGovernanceService } from '../../services/model-governance.service';
-import { DriftDetectionService } from '../../services/drift-detection.service';
-import { GovernanceAnalyticsService } from '../../services/governance-analytics.service';
+import type { ModelGovernanceService } from '../../services/model-governance.service';
+import type { DriftDetectionService } from '../../services/drift-detection.service';
+import type { GovernanceAnalyticsService } from '../../services/governance-analytics.service';
 import { ModelStatus } from '@finguard/shared';
 
 describe('ModelGovernanceController', () => {
@@ -279,7 +279,7 @@ describe('ModelGovernanceController', () => {
         },
         trends: { last7Days: 0, last30Days: 5, last90Days: 5 },
         health: { governanceHealthScore: 80 },
-      } as any);
+      });
 
       await controller.getAnalytics(mockReq as any, mockRes as any);
 

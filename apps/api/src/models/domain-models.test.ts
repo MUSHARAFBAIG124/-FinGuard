@@ -1,5 +1,5 @@
 import type { Schema } from 'mongoose';
-import { Types } from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import { describe, expect, it } from 'vitest';
 
 import {

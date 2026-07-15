@@ -18,6 +18,7 @@ import { createFraudRouter } from './fraud.routes';
 import { createFraudCaseRouter } from './fraud-case.routes';
 import { MongooseRiskAssessmentRepository } from '../repositories/mongoose-risk-assessment.repository';
 import { healthRouter } from './health.routes';
+import { createJwtMiddleware, requireJwt } from '../middleware/jwt.middleware';
 
 export interface ApiRouterOptions {
   readonly authDependencies?: AuthRouterDependencies;
@@ -29,18 +30,25 @@ export const createApiRouter = (options: ApiRouterOptions = {}): Router => {
   const loanDependencies = options.loanDependencies ?? createLoanServiceDependencies();
   const modelDependencies = createModelDependencies();
   const fraudDependencies = createFraudDependencies();
+  const authenticate = options.authDependencies
+    ? createJwtMiddleware(
+        options.authDependencies.tokenService,
+        options.authDependencies.userRepository,
+      )
+    : requireJwt;
 
   router.use('/health', healthRouter);
   router.use(
     '/auth',
     createAuthRouter(options.authDependencies ?? createAuthServiceDependencies()),
   );
-  router.use('/loans', createCustomerLoanRouter(loanDependencies));
-  router.use('/review', createReviewRouter(loanDependencies));
+  router.use('/loans', createCustomerLoanRouter(loanDependencies, authenticate));
+  router.use('/review', createReviewRouter(loanDependencies, authenticate));
   router.use('/model', createModelRouter(modelDependencies));
+  const analyticsRouter = Router();
   router.use(
     '/models/analytics',
-    registerModelAnalyticsRoutes(router, modelDependencies.analyticsService),
+    registerModelAnalyticsRoutes(analyticsRouter, modelDependencies.analyticsService),
   );
   registerModelGovernanceRoutes(router, {
     governanceService: modelDependencies.governanceService,
@@ -53,13 +61,13 @@ export const createApiRouter = (options: ApiRouterOptions = {}): Router => {
   router.use(
     '/risk-assessments',
     createRiskAssessmentRouter({
+      loanRepository: loanDependencies.loanRepository,
       riskAssessmentRepository: new MongooseRiskAssessmentRepository(),
+      authenticate,
     }),
   );
 
   return router;
 };
-
-export const apiRouter = createApiRouter();
 
 export { API_PREFIX };

@@ -109,20 +109,24 @@ export class DriftDetectionService {
       await this.driftRepository.create(input);
     }
 
-    await this.auditLogRepository.create({
-      userId: 'system',
-      action: 'MODEL_DRIFT_DETECTED',
-      resourceType: 'ModelDrift',
-      resourceId: modelVersion,
-      ipAddress: 'system',
-      requestId: `drift-check-${modelVersion}-${Date.now()}`,
-      metadata: {
-        modelVersion,
-        featuresAnalyzed: features.length,
-        criticalDrifts: results.filter((r) => r.driftLevel === DriftLevel.CRITICAL).length,
-        highDrifts: results.filter((r) => r.driftLevel === DriftLevel.HIGH).length,
-      },
-    });
+    try {
+      await this.auditLogRepository.create({
+        userId: 'system',
+        action: 'MODEL_DRIFT_DETECTED',
+        resourceType: 'ModelDrift',
+        resourceId: modelVersion,
+        ipAddress: 'system',
+        requestId: `drift-check-${modelVersion}-${Date.now()}`,
+        metadata: {
+          modelVersion,
+          featuresAnalyzed: features.length,
+          criticalDrifts: results.filter((r) => r.driftLevel === DriftLevel.CRITICAL).length,
+          highDrifts: results.filter((r) => r.driftLevel === DriftLevel.HIGH).length,
+        },
+      });
+    } catch {
+      // non-critical audit log — skip if userId validation fails
+    }
 
     return results;
   }

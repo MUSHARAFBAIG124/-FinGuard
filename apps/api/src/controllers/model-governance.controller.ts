@@ -3,7 +3,6 @@ import type { ModelGovernanceService } from '../services/model-governance.servic
 import type { DriftDetectionService } from '../services/drift-detection.service';
 import type { GovernanceAnalyticsService } from '../services/governance-analytics.service';
 import type { FeatureDistribution } from '../services/drift-detection.service';
-import { AppError } from '../errors/app-error';
 
 export interface RequestWithUser extends Request {
   user?: {

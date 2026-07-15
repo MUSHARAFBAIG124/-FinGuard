@@ -1,8 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import {
-  FraudRuleEngineService,
-  FraudCheckContext,
-} from '../../services/fraud-rule-engine.service';
+import type { FraudCheckContext } from '../../services/fraud-rule-engine.service';
+import { FraudRuleEngineService } from '../../services/fraud-rule-engine.service';
 import { FraudSeverity } from '@finguard/shared';
 
 describe('FraudRuleEngineService', () => {

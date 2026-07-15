@@ -29,7 +29,7 @@ describe('LoanController listAll (role-based access control)', () => {
     await controller.listAll(req, res, nextFn);
 
     // Verify next was called with an AppError with FORBIDDEN code
-    const error = nextFn!.mock.calls[0]![0];
+    const error = nextFn.mock.calls[0]![0];
     expect(error).toBeInstanceOf(AppError);
     expect(error.code).toBe('FORBIDDEN');
     expect(error.statusCode).toBe(StatusCodes.FORBIDDEN);
@@ -112,7 +112,7 @@ describe('LoanController requestMoreInfo (unauthorized access)', () => {
 
     await controller.requestMoreInfo(req, res, nextFn);
 
-    const error = nextFn!.mock.calls[0]![0];
+    const error = nextFn.mock.calls[0]![0];
     expect(error).toBeInstanceOf(AppError);
     expect(error.code).toBe('AUTHENTICATION_REQUIRED');
     expect(error.statusCode).toBe(StatusCodes.UNAUTHORIZED);
@@ -144,7 +144,7 @@ describe('LoanController approve (unauthorized access)', () => {
 
     await controller.approve(req, res, nextFn);
 
-    const error = nextFn!.mock.calls[0]![0];
+    const error = nextFn.mock.calls[0]![0];
     expect(error).toBeInstanceOf(AppError);
     expect(error.code).toBe('AUTHENTICATION_REQUIRED');
     expect(error.statusCode).toBe(StatusCodes.UNAUTHORIZED);
@@ -176,7 +176,7 @@ describe('LoanController getById (unauthorized access)', () => {
 
     await controller.getById(req, res, nextFn);
 
-    const error = nextFn!.mock.calls[0]![0];
+    const error = nextFn.mock.calls[0]![0];
     expect(error).toBeInstanceOf(AppError);
     expect(error.code).toBe('AUTHENTICATION_REQUIRED');
     expect(error.statusCode).toBe(StatusCodes.UNAUTHORIZED);

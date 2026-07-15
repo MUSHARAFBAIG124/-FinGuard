@@ -24,73 +24,64 @@ export function registerModelGovernanceRoutes(
   );
 
   router.post(
-    '/api/v1/models',
+    '/models',
     requireJwt,
     requireRole(UserRole.ADMIN, UserRole.RISK_ANALYST),
     (req, res) => controller.registerModel(req, res),
   );
 
   router.get(
-    '/api/v1/models',
+    '/models',
     requireJwt,
     requireRole(UserRole.ADMIN, UserRole.RISK_ANALYST),
     (req, res) => controller.listModels(req, res),
   );
 
-  router.get(
-    '/api/v1/models/:version',
-    requireJwt,
-    requireRole(UserRole.ADMIN, UserRole.RISK_ANALYST),
-    (req, res) => controller.getModelDetails(req, res),
-  );
-
   router.post(
-    '/api/v1/models/:version/approve',
-    requireJwt,
-    requireRole(UserRole.ADMIN),
-    (req, res) => controller.approveModel(req, res),
-  );
-
-  router.post(
-    '/api/v1/models/:version/reject',
-    requireJwt,
-    requireRole(UserRole.ADMIN),
-    (req, res) => controller.rejectModel(req, res),
-  );
-
-  router.post(
-    '/api/v1/models/:version/retire',
-    requireJwt,
-    requireRole(UserRole.ADMIN),
-    (req, res) => controller.retireModel(req, res),
-  );
-
-  router.post(
-    '/api/v1/models/drift/check',
+    '/models/drift/check',
     requireJwt,
     requireRole(UserRole.ADMIN, UserRole.RISK_ANALYST),
     (req, res) => controller.checkDrift(req, res),
   );
 
   router.get(
-    '/api/v1/models/drift',
+    '/models/drift',
     requireJwt,
     requireRole(UserRole.ADMIN, UserRole.RISK_ANALYST),
     (req, res) => controller.listDriftRecords(req, res),
   );
 
   router.get(
-    '/api/v1/models/drift/critical',
+    '/models/drift/critical',
     requireJwt,
     requireRole(UserRole.ADMIN, UserRole.RISK_ANALYST),
     (req, res) => controller.listCriticalDrift(req, res),
   );
 
   router.get(
-    '/api/v1/models/analytics',
+    '/models/analytics',
     requireJwt,
     requireRole(UserRole.ADMIN, UserRole.RISK_ANALYST),
     (req, res) => controller.getAnalytics(req, res),
+  );
+
+  router.get(
+    '/models/:version',
+    requireJwt,
+    requireRole(UserRole.ADMIN, UserRole.RISK_ANALYST),
+    (req, res) => controller.getModelDetails(req, res),
+  );
+
+  router.post('/models/:version/approve', requireJwt, requireRole(UserRole.ADMIN), (req, res) =>
+    controller.approveModel(req, res),
+  );
+
+  router.post('/models/:version/reject', requireJwt, requireRole(UserRole.ADMIN), (req, res) =>
+    controller.rejectModel(req, res),
+  );
+
+  router.post('/models/:version/retire', requireJwt, requireRole(UserRole.ADMIN), (req, res) =>
+    controller.retireModel(req, res),
   );
 
   return router;

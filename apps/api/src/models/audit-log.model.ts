@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -13,7 +12,7 @@ import { applyImmutableQueryGuard } from './schema-helpers';
 
 export const AUDIT_LOG_MODEL_NAME = 'AuditLog';
 
-export const AuditLogSchema = new Schema(
+export const AuditLogSchema = new mongoose.Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -89,5 +88,5 @@ applyImmutableQueryGuard(AuditLogSchema, 'AuditLog');
 export type AuditLog = InferSchemaType<typeof AuditLogSchema>;
 export type AuditLogDocument = HydratedDocument<AuditLog>;
 export const AuditLogModel: Model<AuditLog> =
-  (models[AUDIT_LOG_MODEL_NAME] as Model<AuditLog> | undefined) ??
-  model<AuditLog>(AUDIT_LOG_MODEL_NAME, AuditLogSchema);
+  (mongoose.models[AUDIT_LOG_MODEL_NAME] as Model<AuditLog> | undefined) ??
+  mongoose.model<AuditLog>(AUDIT_LOG_MODEL_NAME, AuditLogSchema);

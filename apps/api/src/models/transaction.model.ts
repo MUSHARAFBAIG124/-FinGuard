@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -15,7 +14,7 @@ import { USER_MODEL_NAME } from './user.model';
 
 export const TRANSACTION_MODEL_NAME = 'Transaction';
 
-export const TransactionSchema = new Schema(
+export const TransactionSchema = new mongoose.Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -87,5 +86,5 @@ TransactionSchema.index({ userId: 1, createdAt: -1 }, { name: 'ix_transactions_u
 export type Transaction = InferSchemaType<typeof TransactionSchema>;
 export type TransactionDocument = HydratedDocument<Transaction>;
 export const TransactionModel: Model<Transaction> =
-  (models[TRANSACTION_MODEL_NAME] as Model<Transaction> | undefined) ??
-  model<Transaction>(TRANSACTION_MODEL_NAME, TransactionSchema);
+  (mongoose.models[TRANSACTION_MODEL_NAME] as Model<Transaction> | undefined) ??
+  mongoose.model<Transaction>(TRANSACTION_MODEL_NAME, TransactionSchema);

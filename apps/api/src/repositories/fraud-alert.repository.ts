@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
 import { FraudAlertStatus, FraudSeverity } from '@finguard/shared';
-import { FraudAlert, FraudAlertDocument, FraudAlertModel } from '../models/fraud-alert.model';
+import type { FraudAlertDocument } from '../models/fraud-alert.model';
+import { FraudAlert, FraudAlertModel } from '../models/fraud-alert.model';
 
 export interface CreateFraudAlertInput {
   readonly transactionId: string;

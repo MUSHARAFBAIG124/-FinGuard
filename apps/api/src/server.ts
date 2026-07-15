@@ -60,16 +60,22 @@ process.on('unhandledRejection', (reason) => {
   shutdown('unhandledRejection');
 });
 
-try {
-  await connectDatabase();
-
-  server.listen(env.API_PORT, () => {
-    logger.info('FinGuard API server listening', {
-      port: env.API_PORT,
-      baseUrl: env.API_BASE_URL,
-    });
+server.listen(env.API_PORT, () => {
+  logger.info('FinGuard API server listening', {
+    port: env.API_PORT,
+    baseUrl: env.API_BASE_URL,
   });
-} catch (error) {
-  logger.error('API server failed to start', { error });
+
+  void (async () => {
+    try {
+      await connectDatabase();
+    } catch (error) {
+      logger.error('MongoDB connection failed; API readiness is degraded', { error });
+    }
+  })();
+});
+
+server.on('error', (error) => {
+  logger.error('API server failed to listen', { error });
   process.exit(1);
-}
+});

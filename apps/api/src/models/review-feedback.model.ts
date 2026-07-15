@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -17,7 +16,7 @@ import { enumValues } from './schema-helpers';
 
 export const REVIEW_FEEDBACK_MODEL_NAME = 'ReviewFeedback';
 
-export const ReviewFeedbackSchema = new Schema(
+export const ReviewFeedbackSchema = new mongoose.Schema(
   {
     loanApplicationId: {
       type: Schema.Types.ObjectId,
@@ -91,5 +90,5 @@ ReviewFeedbackSchema.index({ override: 1, createdAt: -1 }, { name: 'ix_feedback_
 export type ReviewFeedback = InferSchemaType<typeof ReviewFeedbackSchema>;
 export type ReviewFeedbackDocument = HydratedDocument<ReviewFeedback>;
 export const ReviewFeedbackModel: Model<ReviewFeedback> =
-  (models[REVIEW_FEEDBACK_MODEL_NAME] as Model<ReviewFeedback> | undefined) ??
-  model<ReviewFeedback>(REVIEW_FEEDBACK_MODEL_NAME, ReviewFeedbackSchema);
+  (mongoose.models[REVIEW_FEEDBACK_MODEL_NAME] as Model<ReviewFeedback> | undefined) ??
+  mongoose.model<ReviewFeedback>(REVIEW_FEEDBACK_MODEL_NAME, ReviewFeedbackSchema);

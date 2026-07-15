@@ -21,6 +21,7 @@ const createRbacTestApp = (role?: UserRole) => {
         request.auth = {
           sub: 'user-123',
           role,
+          sessionVersion: 0,
           tokenType: 'access',
         };
       }
@@ -45,6 +46,7 @@ const createSingleRoleAllowedApp = (authenticatedRole: UserRole, requiredRole: U
       request.auth = {
         sub: 'user-123',
         role: authenticatedRole,
+        sessionVersion: 0,
         tokenType: 'access',
       };
       next();
@@ -59,12 +61,15 @@ const createSingleRoleAllowedApp = (authenticatedRole: UserRole, requiredRole: U
 
 const createJwtRbacTestApp = () => {
   const tokenService = new TokenService();
+  const userRepository = {
+    findById: () => Promise.resolve({ sessionVersion: 0 }),
+  };
   const app = express();
 
   app.use(requestContextMiddleware);
   app.get(
     '/analyst-or-admin',
-    createJwtMiddleware(tokenService),
+    createJwtMiddleware(tokenService, userRepository),
     requireRole(UserRole.RISK_ANALYST, UserRole.ADMIN),
     (_request, response) => response.status(204).send(),
   );
@@ -114,10 +119,12 @@ describe('RBAC middleware', () => {
     const analystToken = tokenService.createAccessToken({
       sub: 'analyst-123',
       role: UserRole.RISK_ANALYST,
+      sessionVersion: 0,
     });
     const adminToken = tokenService.createAccessToken({
       sub: 'admin-123',
       role: UserRole.ADMIN,
+      sessionVersion: 0,
     });
 
     await request(app)
@@ -137,6 +144,7 @@ describe('RBAC middleware', () => {
       const token = tokenService.createAccessToken({
         sub: `${role.toLowerCase()}-123`,
         role,
+        sessionVersion: 0,
       });
       const response = await request(app)
         .get('/analyst-or-admin')

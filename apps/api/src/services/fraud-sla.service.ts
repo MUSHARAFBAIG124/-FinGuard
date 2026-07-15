@@ -1,6 +1,6 @@
 import { FraudCasePriority, FraudCaseStatus } from '@finguard/shared';
-import { FraudCaseDocument } from '../models/fraud-case.model';
-import { FraudCaseRepository } from '../repositories/fraud-case.repository';
+import type { FraudCaseDocument } from '../models/fraud-case.model';
+import type { FraudCaseRepository } from '../repositories/fraud-case.repository';
 
 export class FraudSLAService {
   constructor(private readonly caseRepo: FraudCaseRepository) {}

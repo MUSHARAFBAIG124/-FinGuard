@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   type HydratedDocument,
   type InferSchemaType,
@@ -14,7 +13,7 @@ import { MODEL_REGISTRY_MODEL_NAME } from './model-registry.model';
 
 export const MODEL_DRIFT_RECORD_MODEL_NAME = 'ModelDriftRecord';
 
-export const ModelDriftRecordSchema = new Schema(
+export const ModelDriftRecordSchema = new mongoose.Schema(
   {
     modelVersion: {
       type: String,
@@ -62,5 +61,5 @@ ModelDriftRecordSchema.index({ detectedAt: -1 }, { name: 'ix_drift_detected_at' 
 export type ModelDriftRecord = InferSchemaType<typeof ModelDriftRecordSchema>;
 export type ModelDriftRecordDocument = HydratedDocument<ModelDriftRecord>;
 export const ModelDriftRecordModel: Model<ModelDriftRecord> =
-  (models[MODEL_DRIFT_RECORD_MODEL_NAME] as Model<ModelDriftRecord> | undefined) ??
-  model<ModelDriftRecord>(MODEL_DRIFT_RECORD_MODEL_NAME, ModelDriftRecordSchema);
+  (mongoose.models[MODEL_DRIFT_RECORD_MODEL_NAME] as Model<ModelDriftRecord> | undefined) ??
+  mongoose.model<ModelDriftRecord>(MODEL_DRIFT_RECORD_MODEL_NAME, ModelDriftRecordSchema);

@@ -33,6 +33,16 @@ class PredictionRequest(BaseModel):
     loanAmount: float = Field(..., ge=0, description="Loan amount requested")
 
 
+class ShapValue(BaseModel):
+    feature: str
+    value: float
+
+
+class ExplanationModel(BaseModel):
+    summary: str = Field(..., description="Risk explanation summary")
+    shapValues: list[ShapValue] = Field(..., description="SHAP feature contributions")
+
+
 class PredictionResponse(BaseModel):
     """Response model for risk prediction."""
 
@@ -42,7 +52,7 @@ class PredictionResponse(BaseModel):
     )
     riskCategory: RiskCategory = Field(..., description="Risk category")
     modelVersion: str = Field(..., description="Model version")
-    explanation: str = Field(..., description="Risk explanation")
+    explanation: ExplanationModel = Field(..., description="Structured risk explanation")
 
 
 class HealthResponse(BaseModel):

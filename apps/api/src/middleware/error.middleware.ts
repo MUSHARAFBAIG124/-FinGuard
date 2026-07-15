@@ -1,14 +1,28 @@
 import type { ErrorRequestHandler, RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { ZodError } from 'zod';
 
 import { AppError, isAppError } from '../errors/app-error';
 import { sendError } from '../utils/api-response';
 
+const isMalformedJsonError = (error: unknown): error is { type: string; status?: number } =>
+  typeof error === 'object' &&
+  error !== null &&
+  'type' in error &&
+  (error as { type?: unknown }).type === 'entity.parse.failed';
+
 export const normalizeError = (error: unknown): AppError => {
   if (isAppError(error)) {
     return error;
+  }
+
+  if (isMalformedJsonError(error)) {
+    return new AppError({
+      code: 'BAD_REQUEST',
+      message: 'Malformed JSON request body',
+      statusCode: StatusCodes.BAD_REQUEST,
+    });
   }
 
   if (error instanceof ZodError) {
@@ -20,7 +34,7 @@ export const normalizeError = (error: unknown): AppError => {
     });
   }
 
-  if (error instanceof TokenExpiredError) {
+  if (error instanceof jwt.TokenExpiredError) {
     return new AppError({
       code: 'TOKEN_EXPIRED',
       message: 'Access token has expired',
@@ -28,7 +42,7 @@ export const normalizeError = (error: unknown): AppError => {
     });
   }
 
-  if (error instanceof JsonWebTokenError) {
+  if (error instanceof jwt.JsonWebTokenError) {
     return new AppError({
       code: 'INVALID_TOKEN',
       message: 'Access token is invalid',
@@ -36,6 +50,7 @@ export const normalizeError = (error: unknown): AppError => {
     });
   }
 
+  console.error('Unhandled error:', error);
   return new AppError({
     code: 'INTERNAL_SERVER_ERROR',
     message: 'An unexpected error occurred',

@@ -17,6 +17,8 @@
   "scripts": {
     "dev:api": "npm --workspace apps/api run dev",
     "dev:web": "npm --workspace apps/web run dev",
+    "db:ping": "node apps/api/scripts/mongo-ping.mjs",
+    "start": "npm --workspace apps/api run start",
     "build": "npm run build --workspaces --if-present",
     "lint": "eslint .",
     "format": "prettier . --write",

@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -12,7 +11,7 @@ import { USER_MODEL_NAME } from './user.model';
 
 export const EMAIL_VERIFICATION_TOKEN_MODEL_NAME = 'EmailVerificationToken';
 
-export const EmailVerificationTokenSchema = new Schema(
+export const EmailVerificationTokenSchema = new mongoose.Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -62,5 +61,10 @@ EmailVerificationTokenSchema.index(
 export type EmailVerificationToken = InferSchemaType<typeof EmailVerificationTokenSchema>;
 export type EmailVerificationTokenDocument = HydratedDocument<EmailVerificationToken>;
 export const EmailVerificationTokenModel: Model<EmailVerificationToken> =
-  (models[EMAIL_VERIFICATION_TOKEN_MODEL_NAME] as Model<EmailVerificationToken> | undefined) ??
-  model<EmailVerificationToken>(EMAIL_VERIFICATION_TOKEN_MODEL_NAME, EmailVerificationTokenSchema);
+  (mongoose.models[EMAIL_VERIFICATION_TOKEN_MODEL_NAME] as
+    | Model<EmailVerificationToken>
+    | undefined) ??
+  mongoose.model<EmailVerificationToken>(
+    EMAIL_VERIFICATION_TOKEN_MODEL_NAME,
+    EmailVerificationTokenSchema,
+  );

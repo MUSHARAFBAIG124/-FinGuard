@@ -29,6 +29,7 @@ type StoredUser = UserDocument & {
   failedLoginAttempts: number;
   lockedUntil: Date | null;
   lastLoginAt: Date | null;
+  sessionVersion: number;
 };
 
 type StoredRefreshToken = RefreshTokenDocument & {
@@ -60,6 +61,7 @@ const createUserDocument = (input: CreateUserInput): StoredUser => {
     failedLoginAttempts: 0,
     lockedUntil: null,
     lastLoginAt: null,
+    sessionVersion: 0,
     createdAt: now,
     updatedAt: now,
   } as StoredUser;
@@ -144,6 +146,18 @@ class InMemoryUserRepository implements UserRepository {
     user.lockedUntil = null;
     user.lastLoginAt = loggedInAt;
     user.updatedAt = new Date();
+  }
+
+  public async incrementSessionVersion(id: string): Promise<UserDocument | null> {
+    const user = (await this.findById(id)) as StoredUser | null;
+
+    if (!user) {
+      return null;
+    }
+
+    user.sessionVersion += 1;
+    user.updatedAt = new Date();
+    return user;
   }
 }
 

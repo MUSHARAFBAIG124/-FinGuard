@@ -1,6 +1,12 @@
 node_modules
 dist
-build
 coverage
-.venv
-models/artifacts
+artifacts
+scratch
+services/ai/.venv
+services/ai/models
+apps/api/vitest-report.json
+payload.json
+services/ai/payload.json
+*.coverage
+*.log

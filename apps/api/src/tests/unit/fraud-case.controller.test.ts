@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { FraudCaseController } from '../../controllers/fraud-case.controller';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { FraudCasePriority, FraudOwnerRole } from '@finguard/shared';
 import { StatusCodes } from 'http-status-codes';
 

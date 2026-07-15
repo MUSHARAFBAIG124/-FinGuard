@@ -1,5 +1,6 @@
-import { FraudCaseEventType } from '@finguard/shared';
-import { FraudCaseEventDocument, FraudCaseEventModel } from '../models/fraud-case-event.model';
+import type { FraudCaseEventType } from '@finguard/shared';
+import type { FraudCaseEventDocument } from '../models/fraud-case-event.model';
+import { FraudCaseEventModel } from '../models/fraud-case-event.model';
 
 export interface CreateFraudCaseEventInput {
   readonly caseId: string;

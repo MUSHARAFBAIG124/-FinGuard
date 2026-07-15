@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -17,7 +16,7 @@ import { enumValues } from './schema-helpers';
 
 export const LOAN_REVIEW_DECISION_MODEL_NAME = 'LoanReviewDecision';
 
-export const LoanReviewDecisionSchema = new Schema(
+export const LoanReviewDecisionSchema = new mongoose.Schema(
   {
     loanApplicationId: {
       type: Schema.Types.ObjectId,
@@ -110,5 +109,5 @@ LoanReviewDecisionSchema.index(
 export type LoanReviewDecision = InferSchemaType<typeof LoanReviewDecisionSchema>;
 export type LoanReviewDecisionDocument = HydratedDocument<LoanReviewDecision>;
 export const LoanReviewDecisionModel: Model<LoanReviewDecision> =
-  (models[LOAN_REVIEW_DECISION_MODEL_NAME] as Model<LoanReviewDecision> | undefined) ??
-  model<LoanReviewDecision>(LOAN_REVIEW_DECISION_MODEL_NAME, LoanReviewDecisionSchema);
+  (mongoose.models[LOAN_REVIEW_DECISION_MODEL_NAME] as Model<LoanReviewDecision> | undefined) ??
+  mongoose.model<LoanReviewDecision>(LOAN_REVIEW_DECISION_MODEL_NAME, LoanReviewDecisionSchema);

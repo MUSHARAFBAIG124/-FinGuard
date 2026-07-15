@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { FraudController } from '../controllers/fraud.controller';
+import type { FraudController } from '../controllers/fraud.controller';
 import { requireJwt } from '../middleware/jwt.middleware';
 import { requireRole } from '../middleware/rbac.middleware';
 import { UserRole } from '@finguard/shared';

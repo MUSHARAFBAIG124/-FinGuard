@@ -3,11 +3,9 @@ import {
   ModelGovernanceService,
   DEFAULT_THRESHOLDS,
 } from '../../services/model-governance.service';
-import {
-  ModelRegistryRepository,
-  MongooseModelRegistryRepository,
-} from '../../repositories/model-registry.repository';
-import { AuditLogRepository } from '../../repositories/audit-log.repository';
+import type { ModelRegistryRepository } from '../../repositories/model-registry.repository';
+import { MongooseModelRegistryRepository } from '../../repositories/model-registry.repository';
+import type { AuditLogRepository } from '../../repositories/audit-log.repository';
 import { ModelStatus } from '@finguard/shared';
 import { AppError } from '../../errors/app-error';
 

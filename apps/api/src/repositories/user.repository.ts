@@ -27,6 +27,7 @@ export interface UserRepository {
     lockedUntil: Date | null,
   ): Promise<void>;
   recordSuccessfulLogin(id: string, loggedInAt: Date): Promise<void>;
+  incrementSessionVersion(id: string): Promise<UserDocument | null>;
 }
 
 const normalizeEmail = (email: string): string => email.trim().toLowerCase();
@@ -91,5 +92,15 @@ export class MongooseUserRepository implements UserRepository {
       lockedUntil: null,
       lastLoginAt: loggedInAt,
     }).exec();
+  }
+
+  public async incrementSessionVersion(id: string): Promise<UserDocument | null> {
+    return UserModel.findByIdAndUpdate(
+      id,
+      {
+        $inc: { sessionVersion: 1 },
+      },
+      { new: true },
+    ).exec();
   }
 }

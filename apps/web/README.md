@@ -16,3 +16,12 @@ src/
 ```
 
 React Query owns server state. React Router owns navigation. Business features should not import directly from unrelated feature internals.
+
+## Loan Details Drawer
+
+The loan details drawer renders applicant fields from the selected loan application and AI prediction fields only from `GET /api/v1/risk-assessments/:loanId`. Missing risk assessment fields display as `Unavailable`; missing or failed risk assessment responses never fall back to mock scores or generated SHAP values.
+
+Browser verification screenshots for the AI decision consistency pass are saved under `artifacts/`:
+
+- `p2.10-loan-drawer-finalized.png`
+- `p2.10-loan-drawer-mobile-review.png`

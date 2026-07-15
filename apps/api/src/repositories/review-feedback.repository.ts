@@ -1,6 +1,6 @@
 import type { ReviewFeedbackDocument } from '../models/review-feedback.model';
 import { ReviewFeedbackModel } from '../models/review-feedback.model';
-import { RiskCategory, ReviewerDecision } from '@finguard/shared';
+import type { RiskCategory, ReviewerDecision } from '@finguard/shared';
 
 export interface CreateReviewFeedbackInput {
   readonly loanApplicationId: string;

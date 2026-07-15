@@ -27,6 +27,7 @@ const durationToMs = (duration: string): number => {
 export interface AccessTokenPayload {
   readonly sub: string;
   readonly role: UserRole;
+  readonly sessionVersion: number;
   readonly tokenType: 'access';
 }
 
@@ -58,6 +59,7 @@ export class TokenService {
       .object({
         sub: z.string().min(1),
         role: z.nativeEnum(UserRole),
+        sessionVersion: z.number().int().nonnegative(),
         tokenType: z.literal('access'),
       })
       .parse(decoded);

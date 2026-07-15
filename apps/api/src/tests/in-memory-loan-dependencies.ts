@@ -16,7 +16,10 @@ import type {
 } from '../repositories/risk-assessment.repository';
 import type { RiskAssessmentDocument } from '../models/risk-assessment.model';
 import { RiskAssessmentService } from '../services/risk-assessment.service';
-import { InMemoryModelMetricsRepository } from './in-memory-model-metrics';
+import {
+  InMemoryModelMetricsRepository,
+  type InMemoryModelMetricsRepository as InMemoryModelMetricsRepositoryType,
+} from './in-memory-model-metrics';
 import { ModelMetricsService } from '../services/model-metrics.service';
 
 type StoredLoan = LoanApplicationDocument & {
@@ -224,9 +227,9 @@ export const createInMemoryLoanDependencies = (): {
   readonly dependencies: LoanServiceDependencies & { modelMetricsService: ModelMetricsService };
   readonly store: InMemoryLoanStore;
   readonly repos?: {
-    riskAssessmentRepository?: import('../repositories/risk-assessment.repository').RiskAssessmentRepository;
-    auditLogRepository?: import('../repositories/audit-log.repository').AuditLogRepository;
-    modelMetricsRepository?: import('./in-memory-model-metrics').InMemoryModelMetricsRepository;
+    riskAssessmentRepository?: RiskAssessmentRepository;
+    auditLogRepository?: AuditLogRepository;
+    modelMetricsRepository?: InMemoryModelMetricsRepositoryType;
   };
   readonly modelMetricsService: ModelMetricsService;
 } => {

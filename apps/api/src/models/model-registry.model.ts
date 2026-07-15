@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -15,7 +14,7 @@ import { USER_MODEL_NAME } from './user.model';
 
 export const MODEL_REGISTRY_MODEL_NAME = 'ModelRegistry';
 
-export const ModelRegistrySchema = new Schema(
+export const ModelRegistrySchema = new mongoose.Schema(
   {
     modelVersion: {
       type: String,
@@ -94,5 +93,5 @@ ModelRegistrySchema.index({ status: 1, createdAt: -1 }, { name: 'ix_model_regist
 export type ModelRegistry = InferSchemaType<typeof ModelRegistrySchema>;
 export type ModelRegistryDocument = HydratedDocument<ModelRegistry>;
 export const ModelRegistryModel: Model<ModelRegistry> =
-  (models[MODEL_REGISTRY_MODEL_NAME] as Model<ModelRegistry> | undefined) ??
-  model<ModelRegistry>(MODEL_REGISTRY_MODEL_NAME, ModelRegistrySchema);
+  (mongoose.models[MODEL_REGISTRY_MODEL_NAME] as Model<ModelRegistry> | undefined) ??
+  mongoose.model<ModelRegistry>(MODEL_REGISTRY_MODEL_NAME, ModelRegistrySchema);

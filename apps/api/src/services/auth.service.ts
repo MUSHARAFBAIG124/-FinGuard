@@ -179,6 +179,7 @@ export class AuthService {
     const user = await this.dependencies.userRepository.findById(existingToken.userId.toString());
 
     if (user) {
+      await this.dependencies.userRepository.incrementSessionVersion(getDocumentId(user));
       await this.audit(user, 'LOGOUT', context);
     }
   }
@@ -322,6 +323,7 @@ export class AuthService {
     );
 
     if (user) {
+      await this.dependencies.userRepository.incrementSessionVersion(getDocumentId(user));
       await this.audit(user, 'PASSWORD_RESET_SUCCESS', context);
     }
   }
@@ -330,6 +332,7 @@ export class AuthService {
     const accessToken = this.dependencies.tokenService.createAccessToken({
       sub: getDocumentId(user),
       role: user.role as UserRole,
+      sessionVersion: user.sessionVersion ?? 0,
     });
     const refreshToken = this.dependencies.tokenService.createRefreshToken();
 

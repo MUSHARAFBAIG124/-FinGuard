@@ -196,11 +196,9 @@ describe('MongooseModelDriftRepository', () => {
   });
 
   it('should list critical drifts', async () => {
-    const mockSort = vi
-      .fn()
-      .mockReturnValue({
-        exec: vi.fn().mockResolvedValue([{ featureName: 'age', driftLevel: DriftLevel.CRITICAL }]),
-      });
+    const mockSort = vi.fn().mockReturnValue({
+      exec: vi.fn().mockResolvedValue([{ featureName: 'age', driftLevel: DriftLevel.CRITICAL }]),
+    });
     vi.mocked(ModelDriftRecordModel.find).mockReturnValue({ sort: mockSort } as any);
 
     const result = await repo.listCritical();

@@ -134,7 +134,7 @@ describe('Risk Assessment Integration (in-memory)', () => {
   it('Metadata Failure Flow: GET /model/info handles missing or corrupted metadata.json', async () => {
     const { dependencies } = createInMemoryLoanDependencies();
     const controller = createModelController({
-      modelMetricsService: dependencies.modelMetricsService!,
+      modelMetricsService: dependencies.modelMetricsService,
     });
 
     // simulate missing metadata by temporarily renaming the file path used by controller
@@ -219,8 +219,15 @@ describe('Risk Assessment Integration (in-memory)', () => {
       generatedAt: new Date(),
     } as any);
 
-    const ctrl = createRiskAssessmentController({ riskAssessmentRepository: repo });
-    const req: any = { params: { loanId: loan._id.toString() } };
+    const ctrl = createRiskAssessmentController({
+      loanRepository: dependencies.loanRepository,
+      riskAssessmentRepository: repo,
+      isDatabaseReady: () => true,
+    });
+    const req: any = {
+      params: { loanId: loan._id.toString() },
+      auth: { sub: 'risk-analyst-1', role: 'RISK_ANALYST' },
+    };
     let body: any = null;
     const res: any = {
       json: (b: any) => {
@@ -232,7 +239,12 @@ describe('Risk Assessment Integration (in-memory)', () => {
     await ctrl.getByLoanId(req, res);
     expect(Array.isArray(body)).toBe(true);
     expect(body.length).toBe(3);
-    expect(body[0].modelVersion).toBeDefined();
+    expect(body[0]).toMatchObject({
+      riskScore: 10,
+      approvalProbability: 0.9,
+      riskCategory: 'LOW',
+      modelVersion: '1.0.0',
+    });
     expect(body[0].explanation.summary).toBe('v1');
     expect(Array.isArray(body[0].explanation.shapValues)).toBe(true);
   });

@@ -13,11 +13,13 @@ describe('TokenService', () => {
     const token = service.createAccessToken({
       sub: 'user-123',
       role: UserRole.ADMIN,
+      sessionVersion: 0,
     });
 
     expect(service.verifyAccessToken(token)).toMatchObject({
       sub: 'user-123',
       role: UserRole.ADMIN,
+      sessionVersion: 0,
       tokenType: 'access',
     });
   });

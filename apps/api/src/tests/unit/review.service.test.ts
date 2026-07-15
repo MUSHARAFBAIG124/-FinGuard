@@ -62,7 +62,7 @@ describe('ReviewService', () => {
       findByReviewerId: vi.fn(),
       findLatestByLoanId: vi.fn(),
       findByDecisionType: vi.fn(),
-    } as unknown as LoanReviewDecisionRepository;
+    };
 
     feedbackRepo = {
       create: vi.fn(),
@@ -70,7 +70,7 @@ describe('ReviewService', () => {
       findByReviewerId: vi.fn(),
       findByLoanIdLatest: vi.fn(),
       getOverrideStatistics: vi.fn(),
-    } as unknown as ReviewFeedbackRepository;
+    };
 
     loanRepo = {
       findById: vi.fn(),
@@ -134,7 +134,7 @@ describe('ReviewService', () => {
       );
       vi.mocked(reviewDecisionRepo.create).mockResolvedValue(mockReviewDecision as any);
       vi.mocked(feedbackRepo.create).mockResolvedValue({ _id: '507f1f77bcf86cd799439016' } as any);
-      vi.mocked(loanRepo.updateStatus).mockResolvedValue(null as any);
+      vi.mocked(loanRepo.updateStatus).mockResolvedValue(null);
       vi.mocked(auditLogRepo.create).mockResolvedValue({ _id: '507f1f77bcf86cd799439017' } as any);
 
       // Act
@@ -197,7 +197,7 @@ describe('ReviewService', () => {
       );
       vi.mocked(reviewDecisionRepo.create).mockResolvedValue(mockReviewDecision as any);
       vi.mocked(feedbackRepo.create).mockResolvedValue({} as any);
-      vi.mocked(loanRepo.updateStatus).mockResolvedValue(null as any);
+      vi.mocked(loanRepo.updateStatus).mockResolvedValue(null);
       vi.mocked(auditLogRepo.create).mockResolvedValue({} as any);
 
       const result = await reviewService.submitReview({
@@ -288,7 +288,7 @@ describe('ReviewService', () => {
       );
       vi.mocked(reviewDecisionRepo.create).mockResolvedValue(mockReviewDecision as any);
       vi.mocked(feedbackRepo.create).mockResolvedValue({} as any);
-      vi.mocked(loanRepo.updateStatus).mockResolvedValue(null as any);
+      vi.mocked(loanRepo.updateStatus).mockResolvedValue(null);
       vi.mocked(auditLogRepo.create).mockResolvedValue({} as any);
 
       const features = { employmentStatus: 'pending', verificationStatus: 'incomplete' };

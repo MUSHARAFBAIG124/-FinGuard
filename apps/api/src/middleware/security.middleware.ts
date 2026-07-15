@@ -7,22 +7,20 @@ import { StatusCodes } from 'http-status-codes';
 import { env } from '../config/env';
 import { AppError } from '../errors/app-error';
 
-const allowedOrigins = new Set([
-  env.WEB_BASE_URL,
-  'http://localhost:5173',
-  'http://127.0.0.1:5173',
-]);
+const allowedOrigins = [env.WEB_BASE_URL, 'http://localhost:5173', 'http://127.0.0.1:5173'].filter(
+  Boolean,
+);
 
 export const configureSecurityMiddleware = (app: Express): void => {
   app.disable('x-powered-by');
 
-  app.use(helmet());
+  app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 
   app.use(
     cors({
       credentials: true,
       origin(origin, callback) {
-        if (!origin || allowedOrigins.has(origin)) {
+        if (!origin || allowedOrigins.includes(origin)) {
           callback(null, true);
           return;
         }

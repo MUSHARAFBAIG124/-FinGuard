@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { LoanStatus, EmploymentType } from '@finguard/shared';
-import { createInMemoryLoanDependencies, InMemoryLoanStore } from './in-memory-loan-dependencies';
-import { LoanRepository } from '../repositories/loan.repository';
+import type { InMemoryLoanStore } from './in-memory-loan-dependencies';
+import { createInMemoryLoanDependencies } from './in-memory-loan-dependencies';
+import type { LoanRepository } from '../repositories/loan.repository';
 
 describe('InMemoryLoanRepository', () => {
   let repository: LoanRepository;

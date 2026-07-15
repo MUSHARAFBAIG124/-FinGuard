@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { FraudSLAService } from '../../services/fraud-sla.service';
 import { FraudCasePriority, FraudCaseStatus } from '@finguard/shared';
-import { FraudCaseDocument } from '../../models/fraud-case.model';
+import type { FraudCaseDocument } from '../../models/fraud-case.model';
 
 describe('FraudSLAService', () => {
   let slaService: FraudSLAService;

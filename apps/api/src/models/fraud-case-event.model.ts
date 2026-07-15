@@ -1,11 +1,13 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import { FraudCaseEventContract, FraudCaseEventType } from '@finguard/shared';
+import type { Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+import type { FraudCaseEventContract } from '@finguard/shared';
+import { FraudCaseEventType } from '@finguard/shared';
 
 export interface FraudCaseEventDocument extends FraudCaseEventContract, Document {
   id: string;
 }
 
-const FraudCaseEventSchema = new Schema(
+const FraudCaseEventSchema = new mongoose.Schema(
   {
     caseId: {
       type: String,

@@ -2,7 +2,7 @@ import type { ModelMetricsDocument } from '../models/model-metrics.model';
 import type { ModelMetricsRepository } from '../repositories/model-metrics.repository';
 
 export class InMemoryModelMetricsRepository implements ModelMetricsRepository {
-  private store: Record<string, ModelMetricsDocument> = {} as any;
+  private store: Record<string, ModelMetricsDocument> = {};
 
   public async incrementPrediction(modelVersion: string, latencyMs: number, success: boolean) {
     const existing = this.store[modelVersion];

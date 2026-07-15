@@ -1,24 +1,31 @@
 # FinGuard AI
 
-FinGuard AI is an enterprise banking and fraud detection platform for loan processing, customer onboarding, AI-assisted risk scoring, fraud monitoring, and executive analytics.
+FinGuard AI is an enterprise banking and fraud detection platform designed for loan processing, customer onboarding, AI-assisted risk scoring, fraud monitoring, and executive analytics.
 
-This repository is being built in phases. Phase 4 now adds the authentication and RBAC foundation on top of the production API and database layers. Loan workflows, fraud workflows, AI inference, and dashboards remain deferred until their approved phases.
+This repository demonstrates a complete ML-powered FinTech ecosystem. It features a robust clean-architecture Node.js backend, a FastAPI machine learning microservice, and a premium React frontend utilizing glassmorphism and Recharts for Explainable AI (XAI) and executive dashboards.
+
+## Portfolio Highlights
+
+- **Executive Dashboard**: Real-time metrics across loan processing, risk management, and system health.
+- **AI Governance & Drift Monitoring**: Dedicated registry for ML models, visualizations for Population Stability Index (PSI) drift, and SHAP feature importance charts.
+- **Fraud Operations**: Centralized monitoring of fraud alerts, SLAs, and case management workflows.
+- **Enterprise Security**: Advanced RBAC, multi-session management, automatic lockouts, and JWT rotation.
 
 ## Architecture
 
-- Frontend: React, Vite, TypeScript, Tailwind CSS, React Query, React Router
-- Backend: Node.js, Express.js, TypeScript, layered clean architecture
-- Database: MongoDB with Mongoose
-- AI service: Python, FastAPI, Scikit-learn
-- Shared contracts: TypeScript package for domain enums and API constants
-- Infrastructure: Docker, Docker Compose, and GitHub Actions planned for Phase 9
+- **Frontend**: React, Vite, TypeScript, Tailwind CSS, Recharts, React Query, React Router
+- **Backend API**: Node.js, Express.js, TypeScript, layered clean architecture
+- **Database**: MongoDB with Mongoose
+- **AI Service**: Python, FastAPI, Scikit-learn (Random Forest)
+- **Shared Contracts**: TypeScript package for domain enums and API constants
+- **Deployment**: Vercel (Frontend), Render (API + AI Service)
 
 ## Monorepo Structure
 
 ```text
 apps/
   api/              Express API service
-  web/              React web application
+  web/              React web application (Premium Dashboard)
 packages/
   shared/           Shared TypeScript domain contracts
 services/
@@ -28,7 +35,7 @@ docs/
   ARCHITECTURE.md
   DATABASE_ERD.md
   DEPLOYMENT.md
-  DEVELOPMENT_PLAN.md
+  RESUME_ENTRY.md
 ```
 
 ## Local Development
@@ -38,66 +45,68 @@ Prerequisites:
 - Node.js 20 LTS or later
 - npm 10 or later
 - Python 3.11 or later
-- MongoDB 7 or later
+- MongoDB 7 or later (or MongoDB Atlas)
 
-Install JavaScript dependencies:
+### Quick Start (Windows)
 
-```bash
-npm install
+```powershell
+# Installs dependencies, builds shared packages, and starts all 3 services
+.\run-project.ps1
 ```
 
-Install AI service dependencies:
+### Manual Setup
 
-```bash
-cd services/ai
-python -m venv .venv
-.venv/Scripts/activate
-pip install -e ".[dev]"
-```
+1. **Install JavaScript dependencies:**
 
-Copy the environment template:
+   ```bash
+   npm install
+   npm run build --workspace packages/shared
+   ```
 
-```bash
-cp .env.example .env
-```
+2. **Install AI service dependencies:**
 
-## Quality Gates
+   ```bash
+   cd services/ai
+   python -m venv .venv
+   .venv/Scripts/activate # or .\.venv\Scripts\activate on Windows
+   pip install -r requirements.txt
+   ```
 
-Repository-wide commands are defined for later phases:
+3. **Environment setup:**
 
-```bash
-npm run lint
-npm run typecheck
-npm run test
-npm run format:check
-```
+   ```bash
+   cp .env.example .env
+   # Ensure you set MONGODB_URI and JWT secrets in the root .env
+   ```
 
-The target test coverage for implemented business logic and API workflows is greater than 80%. Phase 4 raises the authentication/security target to 90% overall API coverage and 95% coverage for critical auth modules.
+   The web app authenticates only through `POST /api/v1/auth/login`; failed backend authentication must leave the user on `/login` and must not create local demo sessions. Keep `VITE_DEMO_MODE_ENABLED=false` for QA and production. The API exposes `/health/live` for liveness and `/health/ready` for dependency readiness; readiness can report a degraded state when MongoDB or the AI service is unavailable while the API process remains listening.
 
-## Authentication Foundation
+   Refresh tokens are issued as HttpOnly, SameSite=Strict cookies for browser clients and are still returned in the JSON token envelope for API/mobile clients and automated integration tests. The SPA stores only the access token, uses the refresh cookie for silent access-token renewal, and calls backend logout so the refresh cookie and server-side refresh token are revoked together.
 
-Phase 4 implements:
+4. **Seed Demo Data (Optional):**
 
-- Registration, login, logout, current user, refresh token rotation, email verification, and password reset endpoints under `/api/v1/auth`
-- Bcrypt password hashing and Zod password policy validation
-- Short-lived JWT access tokens and opaque refresh tokens hashed at rest
-- Multiple active sessions with per-token revocation and rotation replay protection
-- Account lockout after repeated failed login attempts
-- Role-based access control using shared `UserRole` contracts
-- Audit events for auth lifecycle actions with request correlation IDs
+   ```bash
+   npm --workspace apps/api run seed
+   ```
+
+5. **Verify MongoDB Connectivity:**
+   ```bash
+   npm run db:ping
+   ```
+   This command validates `MONGODB_URI` without printing credentials.
+
+## Deployment
+
+The repository includes configurations for seamless cloud deployment:
+
+- `vercel.json` - Ready for deploying `apps/web` to Vercel.
+- `render.yaml` - Blueprint for deploying the Node API and Python AI Service to Render.
+
+See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed instructions.
 
 ## Documentation
 
 - [Architecture](docs/ARCHITECTURE.md)
 - [API Documentation](docs/API.md)
+- [Resume & Portfolio Entry](docs/RESUME_ENTRY.md)
 - [Database ER Diagram](docs/DATABASE_ERD.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
-- [Development Plan](docs/DEVELOPMENT_PLAN.md)
-
-## Current Phase
-
-Phase 4: Authentication and RBAC complete.
-
-Next phase after approval: Phase 5 loan management.
-
-No banking feature should be considered implemented until its phase is completed and verified. Phase 5 must not start until Phase 4 is approved.

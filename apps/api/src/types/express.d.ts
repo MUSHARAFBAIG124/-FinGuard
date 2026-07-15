@@ -5,6 +5,7 @@ import type { UserRole } from '@finguard/shared';
 export interface AuthPayload {
   readonly sub: string;
   readonly role: UserRole;
+  readonly sessionVersion: number;
   readonly tokenType: 'access';
 }
 

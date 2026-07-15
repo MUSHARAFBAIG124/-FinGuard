@@ -4,8 +4,9 @@ import logging
 from fastapi import APIRouter, HTTPException
 
 from app.models.model import RiskAssessmentModel
-from app.schemas.prediction import PredictionRequest, PredictionResponse
+from app.schemas.prediction import PredictionRequest, PredictionResponse, ExplanationModel, ShapValue
 from app.services.explanation import ExplanationService
+from app.services.shap_service import ShapService
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
@@ -56,12 +57,14 @@ async def predict_risk(request: PredictionRequest) -> PredictionResponse:
             prediction_result["approval_probability"]
         )
 
-        # Generate explanation
-        explanation = ExplanationService.generate_explanation(
-            features,
-            prediction_result["risk_score"],
-            risk_category,
-            prediction_result["approval_probability"],
+        # Generate SHAP explanation
+        scaled_features = prediction_result["scaled_features"]
+        shap_contributions = ShapService.explain_prediction(model.model, scaled_features)
+        summary_text = ShapService.generate_human_explanation(shap_contributions)
+
+        explanation_obj = ExplanationModel(
+            summary=summary_text,
+            shapValues=[ShapValue(feature=sc["feature"], value=sc["value"]) for sc in shap_contributions]
         )
 
         logger.info(
@@ -75,7 +78,7 @@ async def predict_risk(request: PredictionRequest) -> PredictionResponse:
             approvalProbability=prediction_result["approval_probability"],
             riskCategory=risk_category,
             modelVersion=settings.MODEL_VERSION,
-            explanation=explanation,
+            explanation=explanation_obj,
         )
 
     except Exception as e:

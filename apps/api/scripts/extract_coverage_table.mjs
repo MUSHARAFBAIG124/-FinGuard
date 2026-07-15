@@ -6,7 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPORT = path.join(__dirname, '..', 'vitest-report.json');
 
 function stripAnsi(s) {
-  return s.replace(/\x1b\[[0-9;]*m/g, '');
+  return s.replace(new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g'), '');
 }
 function stripBOM(s) {
   return s.replace(/^\uFEFF/, '');

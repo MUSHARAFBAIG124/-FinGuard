@@ -12,11 +12,12 @@ import type {
 } from '../repositories/loan.repository';
 import { getDocumentId } from '../utils/document-id';
 import type { RequestContext } from './auth.types';
+import type { RiskAssessmentService } from './risk-assessment.service';
 
 export interface LoanServiceDependencies {
   readonly loanRepository: LoanRepository;
   readonly auditLogRepository: AuditLogRepository;
-  readonly riskAssessmentService?: import('./risk-assessment.service').RiskAssessmentService;
+  readonly riskAssessmentService?: RiskAssessmentService;
 }
 
 export interface LoanApplicationResponse {

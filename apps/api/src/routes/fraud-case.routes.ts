@@ -3,7 +3,7 @@ import { requireJwt } from '../middleware/jwt.middleware';
 import { requireRole } from '../middleware/rbac.middleware';
 import { UserRole } from '@finguard/shared';
 import { asyncHandler } from '../utils/async-handler';
-import { FraudCaseController } from '../controllers/fraud-case.controller';
+import type { FraudCaseController } from '../controllers/fraud-case.controller';
 
 export const createFraudCaseRouter = (fraudCaseController: FraudCaseController): Router => {
   const router = Router();
@@ -29,15 +29,9 @@ export const createFraudCaseRouter = (fraudCaseController: FraudCaseController):
   );
 
   // Case management routes
-  router.post(
-    '/cases',
-    asyncHandler(fraudCaseController.createCase.bind(fraudCaseController)),
-  );
+  router.post('/cases', asyncHandler(fraudCaseController.createCase.bind(fraudCaseController)));
 
-  router.get(
-    '/cases',
-    asyncHandler(fraudCaseController.listCases.bind(fraudCaseController)),
-  );
+  router.get('/cases', asyncHandler(fraudCaseController.listCases.bind(fraudCaseController)));
 
   router.get(
     '/cases/:id',

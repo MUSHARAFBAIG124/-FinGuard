@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import { env } from './env';
 import { logger } from './logger';
 
+mongoose.set('bufferCommands', false);
+
 export type DatabaseStatus = 'connected' | 'connecting' | 'disconnected' | 'disconnecting';
 
 const readyStateMap: Record<number, DatabaseStatus> = {

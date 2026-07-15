@@ -39,7 +39,7 @@ describe('ModelDriftRecord Governance Hardening', () => {
         ),
       countByDriftLevel: vi.fn(),
       countSince: vi.fn(),
-    } as unknown as ModelDriftRepository;
+    };
 
     auditRepo = {
       create: vi.fn().mockResolvedValue({}),

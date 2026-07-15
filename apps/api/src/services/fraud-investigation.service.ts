@@ -1,12 +1,8 @@
-import {
-  FraudAlertRepository,
-  UpdateFraudAlertStatusInput,
-} from '../repositories/fraud-alert.repository';
-import {
-  FraudInvestigationRepository,
-  CreateFraudInvestigationInput,
-} from '../repositories/fraud-investigation.repository';
-import { AuditLogRepository } from '../repositories/audit-log.repository';
+import type { FraudAlertRepository } from '../repositories/fraud-alert.repository';
+import { UpdateFraudAlertStatusInput } from '../repositories/fraud-alert.repository';
+import type { FraudInvestigationRepository } from '../repositories/fraud-investigation.repository';
+import { CreateFraudInvestigationInput } from '../repositories/fraud-investigation.repository';
+import type { AuditLogRepository } from '../repositories/audit-log.repository';
 import { FraudAlertStatus, FraudInvestigationAction, FraudSeverity } from '@finguard/shared';
 import { AppError } from '../errors/app-error';
 import { StatusCodes } from 'http-status-codes';

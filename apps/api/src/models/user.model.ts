@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   type HydratedDocument,
   type InferSchemaType,
@@ -13,7 +12,7 @@ import { enumValues } from './schema-helpers';
 
 export const USER_MODEL_NAME = 'User';
 
-export const UserSchema = new Schema(
+export const UserSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -76,6 +75,12 @@ export const UserSchema = new Schema(
       default: null,
       select: false,
     },
+    sessionVersion: {
+      type: Number,
+      required: true,
+      default: 0,
+      min: 0,
+    },
   },
   {
     collection: 'users',
@@ -92,4 +97,5 @@ UserSchema.index({ lockedUntil: 1 }, { name: 'ix_users_locked_until', sparse: tr
 export type User = InferSchemaType<typeof UserSchema>;
 export type UserDocument = HydratedDocument<User>;
 export const UserModel: Model<User> =
-  (models[USER_MODEL_NAME] as Model<User> | undefined) ?? model<User>(USER_MODEL_NAME, UserSchema);
+  (mongoose.models[USER_MODEL_NAME] as Model<User> | undefined) ??
+  mongoose.model<User>(USER_MODEL_NAME, UserSchema);

@@ -135,6 +135,14 @@ describe('auth API integration', () => {
       .send({ refreshToken: secondRefreshBody.data.tokens.refreshToken })
       .expect(200);
     expect(store.refreshTokens.every((token) => token.revokedAt !== null)).toBe(true);
+
+    const revokedAccessResponse = await request(app)
+      .get('/api/v1/auth/me')
+      .set('Authorization', `Bearer ${secondRefreshBody.data.tokens.accessToken}`)
+      .expect(401);
+    const revokedAccessBody = revokedAccessResponse.body as ErrorBody;
+
+    expect(revokedAccessBody.error.code).toBe('TOKEN_REVOKED');
   });
 
   it('verifies email and resends verification tokens without external email provider', async () => {

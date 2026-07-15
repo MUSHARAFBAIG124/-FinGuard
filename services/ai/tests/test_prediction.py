@@ -1,87 +1,167 @@
-import sys
+"""Integration tests for the predict-risk endpoint.
+
+All tests target the production application (app.main) and the production
+endpoint /api/v1/predict-risk with the current 6-feature payload schema.
+Legacy ai_service imports and 24-feature payloads have been removed.
+"""
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
-from ai_service import app
-import json
+
+os.environ["MODEL_DIR"] = str(Path(__file__).resolve().parents[1] / "models")
+
+from app.main import app  # noqa: E402  (env must be set before import)
 
 client = TestClient(app)
+
+# ---------------------------------------------------------------------------
+# Shared fixture payload
+# ---------------------------------------------------------------------------
+
+VALID_PAYLOAD = {
+    "age": 35,
+    "annualIncome": 65000,
+    "employmentType": "SALARIED",
+    "existingDebt": 5000,
+    "creditScore": 720,
+    "loanAmount": 25000,
+}
+
+
+# ---------------------------------------------------------------------------
+# Health
+# ---------------------------------------------------------------------------
 
 def test_health_endpoint():
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
 
-def test_model_info_endpoint():
-    response = client.get("/model-info")
-    assert response.status_code == 200
-    assert "modelVersion" in response.json()
+
+# ---------------------------------------------------------------------------
+# Prediction — success
+# ---------------------------------------------------------------------------
 
 def test_prediction_success():
-    payload = {
-        "age": 35,
-        "annualIncome": 65000,
-        "employmentType": "FULL_TIME",
-        "existingDebt": 5000,
-        "creditScore": 720,
-        "loanAmount": 25000
-    }
-    response = client.post("/predict-risk", json=payload)
-    assert response.status_code == 200
+    response = client.post("/api/v1/predict-risk", json=VALID_PAYLOAD)
+    assert response.status_code == 200, response.text
     data = response.json()
     assert "approvalProbability" in data
+    assert "riskScore" in data
+    assert "riskCategory" in data
+    assert "modelVersion" in data
     assert "explanation" in data
-    assert "risk" in data["explanation"].lower()
 
-def test_prediction_validation():
-    # Invalid age
-    payload = {"age": -1, "annualIncome": 65000, "employmentType": "FULL_TIME", "existingDebt": 5000, "creditScore": 720, "loanAmount": 25000}
-    response = client.post("/predict-risk", json=payload)
+
+def test_prediction_explanation_is_structured():
+    """explanation must be an ExplanationModel object, not a plain string."""
+    response = client.post("/api/v1/predict-risk", json=VALID_PAYLOAD)
+    assert response.status_code == 200, response.text
+    explanation = response.json()["explanation"]
+    assert isinstance(explanation, dict), "explanation must be a dict (ExplanationModel)"
+    assert "summary" in explanation, "explanation must contain 'summary'"
+    assert "shapValues" in explanation, "explanation must contain 'shapValues'"
+    assert isinstance(explanation["shapValues"], list)
+
+
+def test_prediction_shap_values_structure():
+    """Each SHAP value must have 'feature' (str) and 'value' (float)."""
+    response = client.post("/api/v1/predict-risk", json=VALID_PAYLOAD)
+    assert response.status_code == 200, response.text
+    shap_values = response.json()["explanation"]["shapValues"]
+    assert len(shap_values) > 0
+    for sv in shap_values:
+        assert "feature" in sv and isinstance(sv["feature"], str)
+        assert "value" in sv and isinstance(sv["value"], (int, float))
+
+
+def test_prediction_probability_range():
+    response = client.post("/api/v1/predict-risk", json=VALID_PAYLOAD)
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert 0.0 <= data["approvalProbability"] <= 1.0
+    assert 0 <= data["riskScore"] <= 100
+
+
+def test_prediction_risk_category_enum():
+    response = client.post("/api/v1/predict-risk", json=VALID_PAYLOAD)
+    assert response.status_code == 200, response.text
+    assert response.json()["riskCategory"] in {"LOW", "MEDIUM", "HIGH"}
+
+
+# ---------------------------------------------------------------------------
+# Prediction — validation errors (422)
+# ---------------------------------------------------------------------------
+
+def test_prediction_invalid_age():
+    payload = {**VALID_PAYLOAD, "age": -1}
+    response = client.post("/api/v1/predict-risk", json=payload)
     assert response.status_code == 422
 
-def test_missing_fields():
-    payload = {"age": 35}
-    response = client.post("/predict-risk", json=payload)
+
+def test_prediction_age_too_young():
+    payload = {**VALID_PAYLOAD, "age": 17}
+    response = client.post("/api/v1/predict-risk", json=payload)
     assert response.status_code == 422
 
-def test_invalid_credit_score():
-    payload = {"age": 35, "annualIncome": 65000, "employmentType": "FULL_TIME", "existingDebt": 5000, "creditScore": 200, "loanAmount": 25000}
-    response = client.post("/predict-risk", json=payload)
+
+def test_prediction_missing_fields():
+    response = client.post("/api/v1/predict-risk", json={"age": 35})
     assert response.status_code == 422
 
-def test_explanation_generation():
-    from explain import generate_explanation
-    features = {"creditScore": 400, "existingDebt": 50000, "annualIncome": 20000, "loanAmount": 100000}
-    explanation = generate_explanation(0.3, features)
-    assert "HIGH" in explanation["summary"]
+
+def test_prediction_invalid_credit_score_low():
+    payload = {**VALID_PAYLOAD, "creditScore": 200}
+    response = client.post("/api/v1/predict-risk", json=payload)
+    assert response.status_code == 422
+
+
+def test_prediction_invalid_credit_score_high():
+    payload = {**VALID_PAYLOAD, "creditScore": 900}
+    response = client.post("/api/v1/predict-risk", json=payload)
+    assert response.status_code == 422
+
+
+def test_prediction_negative_income():
+    payload = {**VALID_PAYLOAD, "annualIncome": -1}
+    response = client.post("/api/v1/predict-risk", json=payload)
+    assert response.status_code == 422
+
+
+def test_prediction_negative_loan_amount():
+    payload = {**VALID_PAYLOAD, "loanAmount": -1}
+    response = client.post("/api/v1/predict-risk", json=payload)
+    assert response.status_code == 422
+
+
+def test_prediction_invalid_employment_type():
+    payload = {**VALID_PAYLOAD, "employmentType": "FULL_TIME"}
+    response = client.post("/api/v1/predict-risk", json=payload)
+    assert response.status_code == 422
+
+
+# ---------------------------------------------------------------------------
+# Utility-level tests (no HTTP, stay in services/ai package)
+# ---------------------------------------------------------------------------
 
 def test_risk_mapping():
-    from risk_mapper import map_probability_to_category
-    assert map_probability_to_category(0.9) == "LOW"
-    assert map_probability_to_category(0.6) == "MEDIUM"
-    assert map_probability_to_category(0.3) == "HIGH"
+    from app.services.explanation import ExplanationService
+    from app.schemas.prediction import RiskCategory
+    assert ExplanationService.categorize_risk(0.9) == RiskCategory.LOW
+    assert ExplanationService.categorize_risk(0.6) == RiskCategory.MEDIUM
+    assert ExplanationService.categorize_risk(0.3) == RiskCategory.HIGH
 
-def test_metadata_loading_failure():
-    # Simulate missing metadata file
-    import model_registry
-    original_path = model_registry.METADATA_PATH
-    model_registry.METADATA_PATH = "non_existent.json"
-    
-    with pytest.raises(FileNotFoundError):
-        model_registry.load_metadata()
-        
-    model_registry.METADATA_PATH = original_path
 
 def test_corrupted_model_loading():
-    # Simulate corrupted model
-    with open("corrupted.joblib", "w") as f:
+    """joblib raises an exception on corrupted file."""
+    import joblib, tempfile, os
+    with tempfile.NamedTemporaryFile(suffix=".joblib", delete=False, mode="w") as f:
         f.write("corrupted")
-    
-    with pytest.raises(Exception):
-        import joblib
-        joblib.load("corrupted.joblib")
-    
-    import os
-    os.remove("corrupted.joblib")
+        tmp_path = f.name
+    try:
+        with pytest.raises(Exception):
+            joblib.load(tmp_path)
+    finally:
+        os.remove(tmp_path)

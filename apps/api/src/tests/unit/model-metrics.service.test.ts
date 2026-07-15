@@ -88,7 +88,7 @@ describe('ModelMetricsService edge cases', () => {
         throw new Error('repo down');
       },
     };
-    const svc = new ModelMetricsService({ modelMetricsRepository: repo as any });
+    const svc = new ModelMetricsService({ modelMetricsRepository: repo });
 
     await expect(svc.listAll()).rejects.toThrow('repo down');
   });
@@ -101,7 +101,7 @@ describe('ModelMetricsService edge cases', () => {
       getLatest: async () => null,
       listAll: async () => [],
     };
-    const svc = new ModelMetricsService({ modelMetricsRepository: repo as any });
+    const svc = new ModelMetricsService({ modelMetricsRepository: repo });
 
     await expect(svc.recordPrediction('v1', 100, true)).rejects.toThrow('database error');
   });
@@ -116,7 +116,7 @@ describe('ModelMetricsService edge cases', () => {
       },
       listAll: async () => [],
     };
-    const svc = new ModelMetricsService({ modelMetricsRepository: repo as any });
+    const svc = new ModelMetricsService({ modelMetricsRepository: repo });
 
     await expect(svc.getModelMetrics('v1')).rejects.toThrow('read failure');
   });

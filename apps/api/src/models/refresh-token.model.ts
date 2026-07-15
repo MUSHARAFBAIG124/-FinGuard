@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -12,7 +11,7 @@ import { USER_MODEL_NAME } from './user.model';
 
 export const REFRESH_TOKEN_MODEL_NAME = 'RefreshToken';
 
-export const RefreshTokenSchema = new Schema(
+export const RefreshTokenSchema = new mongoose.Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -67,5 +66,5 @@ RefreshTokenSchema.index({ expiresAt: 1 }, { name: 'ix_refresh_tokens_expires_at
 export type RefreshToken = InferSchemaType<typeof RefreshTokenSchema>;
 export type RefreshTokenDocument = HydratedDocument<RefreshToken>;
 export const RefreshTokenModel: Model<RefreshToken> =
-  (models[REFRESH_TOKEN_MODEL_NAME] as Model<RefreshToken> | undefined) ??
-  model<RefreshToken>(REFRESH_TOKEN_MODEL_NAME, RefreshTokenSchema);
+  (mongoose.models[REFRESH_TOKEN_MODEL_NAME] as Model<RefreshToken> | undefined) ??
+  mongoose.model<RefreshToken>(REFRESH_TOKEN_MODEL_NAME, RefreshTokenSchema);

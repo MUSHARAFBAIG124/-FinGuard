@@ -1,12 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { FraudCaseManagementService } from '../services/fraud-case-management.service';
-import { FraudCaseAssignmentService } from '../services/fraud-case-assignment.service';
-import { FraudEscalationService } from '../services/fraud-escalation.service';
-import { FraudOperationsAnalyticsService } from '../services/fraud-operations-analytics.service';
-import { FraudSLAService } from '../services/fraud-sla.service';
+import type { FraudCaseManagementService } from '../services/fraud-case-management.service';
+import type { FraudCaseAssignmentService } from '../services/fraud-case-assignment.service';
+import type { FraudEscalationService } from '../services/fraud-escalation.service';
+import type { FraudOperationsAnalyticsService } from '../services/fraud-operations-analytics.service';
+import type { FraudSLAService } from '../services/fraud-sla.service';
 import { sendSuccess } from '../utils/api-response';
-import { FraudOwnerRole } from '@finguard/shared';
+import type { FraudOwnerRole } from '@finguard/shared';
 
 export class FraudCaseController {
   constructor(
@@ -24,7 +24,7 @@ export class FraudCaseController {
         fraudAlertId,
         req.auth?.sub || 'system',
         priority,
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: fraudCase, statusCode: StatusCodes.CREATED });
     } catch (error) {
@@ -58,7 +58,7 @@ export class FraudCaseController {
         assignedTo,
         req.auth?.sub || 'system',
         role as FraudOwnerRole,
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: { message: 'Case assigned successfully' } });
     } catch (error) {
@@ -74,7 +74,7 @@ export class FraudCaseController {
         assignedTo,
         req.auth?.sub || 'system',
         role as FraudOwnerRole,
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: { message: 'Case reassigned successfully' } });
     } catch (error) {
@@ -89,7 +89,7 @@ export class FraudCaseController {
         req.params.id as string,
         req.auth?.sub || 'system',
         notes,
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: { message: 'Case escalated successfully' } });
     } catch (error) {
@@ -104,7 +104,7 @@ export class FraudCaseController {
         req.params.id as string,
         req.auth?.sub || 'system',
         resolutionReason,
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: { message: 'Case resolved successfully' } });
     } catch (error) {
@@ -119,7 +119,7 @@ export class FraudCaseController {
         req.params.id as string,
         req.auth?.sub || 'system',
         notes,
-        req.requestId as string,
+        req.requestId,
       );
       sendSuccess(res, { data: { message: 'Case closed successfully' } });
     } catch (error) {

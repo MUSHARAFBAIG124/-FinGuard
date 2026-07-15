@@ -1,13 +1,14 @@
-import { FraudCaseStatus, FraudCaseEventType, FraudCasePriority } from '@finguard/shared';
-import { FraudCaseDocument } from '../models/fraud-case.model';
-import { FraudCaseRepository } from '../repositories/fraud-case.repository';
-import { FraudCaseEventRepository } from '../repositories/fraud-case-event.repository';
-import { AuditLogRepository } from '../repositories/audit-log.repository';
+import type { FraudCasePriority } from '@finguard/shared';
+import { FraudCaseStatus, FraudCaseEventType } from '@finguard/shared';
+import type { FraudCaseDocument } from '../models/fraud-case.model';
+import type { FraudCaseRepository } from '../repositories/fraud-case.repository';
+import type { FraudCaseEventRepository } from '../repositories/fraud-case-event.repository';
+import type { AuditLogRepository } from '../repositories/audit-log.repository';
 import { AppError } from '../errors/app-error';
 import { StatusCodes } from 'http-status-codes';
-import { FraudEscalationService } from './fraud-escalation.service';
-import { FraudCaseAssignmentService } from './fraud-case-assignment.service';
-import { FraudSLAService } from './fraud-sla.service';
+import type { FraudEscalationService } from './fraud-escalation.service';
+import type { FraudCaseAssignmentService } from './fraud-case-assignment.service';
+import type { FraudSLAService } from './fraud-sla.service';
 
 export class FraudCaseManagementService {
   constructor(

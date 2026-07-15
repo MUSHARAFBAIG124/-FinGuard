@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { GovernanceAnalyticsService } from '../services/governance-analytics.service';
+import type { GovernanceAnalyticsService } from '../services/governance-analytics.service';
 
 export interface RequestWithUser extends Request {
   user?: {
@@ -13,9 +13,14 @@ export class ModelAnalyticsController {
   constructor(private readonly analyticsService: GovernanceAnalyticsService) {}
 
   private async logView(req: RequestWithUser, endpoint: string): Promise<void> {
-    const userId = req.user?.id || 'system';
+    const userId = req.user?.id;
+    if (!userId) return; // skip audit log for system/unauthenticated calls
     const requestId = (req.headers['x-request-id'] as string) || `analytics-${Date.now()}`;
-    await this.analyticsService.logAnalyticsView(userId, endpoint, requestId);
+    try {
+      await this.analyticsService.logAnalyticsView(userId, endpoint, requestId);
+    } catch {
+      // non-critical — don't crash the request
+    }
   }
 
   public async getSummary(req: RequestWithUser, res: Response): Promise<void> {

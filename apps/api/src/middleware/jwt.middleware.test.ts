@@ -6,8 +6,9 @@ import { describe, expect, it } from 'vitest';
 import { UserRole } from '@finguard/shared';
 
 import { env } from '../config/env';
+import { TokenService } from '../services/token.service';
 import { errorHandler } from './error.middleware';
-import { requireJwt } from './jwt.middleware';
+import { createJwtMiddleware } from './jwt.middleware';
 import { requestContextMiddleware } from './request-context.middleware';
 
 interface JwtSuccessResponseBody {
@@ -26,9 +27,19 @@ interface JwtErrorResponseBody {
 
 const createJwtTestApp = () => {
   const app = express();
+  const userRepository = {
+    findById: (id: string) =>
+      Promise.resolve(
+        id === 'user-123'
+          ? {
+              sessionVersion: 0,
+            }
+          : null,
+      ),
+  };
 
   app.use(requestContextMiddleware);
-  app.get('/protected', requireJwt, (req, res) => {
+  app.get('/protected', createJwtMiddleware(new TokenService(), userRepository), (req, res) => {
     res.status(200).json({
       data: req.auth,
       meta: { requestId: req.requestId },
@@ -45,6 +56,7 @@ describe('JWT middleware scaffold', () => {
       {
         sub: 'user-123',
         role: UserRole.ADMIN,
+        sessionVersion: 0,
         tokenType: 'access',
       },
       env.JWT_ACCESS_SECRET,
@@ -86,6 +98,7 @@ describe('JWT middleware scaffold', () => {
       {
         sub: 'user-123',
         role: UserRole.ADMIN,
+        sessionVersion: 0,
         tokenType: 'access',
       },
       env.JWT_ACCESS_SECRET,
@@ -106,6 +119,7 @@ describe('JWT middleware scaffold', () => {
       {
         sub: 'user-123',
         role: UserRole.ADMIN,
+        sessionVersion: 0,
         tokenType: 'access',
       },
       'wrong-secret',

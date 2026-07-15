@@ -16,8 +16,6 @@ const CRITICAL_FILES = [
   'src/repositories/model-metrics.repository.ts',
 ];
 
-const CRITICAL_FILES_LCOV = CRITICAL_FILES.map((f) => f.replace(/\//g, '\\'));
-
 // Parse coverage-summary.json
 const coverageSummary = JSON.parse(fs.readFileSync(COVERAGE_SUMMARY, 'utf8'));
 

@@ -15,7 +15,7 @@ const probeAiService = async (): Promise<{
   const startedAt = Date.now();
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), env.AI_HEALTH_TIMEOUT_MS);
-  const healthUrl = new URL('/health/live', env.AI_SERVICE_BASE_URL).toString();
+  const healthUrl = new URL('/health', env.AI_SERVICE_BASE_URL).toString();
 
   try {
     const response = await fetch(healthUrl, { signal: controller.signal });

@@ -1,17 +1,14 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import {
-  FraudCaseContract,
-  FraudCaseStatus,
-  FraudCasePriority,
-  FraudOwnerRole,
-} from '@finguard/shared';
+import type { Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+import type { FraudCaseContract } from '@finguard/shared';
+import { FraudCaseStatus, FraudCasePriority, FraudOwnerRole } from '@finguard/shared';
 import crypto from 'crypto';
 
 export interface FraudCaseDocument extends FraudCaseContract, Document {
   id: string;
 }
 
-const FraudCaseSchema = new Schema(
+const FraudCaseSchema = new mongoose.Schema(
   {
     caseId: {
       type: String,
@@ -67,4 +64,5 @@ const FraudCaseSchema = new Schema(
 );
 
 export const FraudCaseModel =
-  (mongoose.models.FraudCase as mongoose.Model<FraudCaseDocument>) || mongoose.model<FraudCaseDocument>('FraudCase', FraudCaseSchema);
+  (mongoose.models.FraudCase as mongoose.Model<FraudCaseDocument>) ||
+  mongoose.model<FraudCaseDocument>('FraudCase', FraudCaseSchema);

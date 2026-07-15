@@ -30,7 +30,7 @@ export const createModelController = (deps: { modelMetricsService: ModelMetricsS
     try {
       const raw = readFileSync(metaPath, 'utf8');
       metadata = JSON.parse(raw);
-    } catch (err) {
+    } catch {
       // metadata missing
       metadata = { error: 'metadata not available' };
     }

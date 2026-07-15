@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: finguard-api
+    env: node
+    buildCommand: npm install && npm run build --workspace packages/shared && npm run build --workspace apps/api
+    startCommand: npm --workspace apps/api start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: API_PORT
+        value: 4000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: AI_SERVICE_BASE_URL
+        value: https://finguard-ai.onrender.com
+
+  - type: web
+    name: finguard-ai
+    env: python
+    buildCommand: cd services/ai && pip install -r requirements.txt
+    startCommand: cd services/ai && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0

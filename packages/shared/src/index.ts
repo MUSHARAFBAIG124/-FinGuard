@@ -57,11 +57,17 @@ export enum FraudAlertStatus {
   RESOLVED = 'RESOLVED',
 }
 
+export { FraudAlertStatus as FraudStatus };
+
 export enum FraudInvestigationAction {
   START_REVIEW = 'START_REVIEW',
   CONFIRM_FRAUD = 'CONFIRM_FRAUD',
   MARK_FALSE_POSITIVE = 'MARK_FALSE_POSITIVE',
   RESOLVE = 'RESOLVE',
+}
+
+export enum FraudRecommendedAction {
+  STEP_UP_AUTHENTICATION = 'STEP_UP_AUTHENTICATION',
 }
 
 export enum FraudSeverity {

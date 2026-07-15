@@ -1,10 +1,7 @@
 import { Types } from 'mongoose';
-import { FraudInvestigationAction } from '@finguard/shared';
-import {
-  FraudInvestigation,
-  FraudInvestigationDocument,
-  FraudInvestigationModel,
-} from '../models/fraud-investigation.model';
+import type { FraudInvestigationAction } from '@finguard/shared';
+import type { FraudInvestigationDocument } from '../models/fraud-investigation.model';
+import { FraudInvestigation, FraudInvestigationModel } from '../models/fraud-investigation.model';
 
 export interface CreateFraudInvestigationInput {
   readonly fraudAlertId: string;

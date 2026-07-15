@@ -3,7 +3,8 @@ import type { ReviewFeedbackRepository } from '../repositories/review-feedback.r
 import type { LoanRepository } from '../repositories/loan.repository';
 import type { RiskAssessmentRepository } from '../repositories/risk-assessment.repository';
 import type { AuditLogRepository } from '../repositories/audit-log.repository';
-import { ReviewerDecision, RiskCategory, LoanStatus } from '@finguard/shared';
+import type { RiskCategory } from '@finguard/shared';
+import { ReviewerDecision, LoanStatus } from '@finguard/shared';
 import { AppError } from '../errors/app-error';
 
 export interface SubmitReviewInput {
@@ -117,7 +118,7 @@ export class ReviewService {
       metadata: {
         decision: input.decision,
         override: reviewDecision.override,
-        aiRiskCategory: riskAssessment.riskCategory as RiskCategory,
+        aiRiskCategory: riskAssessment.riskCategory,
       },
     });
 

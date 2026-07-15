@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   Types,
   type HydratedDocument,
@@ -12,7 +11,7 @@ import { USER_MODEL_NAME } from './user.model';
 
 export const PASSWORD_RESET_TOKEN_MODEL_NAME = 'PasswordResetToken';
 
-export const PasswordResetTokenSchema = new Schema(
+export const PasswordResetTokenSchema = new mongoose.Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -59,5 +58,5 @@ PasswordResetTokenSchema.index({ expiresAt: 1 }, { name: 'ix_password_reset_toke
 export type PasswordResetToken = InferSchemaType<typeof PasswordResetTokenSchema>;
 export type PasswordResetTokenDocument = HydratedDocument<PasswordResetToken>;
 export const PasswordResetTokenModel: Model<PasswordResetToken> =
-  (models[PASSWORD_RESET_TOKEN_MODEL_NAME] as Model<PasswordResetToken> | undefined) ??
-  model<PasswordResetToken>(PASSWORD_RESET_TOKEN_MODEL_NAME, PasswordResetTokenSchema);
+  (mongoose.models[PASSWORD_RESET_TOKEN_MODEL_NAME] as Model<PasswordResetToken> | undefined) ??
+  mongoose.model<PasswordResetToken>(PASSWORD_RESET_TOKEN_MODEL_NAME, PasswordResetTokenSchema);

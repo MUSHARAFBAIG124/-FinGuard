@@ -1,5 +1,6 @@
-import { FraudCaseStatus, FraudCasePriority, FraudOwnerRole } from '@finguard/shared';
-import { FraudCaseDocument, FraudCaseModel } from '../models/fraud-case.model';
+import type { FraudCaseStatus, FraudCasePriority, FraudOwnerRole } from '@finguard/shared';
+import type { FraudCaseDocument } from '../models/fraud-case.model';
+import { FraudCaseModel } from '../models/fraud-case.model';
 
 export interface CreateFraudCaseInput {
   readonly fraudAlertId: string;
@@ -63,15 +64,11 @@ export class MongooseFraudCaseRepository implements FraudCaseRepository {
     caseId: string,
     input: UpdateFraudCaseStatusInput,
   ): Promise<FraudCaseDocument | null> {
-    return FraudCaseModel
-      .findOneAndUpdate({ caseId }, { $set: input }, { new: true })
-      .exec();
+    return FraudCaseModel.findOneAndUpdate({ caseId }, { $set: input }, { new: true }).exec();
   }
 
   async assignCase(caseId: string, input: AssignFraudCaseInput): Promise<FraudCaseDocument | null> {
-    return FraudCaseModel
-      .findOneAndUpdate({ caseId }, { $set: input }, { new: true })
-      .exec();
+    return FraudCaseModel.findOneAndUpdate({ caseId }, { $set: input }, { new: true }).exec();
   }
 
   async countCases(filters: { status?: FraudCaseStatus } = {}): Promise<number> {
@@ -83,15 +80,13 @@ export class MongooseFraudCaseRepository implements FraudCaseRepository {
   async getMetrics(): Promise<any> {
     // In memory mock or aggregate operations
     // This will be mostly mocked in tests, but useful for actual implementation
-    return FraudCaseModel
-      .aggregate([
-        {
-          $facet: {
-            totals: [{ $group: { _id: '$status', count: { $sum: 1 } } }],
-            priorities: [{ $group: { _id: '$priority', count: { $sum: 1 } } }],
-          },
+    return FraudCaseModel.aggregate([
+      {
+        $facet: {
+          totals: [{ $group: { _id: '$status', count: { $sum: 1 } } }],
+          priorities: [{ $group: { _id: '$priority', count: { $sum: 1 } } }],
         },
-      ])
-      .exec();
+      },
+    ]).exec();
   }
 }

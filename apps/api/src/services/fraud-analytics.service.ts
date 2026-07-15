@@ -1,4 +1,4 @@
-import { FraudAlertRepository } from '../repositories/fraud-alert.repository';
+import type { FraudAlertRepository } from '../repositories/fraud-alert.repository';
 import { FraudAlertStatus } from '@finguard/shared';
 
 export interface FraudMetrics {

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, type RequestHandler } from 'express';
 
 import { UserRole } from '@finguard/shared';
 
@@ -16,29 +16,40 @@ import {
 
 export type LoanRouterDependencies = LoanServiceDependencies;
 
-export const createCustomerLoanRouter = (dependencies: LoanServiceDependencies): Router => {
+export const createCustomerLoanRouter = (
+  dependencies: LoanServiceDependencies,
+  authenticate: RequestHandler = requireJwt,
+): Router => {
   const router = Router();
   const loanService = new LoanService(dependencies);
   const controller = new LoanController(loanService);
 
+  // Admin / officer / analyst — see all loans
+  router.get(
+    '/all',
+    authenticate,
+    requireRole(UserRole.LOAN_OFFICER, UserRole.ADMIN, UserRole.RISK_ANALYST),
+    controller.listAll,
+  );
+
   // Customer endpoints
-  router.post('/', requireJwt, validateRequest({ body: createLoanSchema }), controller.create);
-  router.get('/', requireJwt, controller.listOwn);
+  router.post('/', authenticate, validateRequest({ body: createLoanSchema }), controller.create);
+  router.get('/', authenticate, controller.listOwn);
   router.get(
     '/:id',
-    requireJwt,
+    authenticate,
     validateRequest({ params: loanIdParamSchema }),
     controller.getById,
   );
   router.patch(
     '/:id',
-    requireJwt,
+    authenticate,
     validateRequest({ params: loanIdParamSchema, body: updateLoanSchema }),
     controller.update,
   );
   router.post(
     '/:id/submit',
-    requireJwt,
+    authenticate,
     validateRequest({ params: loanIdParamSchema }),
     controller.submit,
   );
@@ -46,7 +57,10 @@ export const createCustomerLoanRouter = (dependencies: LoanServiceDependencies):
   return router;
 };
 
-export const createReviewRouter = (dependencies: LoanServiceDependencies): Router => {
+export const createReviewRouter = (
+  dependencies: LoanServiceDependencies,
+  authenticate: RequestHandler = requireJwt,
+): Router => {
   const router = Router();
   const loanService = new LoanService(dependencies);
   const controller = new LoanController(loanService);
@@ -54,34 +68,34 @@ export const createReviewRouter = (dependencies: LoanServiceDependencies): Route
   // Loan officer endpoints
   router.get(
     '/queue',
-    requireJwt,
+    authenticate,
     requireRole(UserRole.LOAN_OFFICER, UserRole.ADMIN),
     controller.getReviewQueue,
   );
   router.post(
     '/:id/start',
-    requireJwt,
+    authenticate,
     requireRole(UserRole.LOAN_OFFICER, UserRole.ADMIN),
     validateRequest({ params: loanIdParamSchema }),
     controller.startReview,
   );
   router.post(
     '/:id/request-info',
-    requireJwt,
+    authenticate,
     requireRole(UserRole.LOAN_OFFICER, UserRole.ADMIN),
     validateRequest({ params: loanIdParamSchema }),
     controller.requestMoreInfo,
   );
   router.post(
     '/:id/approve',
-    requireJwt,
+    authenticate,
     requireRole(UserRole.LOAN_OFFICER, UserRole.ADMIN),
     validateRequest({ params: loanIdParamSchema }),
     controller.approve,
   );
   router.post(
     '/:id/reject',
-    requireJwt,
+    authenticate,
     requireRole(UserRole.LOAN_OFFICER, UserRole.ADMIN),
     validateRequest({ params: loanIdParamSchema }),
     controller.reject,

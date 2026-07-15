@@ -6,12 +6,13 @@ import type { AuditLogRepository } from '../repositories/audit-log.repository';
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../errors/app-error';
 import { RiskCategory } from '@finguard/shared';
+import type { ModelMetricsService } from './model-metrics.service';
 
 export interface RiskAssessmentServiceDependencies {
   readonly riskAssessmentRepository: RiskAssessmentRepository;
   readonly auditLogRepository: AuditLogRepository;
   readonly aiServiceUrl?: string; // e.g. http://localhost:8000/api/v1
-  readonly modelMetricsService?: import('./model-metrics.service').ModelMetricsService;
+  readonly modelMetricsService?: ModelMetricsService;
 }
 
 export class RiskAssessmentService {
@@ -107,7 +108,7 @@ export class RiskAssessmentService {
     const json = await res.json();
     const latencyMs = Date.now() - start;
     // attach latency and model version if present for callers
-    (json as any).latencyMs = latencyMs;
+    json.latencyMs = latencyMs;
 
     await this.dependencies.auditLogRepository
       .create({
@@ -156,7 +157,7 @@ export class RiskAssessmentService {
     const input: CreateRiskAssessmentInput = {
       loanApplicationId,
       riskScore: prediction.riskScore,
-      riskCategory: riskCategory as any,
+      riskCategory: riskCategory,
       approvalProbability: prediction.approvalProbability,
       modelVersion: prediction.modelVersion ?? '1.0.0',
       riskEngineVersion: prediction.riskEngineVersion ?? '1.0.0',

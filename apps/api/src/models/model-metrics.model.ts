@@ -1,6 +1,5 @@
-import {
+import mongoose, {
   model,
-  models,
   Schema,
   type InferSchemaType,
   type HydratedDocument,
@@ -9,7 +8,7 @@ import {
 
 export const MODEL_METRICS_MODEL_NAME = 'ModelMetrics';
 
-export const ModelMetricsSchema = new Schema(
+export const ModelMetricsSchema = new mongoose.Schema(
   {
     modelVersion: { type: String, required: true, trim: true },
     predictionCount: { type: Number, required: true, default: 0 },
@@ -30,5 +29,5 @@ ModelMetricsSchema.index({ modelVersion: 1 }, { name: 'ux_model_metrics_version'
 export type ModelMetrics = InferSchemaType<typeof ModelMetricsSchema>;
 export type ModelMetricsDocument = HydratedDocument<ModelMetrics>;
 export const ModelMetricsModel: Model<ModelMetrics> =
-  (models[MODEL_METRICS_MODEL_NAME] as Model<ModelMetrics> | undefined) ??
-  model<ModelMetrics>(MODEL_METRICS_MODEL_NAME, ModelMetricsSchema);
+  (mongoose.models[MODEL_METRICS_MODEL_NAME] as Model<ModelMetrics> | undefined) ??
+  mongoose.model<ModelMetrics>(MODEL_METRICS_MODEL_NAME, ModelMetricsSchema);
