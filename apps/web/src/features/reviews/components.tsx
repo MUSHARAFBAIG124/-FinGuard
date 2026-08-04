@@ -180,7 +180,13 @@ export const ReviewThroughputChart: React.FC = () => (
     <h3 className="text-lg font-heading font-medium text-white mb-1">Review Throughput</h3>
     <p className="text-xs text-slate-400 mb-5">Cases reviewed per day (14-day window)</p>
     <div className="flex-1 min-h-[240px]">
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer
+        width="100%"
+        height="100%"
+        minWidth={1}
+        minHeight={1}
+        initialDimension={{ width: 1, height: 1 }}
+      >
         <LineChart data={THROUGHPUT_DATA} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
           <XAxis

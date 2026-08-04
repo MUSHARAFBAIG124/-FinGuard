@@ -265,7 +265,13 @@ export const AIGovernancePage: React.FC = () => {
           </div>
           <div className="flex-1 flex items-center justify-center min-h-[200px]">
             {radarData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={220} minWidth={1} minHeight={1}>
+              <ResponsiveContainer
+                width="100%"
+                height={220}
+                minWidth={1}
+                minHeight={1}
+                initialDimension={{ width: 1, height: 220 }}
+              >
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="rgba(255,255,255,0.06)" />
                   <PolarAngleAxis dataKey="metric" tick={{ fill: '#64748b', fontSize: 10 }} />
@@ -312,7 +318,13 @@ export const AIGovernancePage: React.FC = () => {
           </div>
 
           <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+              minWidth={1}
+              minHeight={1}
+              initialDimension={{ width: 1, height: 1 }}
+            >
               <BarChart data={psiFeatures} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                 <CartesianGrid
                   strokeDasharray="3 3"
@@ -372,7 +384,13 @@ export const AIGovernancePage: React.FC = () => {
             </h4>
             <p className="text-[11px] text-slate-500 mb-4">Rolling average</p>
             <div className="h-28">
-              <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+                minWidth={1}
+                minHeight={1}
+                initialDimension={{ width: 1, height: 1 }}
+              >
                 <LineChart data={psiHistory} margin={{ top: 0, right: 5, left: -20, bottom: 0 }}>
                   <CartesianGrid
                     strokeDasharray="3 3"

@@ -233,7 +233,13 @@ export const LoanDecisionTrend: React.FC<{
       </div>
     </div>
     <div className="h-64">
-      <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+      <ResponsiveContainer
+        width="100%"
+        height="100%"
+        minWidth={1}
+        minHeight={1}
+        initialDimension={{ width: 1, height: 1 }}
+      >
         <AreaChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="gradApproved" x1="0" y1="0" x2="0" y2="1">
@@ -312,7 +318,13 @@ export const ModelPerformanceCard: React.FC<{ kpis: any; data: any[] }> = ({ kpi
     <div className="flex-1 flex items-center justify-center min-h-[160px]">
       {data && data.length > 0 ? (
         <div className="relative">
-          <ResponsiveContainer width={160} height={160}>
+          <ResponsiveContainer
+            width={160}
+            height={160}
+            minWidth={1}
+            minHeight={1}
+            initialDimension={{ width: 160, height: 160 }}
+          >
             <RadialBarChart
               innerRadius={28}
               outerRadius={72}
@@ -374,7 +386,13 @@ export const FraudTrendCard: React.FC<{ data: any[]; activeFraudCount: string }>
       </span>
     </div>
     <div className="h-52">
-      <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+      <ResponsiveContainer
+        width="100%"
+        height="100%"
+        minWidth={1}
+        minHeight={1}
+        initialDimension={{ width: 1, height: 1 }}
+      >
         <BarChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }} barGap={4}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
           <XAxis

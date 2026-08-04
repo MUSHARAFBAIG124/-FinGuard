@@ -62,6 +62,7 @@ export default tseslint.config(
             '*.js',
             '*.mjs',
             '*.cjs',
+            'scripts/*.ts',
             'apps/api/vitest.config.ts',
             'apps/api/scripts/*.ts',
           ],
