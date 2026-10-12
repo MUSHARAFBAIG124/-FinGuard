@@ -27,9 +27,30 @@ describe('environment validation', () => {
     expect(parseEnv(validEnv)).toMatchObject({
       NODE_ENV: 'test',
       API_PORT: 4000,
+      API_HOST: '127.0.0.1',
       RATE_LIMIT_MAX: 100,
       AI_HEALTH_TIMEOUT_MS: 100,
     });
+  });
+
+  it('prefers the platform PORT over the legacy API_PORT setting', () => {
+    expect(
+      parseEnv({
+        ...validEnv,
+        API_PORT: '4000',
+        PORT: '10000',
+      }).API_PORT,
+    ).toBe(10000);
+  });
+
+  it('defaults to port 4000 when neither PORT nor API_PORT is provided', () => {
+    const { API_PORT: _apiPort, ...environmentWithoutPorts } = validEnv;
+    expect(parseEnv(environmentWithoutPorts).API_PORT).toBe(4000);
+  });
+
+  it('defaults the API listener to loopback and accepts a configured Render host', () => {
+    expect(parseEnv(validEnv).API_HOST).toBe('127.0.0.1');
+    expect(parseEnv({ ...validEnv, API_HOST: '0.0.0.0' }).API_HOST).toBe('0.0.0.0');
   });
 
   it('rejects invalid ports and URLs', () => {

@@ -3,7 +3,7 @@ import logging
 
 from fastapi import APIRouter, HTTPException
 
-from app.models.model import RiskAssessmentModel
+from app.models.model import ModelLoader, RiskAssessmentModel
 from app.schemas.prediction import PredictionRequest, PredictionResponse, ExplanationModel, ShapValue
 from app.services.explanation import ExplanationService
 from app.services.shap_service import ShapService
@@ -15,10 +15,11 @@ router = APIRouter()
 
 # Initialize model
 try:
+    ModelLoader.validate_artifacts()
     model = RiskAssessmentModel()
-except FileNotFoundError as e:
-    logger.warning(f"Model not found: {e}. Running in demo mode.")
-    model = None
+except FileNotFoundError as error:
+    logger.critical("AI service cannot start: %s", error)
+    raise RuntimeError(f"AI model startup validation failed: {error}") from error
 
 
 @router.post("/predict-risk", response_model=PredictionResponse)

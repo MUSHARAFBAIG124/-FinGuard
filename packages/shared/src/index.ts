@@ -289,6 +289,28 @@ export interface FraudCaseContract {
   readonly slaDueAt?: string;
 }
 
+export interface FraudOperationsDashboardMetricsContract {
+  readonly totalCases: number;
+  readonly openCases: number;
+  readonly assignedCases: number;
+  readonly escalatedCases: number;
+  readonly resolvedCases: number;
+  readonly closedCases: number;
+  readonly slaBreaches: number;
+  readonly averageAssignmentTime: number | null;
+  readonly averageResolutionTime: number | null;
+  readonly escalationRate: number;
+  readonly slaComplianceRate: number;
+}
+
+export interface FraudInvestigatorMetricsContract {
+  readonly investigatorId: string;
+  readonly assignedCases: number;
+  readonly resolvedCases: number;
+  readonly averageResolutionTime: number | null;
+  readonly escalationRate: number;
+}
+
 export interface FraudCaseEventContract {
   readonly id: string;
   readonly caseId: string;

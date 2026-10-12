@@ -36,6 +36,7 @@ export default tseslint.config(
       '**/dist/**',
       '**/coverage/**',
       'services/ai/.venv/**',
+      '**/.venv*/**',
       'apps/api/vitest-report.json',
       '**/*.coverage',
       '**/*.log',

@@ -9,6 +9,8 @@
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json --resolve-full-paths --resolve-full-extension .js",
     "start": "node dist/server.js",
     "migrate:admin": "tsx src/scripts/ensure-admin.ts",
+    "seed:dev": "tsx src/scripts/seed-dev.ts",
+    "audit:seed": "tsx src/scripts/audit-seed-data.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --coverage"
   },

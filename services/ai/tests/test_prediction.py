@@ -6,6 +6,8 @@ Legacy ai_service imports and 24-feature payloads have been removed.
 """
 import os
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 from fastapi.testclient import TestClient
@@ -38,6 +40,25 @@ def test_health_endpoint():
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
+    assert response.json()["modelLoaded"] is True
+
+
+def test_service_startup_fails_clearly_when_model_artifacts_are_missing():
+    env = {**os.environ, "MODEL_DIR": str(Path(__file__).parent / "missing-models")}
+    result = subprocess.run(
+        [sys.executable, "-c", "import app.main"],
+        cwd=Path(__file__).resolve().parents[1],
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=10,
+    )
+
+    assert result.returncode != 0
+    assert "AI model startup validation failed" in result.stderr
+    assert "credit-risk-model.joblib" in result.stderr
+    assert "feature-scaler.joblib" in result.stderr
 
 
 # ---------------------------------------------------------------------------

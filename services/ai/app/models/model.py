@@ -17,6 +17,27 @@ class ModelLoader:
     _scaler = None
 
     @classmethod
+    def is_loaded(cls) -> bool:
+        """Return whether both trusted model artifacts are loaded."""
+        return cls._model is not None and cls._scaler is not None
+
+    @classmethod
+    def validate_artifacts(cls) -> None:
+        """Fail fast when either required inference artifact is absent."""
+        missing = [
+            str(path)
+            for path in (
+                Path(settings.MODEL_DIR) / settings.MODEL_NAME,
+                Path(settings.MODEL_DIR) / settings.SCALER_NAME,
+            )
+            if not path.is_file()
+        ]
+        if missing:
+            raise FileNotFoundError(
+                "Required AI model artifact(s) are missing: " + ", ".join(missing)
+            )
+
+    @classmethod
     def load_model(cls):
         """Load the trained model."""
         if cls._model is not None:

@@ -1,4 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import type {
+  FraudInvestigatorMetricsContract,
+  FraudOperationsDashboardMetricsContract,
+} from '@finguard/shared';
 import { apiClient } from './api-client';
 import {
   DEMO_LOANS,
@@ -132,6 +136,24 @@ export const useFraudAnalytics = () =>
       return DEMO_MODE_ENABLED && !data?.total
         ? DEMO_FRAUD_ANALYTICS
         : (data ?? emptyFraudAnalytics());
+    },
+  });
+
+export const useFraudOperationsDashboard = () =>
+  useQuery<FraudOperationsDashboardMetricsContract>({
+    queryKey: ['fraud', 'case-dashboard'],
+    queryFn: async () => {
+      const response = await apiClient.get('/fraud/dashboard');
+      return (response?.data ?? response) as FraudOperationsDashboardMetricsContract;
+    },
+  });
+
+export const useFraudInvestigatorMetrics = () =>
+  useQuery<FraudInvestigatorMetricsContract[]>({
+    queryKey: ['fraud', 'investigators'],
+    queryFn: async () => {
+      const response = await apiClient.get('/fraud/dashboard/investigators');
+      return (response?.data ?? response) as FraudInvestigatorMetricsContract[];
     },
   });
 

@@ -22,6 +22,10 @@ export interface AssignFraudCaseInput {
   readonly status: FraudCaseStatus;
 }
 
+export interface FraudCaseMetrics {
+  readonly priorities: readonly { readonly _id: FraudCasePriority; readonly count: number }[];
+}
+
 export interface FraudCaseRepository {
   create(input: CreateFraudCaseInput): Promise<FraudCaseDocument>;
   findById(caseId: string): Promise<FraudCaseDocument | null>;
@@ -36,7 +40,7 @@ export interface FraudCaseRepository {
   ): Promise<FraudCaseDocument | null>;
   assignCase(caseId: string, input: AssignFraudCaseInput): Promise<FraudCaseDocument | null>;
   countCases(filters?: { status?: FraudCaseStatus }): Promise<number>;
-  getMetrics(): Promise<any>;
+  getMetrics(): Promise<readonly FraudCaseMetrics[]>;
 }
 
 export class MongooseFraudCaseRepository implements FraudCaseRepository {
@@ -77,10 +81,10 @@ export class MongooseFraudCaseRepository implements FraudCaseRepository {
     return FraudCaseModel.countDocuments(query).exec();
   }
 
-  async getMetrics(): Promise<any> {
+  async getMetrics(): Promise<readonly FraudCaseMetrics[]> {
     // In memory mock or aggregate operations
     // This will be mostly mocked in tests, but useful for actual implementation
-    return FraudCaseModel.aggregate([
+    return FraudCaseModel.aggregate<FraudCaseMetrics>([
       {
         $facet: {
           totals: [{ $group: { _id: '$status', count: { $sum: 1 } } }],

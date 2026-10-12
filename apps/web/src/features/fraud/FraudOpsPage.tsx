@@ -19,12 +19,20 @@ import {
   TrendingUp,
   Filter,
   Loader2,
+  Timer,
+  Users,
 } from 'lucide-react';
 import { Badge } from '../../components/ui/Badge';
-import { useFraudAlerts, useFraudAnalytics } from '../../lib/api-hooks';
+import {
+  useFraudAlerts,
+  useFraudAnalytics,
+  useFraudInvestigatorMetrics,
+  useFraudOperationsDashboard,
+} from '../../lib/api-hooks';
 import { getApplicantName } from '../../lib/name-generator';
 import { downloadCsv } from '../../lib/export';
 import { useSearchParams } from 'react-router-dom';
+import { formatHours } from './format-metrics';
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -83,12 +91,19 @@ const CustomScatterDot = (props: any) => {
 export const FraudOpsPage: React.FC = () => {
   const { data: alerts = [], isLoading: loadingAlerts } = useFraudAlerts();
   const { data: analytics, isLoading: loadingAnalytics } = useFraudAnalytics();
+  const { data: operationsMetrics, isLoading: loadingOperationsMetrics } =
+    useFraudOperationsDashboard();
+  const {
+    data: investigatorMetrics,
+    isLoading: loadingInvestigatorMetrics,
+    isError: investigatorMetricsError,
+  } = useFraudInvestigatorMetrics();
   const [searchParams] = useSearchParams();
 
   const [filter, setFilter] = useState<'all' | string>('all');
   const [activeRules, setActiveRules] = useState<Record<string, boolean>>({});
 
-  if (loadingAlerts || loadingAnalytics) {
+  if (loadingAlerts || loadingAnalytics || loadingOperationsMetrics || loadingInvestigatorMetrics) {
     return (
       <div className="flex-1 flex items-center justify-center min-h-[400px]">
         <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
@@ -201,6 +216,105 @@ export const FraudOpsPage: React.FC = () => {
           color="bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
         />
       </div>
+
+      <section aria-labelledby="fraud-case-timing-heading" className="space-y-4">
+        <div>
+          <h3
+            id="fraud-case-timing-heading"
+            className="text-lg font-heading font-medium text-white"
+          >
+            Case Operations
+          </h3>
+          <p className="text-xs text-slate-400 mt-1">
+            Timing metrics use recorded assignment and resolution timestamps.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <StatCard
+            title="Average Assignment Time"
+            value={formatHours(operationsMetrics?.averageAssignmentTime)}
+            sub={
+              operationsMetrics?.averageAssignmentTime == null
+                ? 'No timing data recorded'
+                : 'Across assigned cases'
+            }
+            icon={Timer}
+            color="bg-indigo-500/10 border-indigo-500/20 text-indigo-400"
+          />
+          <StatCard
+            title="Average Resolution Time"
+            value={formatHours(operationsMetrics?.averageResolutionTime)}
+            sub={
+              operationsMetrics?.averageResolutionTime == null
+                ? 'No timing data recorded'
+                : 'Across resolved cases'
+            }
+            icon={CheckCircle2}
+            color="bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+          />
+        </div>
+      </section>
+
+      <section aria-labelledby="fraud-investigator-heading" className="glass-panel p-6">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="p-2.5 bg-indigo-500/10 rounded-xl border border-indigo-500/20">
+            <Users className="w-5 h-5 text-indigo-400" />
+          </div>
+          <div>
+            <h3
+              id="fraud-investigator-heading"
+              className="text-lg font-heading font-medium text-white"
+            >
+              Investigator Performance
+            </h3>
+            <p className="text-xs text-slate-400 mt-1">
+              Assignment and resolution results from recorded fraud cases.
+            </p>
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead className="text-xs uppercase tracking-wider text-slate-500 border-b border-white/5">
+              <tr>
+                <th className="px-3 py-3 font-medium">Investigator</th>
+                <th className="px-3 py-3 font-medium">Assigned</th>
+                <th className="px-3 py-3 font-medium">Resolved</th>
+                <th className="px-3 py-3 font-medium">Avg. Resolution</th>
+                <th className="px-3 py-3 font-medium">Escalation Rate</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/5 text-slate-300">
+              {investigatorMetricsError ? (
+                <tr>
+                  <td colSpan={5} className="px-3 py-8 text-center text-slate-500">
+                    Investigator metrics are unavailable.
+                  </td>
+                </tr>
+              ) : investigatorMetrics?.length ? (
+                investigatorMetrics.map((metrics) => (
+                  <tr key={metrics.investigatorId}>
+                    <td className="px-3 py-3 font-medium text-white">{metrics.investigatorId}</td>
+                    <td className="px-3 py-3">{metrics.assignedCases}</td>
+                    <td className="px-3 py-3">{metrics.resolvedCases}</td>
+                    <td className="px-3 py-3">{formatHours(metrics.averageResolutionTime)}</td>
+                    <td className="px-3 py-3">
+                      {Number.isFinite(metrics.escalationRate)
+                        ? `${metrics.escalationRate.toFixed(1)}%`
+                        : '—'}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="px-3 py-8 text-center text-slate-500">
+                    No investigator data available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       {/* Alert Queue + Rule Engine */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">

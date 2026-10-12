@@ -40,6 +40,7 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 .venv/
+.venv-render-check/
 venv/
 *.egg-info/
 .eggs/
@@ -47,6 +48,8 @@ venv/
 # ─── AI Model Artifacts ───────────────────────────────────────────────────────
 models/artifacts/
 services/ai/models/*.joblib
+!services/ai/models/credit-risk-model.joblib
+!services/ai/models/feature-scaler.joblib
 services/ai/models/*.pkl
 services/ai/models/*.h5
 services/ai/Dataset/

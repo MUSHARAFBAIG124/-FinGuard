@@ -1,0 +1,15 @@
+{
+  "training_scikit_learn_version": "1.5.2",
+  "artifacts": [
+    {
+      "file": "credit-risk-model.joblib",
+      "sha256": "ed7fe5a7a67073e2d618c6857e01be17d72ba5d9170fbca99c9bccb2486eeff5",
+      "size_bytes": 3306553
+    },
+    {
+      "file": "feature-scaler.joblib",
+      "sha256": "5306a32b7acb550e8d1d78eaa1f3e6e238df44a3ebb019b8155b6bac24b58611",
+      "size_bytes": 759
+    }
+  ]
+}

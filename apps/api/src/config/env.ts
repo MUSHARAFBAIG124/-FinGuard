@@ -14,6 +14,7 @@ const envSchema = z
     NODE_ENV: nodeEnvSchema,
     APP_NAME: z.string().min(1).default('FinGuard AI'),
     API_PORT: z.coerce.number().int().min(1).max(65535).default(4000),
+    API_HOST: z.string().min(1).default('127.0.0.1'),
     API_BASE_URL: z.string().url().default('http://localhost:4000'),
     WEB_BASE_URL: z.string().url().default('http://localhost:5173'),
     MONGODB_URI: z.string().min(1).default('mongodb://localhost:27017/finguard_ai'),
@@ -55,6 +56,14 @@ const envSchema = z
 
 export type Env = z.infer<typeof envSchema>;
 
-export const parseEnv = (source: NodeJS.ProcessEnv): Env => envSchema.parse(source);
+/**
+ * Render supplies PORT for every web service. Preserve API_PORT for local and
+ * existing deployment compatibility, but let the platform-provided value win.
+ */
+export const parseEnv = (source: NodeJS.ProcessEnv): Env =>
+  envSchema.parse({
+    ...source,
+    API_PORT: source.PORT ?? source.API_PORT,
+  });
 
 export const env = parseEnv(process.env);

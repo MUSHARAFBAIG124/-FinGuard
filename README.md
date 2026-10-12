@@ -1,15 +1,22 @@
 # FinGuard AI
 
-FinGuard AI is an enterprise banking and fraud detection platform designed for loan processing, customer onboarding, AI-assisted risk scoring, fraud monitoring, and executive analytics.
+FinGuard AI is a full-stack fintech risk operations platform for managing loan applications, AI-assisted credit risk assessments, human review, fraud investigations, and machine learning governance. It brings these workflows together in a role-aware web application backed by a versioned API, MongoDB persistence, and a separate Python inference service.
 
-This repository demonstrates a complete ML-powered FinTech ecosystem. It features a robust clean-architecture Node.js backend, a FastAPI machine learning microservice, and a premium React frontend utilizing glassmorphism and Recharts for Explainable AI (XAI) and executive dashboards.
+The project is organized as a monorepo: a React and TypeScript application provides the operations interface; an Express and TypeScript API owns authentication, authorization, domain workflows, persistence, and audit-sensitive actions; and a FastAPI service serves credit risk predictions and explanations. Shared TypeScript contracts keep key domain values aligned between the web app and API. The platform is designed to make model output reviewable by people and to keep important security and model lifecycle actions traceable.
+
+FinGuard AI is a software project and reference implementation, not a banking provider or a claim of regulatory certification. Integrations such as production email delivery and institution-specific banking systems require configuration and are outside the repository's built-in scope.
 
 ## Portfolio Highlights
 
-- **Executive Dashboard**: Real-time metrics across loan processing, risk management, and system health.
-- **AI Governance & Drift Monitoring**: Dedicated registry for ML models, visualizations for Population Stability Index (PSI) drift, and SHAP feature importance charts.
-- **Fraud Operations**: Centralized monitoring of fraud alerts, SLAs, and case management workflows.
-- **Enterprise Security**: Advanced RBAC, multi-session management, automatic lockouts, and JWT rotation.
+- **Loan operations**: Create and track loan applications, retrieve credit risk assessments, and move applications through review workflows.
+- **Human review**: Record reviewer decisions alongside AI recommendations, identify overrides, and retain review history and analytics.
+- **Credit risk inference**: Submit borrower features to the AI service for a risk prediction and supporting explanation.
+- **Fraud operations**: Review fraud alerts, manage investigation cases, assign work, and track operational metrics and service-level workflows.
+- **Model governance**: Register and manage model versions, approve or retire models, monitor feature drift with Population Stability Index (PSI), and view governance metrics.
+- **Operations dashboard**: Bring loan, fraud, risk, model, and service metrics into a single authenticated interface. Metrics are sourced from the API; empty or unavailable responses should not be treated as fabricated operational data.
+- **Security and traceability**: JWT-based authentication, role-based access controls, refresh-token rotation, account lockout controls, request validation, and audit events for security-sensitive and domain actions.
+
+The application defines CUSTOMER, LOAN_OFFICER, RISK_ANALYST, and ADMIN roles. Available actions are enforced by the API as well as reflected in the interface; permissions depend on the workflow and role.
 
 ## Architecture
 
@@ -18,7 +25,7 @@ This repository demonstrates a complete ML-powered FinTech ecosystem. It feature
 - **Database**: MongoDB with Mongoose
 - **AI Service**: Python, FastAPI, Scikit-learn (Random Forest)
 - **Shared Contracts**: TypeScript package for domain enums and API constants
-- **Deployment**: Vercel (Frontend), Render (API + AI Service)
+- **Deployment**: Render Blueprint (Frontend, API, and AI Service)
 
 ## Monorepo Structure
 
@@ -72,6 +79,11 @@ Prerequisites:
    pip install -r requirements.txt
    ```
 
+   The AI model and scaler are joblib pickle files. Only use artifacts from a
+   trusted source; loading an untrusted pickle can execute code. Their SHA-256
+   hashes and training scikit-learn version are recorded in
+   `services/ai/models/MANIFEST.json`.
+
 3. **Environment setup:**
 
    ```bash
@@ -83,11 +95,19 @@ Prerequisites:
 
    Refresh tokens are issued as HttpOnly, SameSite=Strict cookies for browser clients and are still returned in the JSON token envelope for API/mobile clients and automated integration tests. The SPA stores only the access token, uses the refresh cookie for silent access-token renewal, and calls backend logout so the refresh cookie and server-side refresh token are revoked together.
 
-4. **Seed Demo Data (Optional):**
+4. **Seed local end-to-end test data (Optional):**
 
    ```bash
-   npm --workspace apps/api run seed
+   npm --workspace apps/api run seed:dev
    ```
+
+   The development-only seed creates an admin test account, three loans, and
+   three fraud alerts/cases with assignment and resolution timestamps. It is
+   idempotent and refuses to run when `NODE_ENV=production`. Local defaults are
+   `finguard.qa@example.test` / `FinGuardDev!2026`; override them with
+   `FINGUARD_DEV_SEED_EMAIL` and `FINGUARD_DEV_SEED_PASSWORD`. These credentials
+   are for local development only. The older `seed` script drops the selected
+   database; do not use it for this verification.
 
 5. **Verify MongoDB Connectivity:**
    ```bash

@@ -72,9 +72,56 @@ describe('FraudSLAService', () => {
       const now = new Date('2026-01-01T11:00:00Z'); // 1 hour before due
       expect(slaService.isBreached(fraudCase, now)).toBe(false);
     });
+
+    it('returns false for missing or invalid SLA timestamps and invalid current times', () => {
+      const now = new Date('2026-01-01T11:00:00Z');
+      const missingDueDate = {
+        status: FraudCaseStatus.OPEN,
+        slaDueAt: undefined,
+      } as unknown as FraudCaseDocument;
+      const invalidDueDate = {
+        status: FraudCaseStatus.OPEN,
+        slaDueAt: 'not-a-date',
+      } as unknown as FraudCaseDocument;
+      const validDueDate = {
+        status: FraudCaseStatus.OPEN,
+        slaDueAt: new Date('2026-01-01T10:00:00Z'),
+      } as unknown as FraudCaseDocument;
+
+      expect(slaService.isBreached(missingDueDate, now)).toBe(false);
+      expect(slaService.isBreached(invalidDueDate, now)).toBe(false);
+      expect(slaService.isBreached(validDueDate, new Date(Number.NaN))).toBe(false);
+    });
   });
 
   describe('getBreachedCases', () => {
+    it('returns no breaches when there are zero active cases', async () => {
+      mockCaseRepo.listCases.mockResolvedValue([]);
+
+      await expect(slaService.getBreachedCases()).resolves.toEqual([]);
+    });
+
+    it('finds a single overdue open case and ignores cases without valid due dates', async () => {
+      const overdueCase = {
+        caseId: 'FC-OVERDUE',
+        status: FraudCaseStatus.OPEN,
+        slaDueAt: new Date(Date.now() - 60_000),
+      };
+      mockCaseRepo.listCases.mockImplementation(({ status }: { status: FraudCaseStatus }) =>
+        Promise.resolve(
+          status === FraudCaseStatus.OPEN
+            ? [
+                overdueCase,
+                { caseId: 'FC-MISSING-DATE', status, slaDueAt: undefined },
+                { caseId: 'FC-INVALID-DATE', status, slaDueAt: 'invalid' },
+              ]
+            : [],
+        ),
+      );
+
+      await expect(slaService.getBreachedCases()).resolves.toEqual([overdueCase]);
+    });
+
     it('should return only breached cases across all active statuses', async () => {
       const breachedCase = {
         caseId: 'FC-1',
@@ -113,6 +160,21 @@ describe('FraudSLAService', () => {
       const results = await slaService.getUpcomingBreaches(1); // 1 hour
       expect(results).toHaveLength(1);
       expect(results[0]?.caseId).toBe('FC-1');
+    });
+
+    it('excludes missing and invalid timestamps without returning malformed results', async () => {
+      mockCaseRepo.listCases.mockImplementation(({ status }: { status: FraudCaseStatus }) =>
+        Promise.resolve(
+          status === FraudCaseStatus.OPEN
+            ? [
+                { caseId: 'FC-MISSING', slaDueAt: undefined },
+                { caseId: 'FC-INVALID', slaDueAt: 'invalid' },
+              ]
+            : [],
+        ),
+      );
+
+      await expect(slaService.getUpcomingBreaches(1)).resolves.toEqual([]);
     });
   });
 });

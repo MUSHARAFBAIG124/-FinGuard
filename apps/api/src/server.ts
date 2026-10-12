@@ -60,7 +60,7 @@ process.on('unhandledRejection', (reason) => {
   shutdown('unhandledRejection');
 });
 
-server.listen(env.API_PORT, () => {
+server.listen(env.API_PORT, env.API_HOST, () => {
   logger.info('FinGuard API server listening', {
     port: env.API_PORT,
     baseUrl: env.API_BASE_URL,

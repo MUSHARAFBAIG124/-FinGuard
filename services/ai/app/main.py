@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.routes import model as loaded_model
 from app.api.routes import router as api_router
 from app.core.config import settings
 
@@ -28,8 +29,12 @@ def create_app() -> FastAPI:
 
     @app.get("/health")
     async def health_check():
-        """Health check endpoint."""
-        return {"status": "healthy", "service": "finguard-ai"}
+        """Report process health and inference model readiness."""
+        return {
+            "status": "healthy" if loaded_model is not None else "not_ready",
+            "service": "finguard-ai",
+            "modelLoaded": loaded_model is not None,
+        }
 
     return app
 
