@@ -72,4 +72,28 @@ describe('environment validation', () => {
       }),
     ).toThrow(/JWT_ACCESS_SECRET/);
   });
+
+  it('rejects the built-in development JWT secrets in production', () => {
+    expect(() =>
+      parseEnv({
+        ...validEnv,
+        NODE_ENV: 'production',
+        JWT_ACCESS_SECRET: 'local-access-secret-for-development-only',
+        JWT_REFRESH_SECRET: 'local-refresh-secret-for-development-only',
+        MONGODB_URI: 'mongodb+srv://example.invalid/production',
+      }),
+    ).toThrow(/JWT_ACCESS_SECRET|JWT_REFRESH_SECRET/);
+  });
+
+  it('rejects a local MongoDB URI in production', () => {
+    expect(() =>
+      parseEnv({
+        ...validEnv,
+        NODE_ENV: 'production',
+        JWT_ACCESS_SECRET: 'production-access-secret-with-more-than-32-chars',
+        JWT_REFRESH_SECRET: 'production-refresh-secret-with-more-than-32-chars',
+        MONGODB_URI: 'mongodb://localhost',
+      }),
+    ).toThrow(/MONGODB_URI/);
+  });
 });

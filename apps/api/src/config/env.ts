@@ -40,15 +40,47 @@ const envSchema = z
     }
 
     const secretFields = ['JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET'] as const;
+    const developmentSecretDefaults = {
+      JWT_ACCESS_SECRET: 'local-access-secret-for-development-only',
+      JWT_REFRESH_SECRET: 'local-refresh-secret-for-development-only',
+    };
 
     for (const field of secretFields) {
       const secret = value[field];
 
-      if (secret.length < 32 || secret.toLowerCase().includes('replace-with')) {
+      if (
+        secret.length < 32 ||
+        secret.toLowerCase().includes('replace-with') ||
+        secret === developmentSecretDefaults[field]
+      ) {
         context.addIssue({
           code: z.ZodIssueCode.custom,
           path: [field],
           message: `${field} must be at least 32 characters and non-placeholder in production`,
+        });
+      }
+    }
+
+    let databaseUrl: URL | undefined;
+    try {
+      databaseUrl = new URL(value.MONGODB_URI);
+    } catch {
+      // The generic message below avoids including connection-string contents.
+    }
+
+    if (!databaseUrl || !['mongodb:', 'mongodb+srv:'].includes(databaseUrl.protocol)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['MONGODB_URI'],
+        message: 'MONGODB_URI must be a valid MongoDB connection string in production',
+      });
+    } else {
+      const hostname = databaseUrl.hostname.toLowerCase().replace(/^\[|\]$/g, '');
+      if (hostname === 'localhost' || hostname === '::1' || hostname.startsWith('127.')) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['MONGODB_URI'],
+          message: 'MONGODB_URI must point to a non-local database in production',
         });
       }
     }
@@ -57,8 +89,8 @@ const envSchema = z
 export type Env = z.infer<typeof envSchema>;
 
 /**
- * Render supplies PORT for every web service. Preserve API_PORT for local and
- * existing deployment compatibility, but let the platform-provided value win.
+ * Railway and Render supply PORT for web services. Preserve API_PORT for local
+ * and existing deployment compatibility, but let the platform value win.
  */
 export const parseEnv = (source: NodeJS.ProcessEnv): Env =>
   envSchema.parse({

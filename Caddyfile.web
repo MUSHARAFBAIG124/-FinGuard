@@ -1,0 +1,16 @@
+{
+	admin off
+	auto_https off
+}
+
+:{$PORT:8080} {
+	@health path /health
+	handle @health {
+		respond "ok" 200
+	}
+
+	root * /srv
+	encode zstd gzip
+	try_files {path} /index.html
+	file_server
+}

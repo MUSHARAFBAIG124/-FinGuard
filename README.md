@@ -121,6 +121,7 @@ The repository includes configurations for seamless cloud deployment:
 
 - `vercel.json` - Ready for deploying `apps/web` to Vercel.
 - `render.yaml` - Blueprint for deploying the Node API and Python AI Service to Render.
+- Railway dashboard deployment for web, API, and AI services.
 
 See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed instructions.
 

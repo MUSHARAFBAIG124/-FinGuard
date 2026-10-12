@@ -1,5 +1,9 @@
 """Configuration settings."""
+from pathlib import Path
+
 from pydantic_settings import BaseSettings
+
+AI_SERVICE_ROOT = Path(__file__).resolve().parents[2]
 
 
 class Settings(BaseSettings):
@@ -15,7 +19,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
     # Model paths
-    MODEL_DIR: str = "models"
+    MODEL_DIR: Path = AI_SERVICE_ROOT / "models"
     MODEL_NAME: str = "credit-risk-model.joblib"
     SCALER_NAME: str = "feature-scaler.joblib"
 

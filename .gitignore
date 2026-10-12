@@ -2,6 +2,7 @@
 node_modules/
 .npm/
 .pnpm-store/
+**/.vite/
 
 # ─── Build output ─────────────────────────────────────────────────────────────
 dist/
